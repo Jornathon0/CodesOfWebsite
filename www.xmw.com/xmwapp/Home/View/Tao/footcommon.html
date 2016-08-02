@@ -1,0 +1,150 @@
+<!-------------------------------弹出层相关--------------------------------------->
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}xmwv2/css/popup.css" />
+<script type="text/javascript" src="{:C('SKINURL')}xmwv2/js/popup.js"></script>
+<!--------------弹出框pop:弹框------------------->
+<div class="popobox" id="pop-tip" style="display:none;">
+<div class="pop">
+	<h2 class="pop-titline"><span class="pop-close" onclick="closepop('#pop-tip');">&nbsp;</span><span class="pop-tit">标题</span></h2>
+    <div class="pop-mainer">
+        <p>这里写弹出框代码</p>
+    </div>
+    <!--pop-mainer:end-->
+</div>
+<div class="popbg"></div>
+</div>
+<!--------------弹出框pop:弹框------------------->
+
+<!--------------弹出框pop:登录框------------------->
+<div class="popobox" id="pop-login" style="display:none;">
+<div class="poplogbox">
+<div class="poplog">
+	<h2 class="poplog-titline"><span class="poplog-close" onclick="closeloginpop('#pop-login');"><!--×--></span><span class="poplog-tit">登录</span></h2>
+    <div class="poplog-mainer">
+        <div class="popcell">
+        <label class="lb_text" for="popaccount">ID/邮箱/手机</label><input class="ipt_text"  type="text" id="popaccount" name="account" value="703482634@qq.com">
+        </div>
+        <div class="popcell">
+        <label class="lb_text" for="poppassword">密码</label><input class="ipt_text" type="password" id="poppassword" name="password" value="123456">
+        </div>
+        <div class="popcell">
+        <label class="lb_text" for="popyzm">验证码</label><input class="ipt_text" type="text" id="popyzm" style="width:168px;" name="yzm" value="">
+        <a href="javascript:;" class="popgetyzm"><img src="/yanzhenma?{$nowtime}" onclick="$(this).attr('src','/yanzhenma?'+Math.random());" id="yzcodeImg" style="cursor: pointer;" title="点击刷新" width="108" height="44"></a>
+        </div>
+        <div class="poptipcell">
+        <a href="#" class="popforget">忘记密码？</a>
+        <label class="lb_auto"><input type="checkbox" name="remember">自动登录（公共电脑勿用）</label>
+        </div>
+        <div class="poplogsub"><a href="javascript:;" onClick="poplogin();">登录</a></div>
+    </div>
+    <!--pop-mainer:end-->
+</div>
+</div>
+<div class="popbg"></div>
+</div>
+<!--------------弹出框pop:登录框------------------->
+
+<script>
+$(function(){
+	//实时播报滚动效果
+	if($('.bobaoul li').length > 0){
+		$('.bobaoul li').clone().appendTo(".bobaoul");
+		guntimer = setInterval(bobaogun,3000); //设置一个超时对象
+	}
+	
+	//倒计时相关
+	var sx = setInterval(doCountDown, 1000);
+});
+
+//播报相关
+var time =1;
+function bobaogun(){
+	
+	var num = $('.bobaoul li').length/2;
+	var mt = -20*time; //滚动box需要滚动的距离
+	
+	if(time>num){
+		$('.bogunbox').css('margin-top','0px');
+		time=1;
+		bobaogun();//利马执行接着滚动，不让其在margin-top=0px处还停留2秒
+	}else{
+		time++;
+		$('.bogunbox').animate({'margin-top':mt});
+	}
+}
+
+//倒计时相关方法
+function doCountDown(endFun){
+	
+	var end = $('#timetip').data('time');
+	var rtime = countDown(end);
+	//alert(rtime);
+	if(rtime == 'over'){
+		$('#timetip').html('已经开始');
+		location.reload();
+	}else{
+		$('#timetip').html(rtime);
+	}
+}
+
+//倒计时
+function countDown(end){
+	if(/^\d+$/.test(end)){
+		var endtime = new Date(parseInt(end) * 1000);
+	}else{
+		var endtime = new Date(end);
+	}
+	var nowtime = new Date();
+	var leftsecond = parseInt((endtime.getTime() - nowtime.getTime()) / 1000);  
+	d = parseInt(leftsecond / 3600 / 24);  
+	h = parseInt((leftsecond / 3600) % 24);  
+	m = parseInt((leftsecond / 60) % 60);  
+	s = parseInt(leftsecond % 60);
+	var rst = new Array();
+	rst['day'] = d;
+	rst['hour'] = h;
+	rst['minute'] = m;
+	rst['second'] = s;
+	var txt = '';
+	if(rst['day'] > 0 ) txt += rst['day']+'天';
+	if(rst['hour'] > 0 ) txt += rst['hour']+'时';
+	if(rst['minute'] > 0 ) txt += rst['minute']+'分';
+	if(rst['second'] > 0 ) txt += rst['second']+'秒';
+	
+	if(leftsecond<0) txt='over';
+	//console.log(rst);
+	return txt;
+}
+</script>
+
+<!--红包相关-->
+<script type="text/javascript" src="{:C('SKINURL')}xmwv2/js/bonus.js"></script>
+<script>
+if(typeof $ == 'function'){
+	$('body').bonus({bonusID:'WFa1lHhT'});
+}
+if(typeof $ == 'function'){
+	$('.bonus').on('click',function(){
+		var id = $(this).attr('bonusID');
+		console.log(id);
+		$.ajax({
+            type: 'POST',
+            url: '/Lucky/getLuckyMoney',
+            dataType: 'json',
+            data:{
+                'bonusID':id,
+            },
+            success: function (data) {
+                if(data.status == 0){
+                	openloginpop('#pop-login');
+                    // alert('are you sure');            
+                }else{
+                	showDialog(data.Msg);
+                }
+            },
+            error: function (jqXHR) {
+                showDialog('发生错误：' + jqXHR.status);
+            }
+        })
+	});
+}
+</script>

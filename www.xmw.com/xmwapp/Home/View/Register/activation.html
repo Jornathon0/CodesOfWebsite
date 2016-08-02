@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>register</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="icon" href="{:C('SKINURL')}cimages/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+<meta charset="utf-8">
+<link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+<link type="text/css" href="{:C('SKINURL')}css/register.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+<input type='hidden' class='hideipt' value='1623175834' />
+<input type="hidden" class="hideipt" />
+<div class="s-bg-f7">
+  <div class="g-position">
+    <div class="m-position u-fl">
+      <ol>
+        <li>当前位置：&nbsp;</li>
+        <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+        <li>注册</li>
+      </ol>
+    </div>
+   <include file="Public:page_time" />
+    <div class="u-cls"></div>
+  </div>
+</div>
+<div class="content">
+		<div class="c-content">
+			<div class="rs">
+				<p class="p-a">
+					<span class="tb-gr fl"></span>
+					<span class="fl"></span>
+				</p>
+				<p class="cls p-b"><span id="seconds"></span><span>现在去</span>&nbsp;<a href="/login" style="color:#2aa3ce;">登录</a></p>
+			</div>
+		</div>
+	</div>
+<include file="Public:footer" /> <include file="Public:footer_commonjs" /> 
+<script type="text/javascript">
+        window.onload = function () {
+		    $("#reset").click(function () {
+		        if ($("#reset").html().match(/\d+/)) {
+		            //showDialog(lang.a14);
+		        } else {
+		            $.get("/resendemail");
+		            getAuthCodeWait(59);
+		        }
+			});
+        }
+        function getAuthCodeWait(i) {
+            var t = $("#reset").html();
+            var fun = setInterval(function () {
+                var v = $("#reset").html().match(/(.+?)(\d+)/);
+                if (v) {//已进入倒计时
+                    if (v[2] == "1") {
+                        $("#reset").html(t).css("color","");
+                        clearInterval(fun);
+                    } else {
+                        $("#reset").html(t + (parseInt(v[2]) - 1)).css("color","#ccc");
+                    }
+                } else {//准备进入
+                    $("#reset").html(t + i);
+                }
+            }, 1000);
+        }
+	</script>
+</body>
+</html>

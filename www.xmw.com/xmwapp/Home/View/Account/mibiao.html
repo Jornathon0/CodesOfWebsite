@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 米表管理</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1000">
+
+    <meta property="qc:admins" content="1376071777766263757" />
+
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<p>开发进度说明：还未开发</p>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>米表管理</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>米表管理</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+            <div class="m-acc-select u_be9 s-bg-white">
+                <!-- 标题 -->
+                <div class="m-acc-title s-bg-fc">
+                    <div class="u-fl"><a class="active">设置米表</a></div>
+                    <div class="u-fl"><a href="/56519" target="_blank">进入米表</a></div>
+                    <div class="u-cls"></div>
+                </div>
+                <!-- 介绍-->
+                <div class="m-insc s-bg-fc u_be89">
+                    <ul>
+                        <li class="u_fw"><span>1.</span>请输入您的米表关键字，便于别人搜索，如：买域名,卖域名,购买域名,域名出售等。</li>
+                    </ul>
+                </div>
+                <input type="hidden" id="type" value="{$updateType}" />
+<form action="/account/mibiao/update" method="post">                    <!-- 内容 -->
+                    <div class="m-acc-cons s-bg-fc u_mall3">
+                        <ul class="data-mi">
+                            <li>
+                                <div class="u-mi-txt">米表名称：</div>
+                                <div class="u_txer1">
+                                    <textarea class="txer1"  name="title">域名交易平台:域名交易,域名出售,域名竞价,域名拍卖,域名经纪,域名中介,中国优质域名交易平台:62.com</textarea>
+                                </div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="u-mi-txt">米表联系邮箱：</div>
+                                <div class="u-ipt-l">
+                                    <input type="text" value="2880133429@qq.com" name="email"/>
+                                </div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="u-mi-txt">米表联系QQ：</div>
+                                <div class="u-ipt-l">
+                                    <input type="text" value=""  name="qq"/>
+                                </div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="u-mi-txt">米表联系电话：</div>
+                                <div class="u-ipt-l">
+                                    <input type="text" value="" name="phone"/>
+                                </div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="u-mi-txt">米表关键字优化：</div>
+                                <div class="u-fl">
+                                    <div class="u_txer2">
+                                        <textarea ph="" name="keyword">域名交易,域名拍卖,域名竞价,域名经纪,域名中介,域名抢注,域名询价,域名买卖,优名网,深圳市互联工场科技有限公司,域名中国,62com,域名查询,域名注册,域名工具,域名买卖,域名代购,Whois查询,域名出售页面,域名Whois,域名应用,域名新闻,域名门户,域名资讯,中文域名,cn域名,com域名</textarea>
+                                    </div>
+                                    <div class="u_ts1">(请输入您的米表关键字，多个关键字，请以逗号隔开)</div>
+                                </div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <input type="submit" value="提交" class="u-btn12 s-bg-2a">
+                            </li>
+                            <ul>
+                    </div>
+</form>            </div>
+        </div>
+        <!-- 右边 -->
+        
+<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/logic/account.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            if ($(type).val() == "1") {
+                showDialog(lang.a58);
+            } else if ($(type).val() == "2") {
+                showDialog(lang.a35);
+            }
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>register</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="icon" href="{:C('SKINURL')}cimages/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+<meta charset="utf-8">
+<link type="text/css" href="{:C('SKINURL')}css/common.css" rel="stylesheet" />
+<link type="text/css" href="{:C('SKINURL')}css/help.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+<input type='hidden' class='hideipt' value='1623175834' />
+<input type="hidden" class="hideipt" />
+<div class="s-bg-f7">
+  <div class="g-position">
+    <div class="m-position u-fl">
+      <ol>
+        <li>当前位置：&nbsp;</li>
+        <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+        <li>注册</li>
+      </ol>
+    </div>
+    <include file="Public:page_time" />
+    <div class="u-cls"></div>
+  </div>
+</div>
+<div class="content">
+  <div class="c-a">
+    <div class="help_content">
+      <p class="abt62">域名经纪人</p>
+      <div class="h_c_a">
+        <ul class="ul2">
+          <volist name="list" id="vo">
+          <li class='mr0'>
+            <div class='bro_t'>
+              <p><span>域名经纪人：</span><span class='c-18'>{$vo.name}</span></p>
+              <p><span>联系电话：</span><span>{$vo.telphone}<!--0755-<span class='c-red'>8558</span>6262</span>--></p>
+              <p><span>Email：</span><span>{$vo.email}</span></p>
+            </div>
+            <div class='bro_b' style=''> <a href='tencent://message/?uin={$vo.qq}&amp;Site=优名网'> <img border='0' src='http://wpa.qq.com/pa?p=2:{$vo.qq}:51' alt='QQ交谈' title='QQ交谈'> </a><span>QQ: {$vo.qq}</span> </div>
+          </li>
+          </volist>
+        </ul>
+        <div class="u-cls"></div>
+        <div class="cls advice">
+          <p class="bro t0 pmt10"><span class="c_36">投诉与建议</span></p>
+          <p class="bro_p10"><span>联系人：</span>刘先生</p>
+          <p class="bro_p10"><span>Email：</span>raymond@62.com</p>
+          <p class="bro_p10"><span>QQ：</span>623123</p>
+          <p class="bro_p10"><span>微信：</span>ww62com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="help_menu">
+    <div class="m-ta s-bg-white u_bb0">帮助中心</div>
+    <ul class="menu_ul">
+      <li><a href="/about" style="background-position: 15px -2px; margin-top: 0;">关于我们</a></li>
+      <li><a href="/culture" style="background-position: 15px -1351px; margin-top: 0;">企业文化</a></li>
+      <li><a href="/contact" style="background-position: 15px -100px;">联系我们</a></li>
+      <li><a href="/broker" style="background-position: 15px -200px;">域名经纪人</a></li>
+      <li><a href="javascript:void(0)" class="expand" style="background-position: 15px -400px;">新手指南</a>
+        <ul>
+          <li><a href="/help/help_1">注册引导</a></li>
+          <li><a href="/help/help_2">如何修改账户资料？</a></li>
+          <li><a href="/help/help_3">如何添加域名出售？</a></li>
+          <li><a href="/help/help_4">如何验证已添加的域名？</a></li>
+          <li><a href="/help/help_5">如何申请极速竞价？</a></li>
+          <li><a href="/help/help_6">如何参与极速竞价？</a></li>
+          <li><a href="/help/help_7">如何申请一口价展示？</a></li>
+          <li><a href="/help/help_9">如何申请优质域名展示？</a></li>
+          <li><a href="/help/help_11">如何自主发起中介交易？</a></li>
+          <li><a href="/help/help_12">如何申请代购域名？</a></li>
+          <li><a href="/help/help_13">积分费率问题</a></li>
+          <li><a href="/help/help_14">极速竞价阶梯表</a></li>
+          <li><a href="/help/help_15">违约问题</a></li>
+        </ul>
+      </li>
+      <li><a href="javascript:void(0)" class="expand" style="background-position: 15px -500px;">域名知识</a>
+        <ul>
+          <li><a href="/knowledge/knowledge_1">什么是域名？</a></li>
+          <li><a href="/knowledge/knowledge_2">什么是whois？</a></li>
+          <li><a href="/knowledge/knowledge_3">域名有哪些分类？</a></li>
+          <li><a href="/knowledge/knowledge_4">什么域名更具价值？</a></li>
+          <li><a href="/knowledge/knowledge_5">什么是域名转移？</a></li>
+          <li><a href="/knowledge/knowledge_6">为什么要域名交易？</a></li>
+          <li><a href="/knowledge/knowledge_7">怎样选择安全与专业的交易平台？</a></li>
+          <li><a href="/knowledge/knowledge_8">国内外安全、专业的交易平台有哪些？</a></li>
+          <li><a href="/knowledge/knowledge_9">什么是域名过户？</a></li>
+          <li><a href="/knowledge/knowledge_10">域名有异议，如何处理？</a></li>
+          <li><a href="/knowledge/knowledge_11">如何防范黑米？</a></li>
+          <li><a href="/knowledge/knowledge_12">如何检查域名是否被墙？</a></li>
+        </ul>
+      </li>
+      <li><a href="/notice" style="background-position: 15px -1250px;">站内公告</a> </li>
+      <li><a href="/report" style="background-position: 15px -900px;">优名先知道</a></li>
+      <li><a href="/account/recharge" style="background-position: 15px -301px;">付款方式</a></li>
+      <li><a href="/links" style="background-position: 15px -800px;">友情链接</a></li>
+      <li><a href="javascript:void(0)" class="expand" style="background-position: 15px -600px;">协议&amp;规则</a>
+        <ul>
+          <li><a href="/regulation?v=agreement">《用户协议》</a></li>
+          <li><a href="/regulation?v=privacy">《隐私声明》</a></li>
+          <li><a href="/regulation?v=deal">《优名网域名交易服务协议》</a></li>
+          <li><a href="/regulation?v=escrow">《优名网域名经纪中介服务协议》</a></li>
+          <li><a href="/regulation?v=buy-domains">《议价交易规则》</a></li>
+          <li><a href="/regulation?v=hotsale">《一口价交易规则》</a></li>
+          <li><a href="/regulation?v=bargain">《优质交易规则》</a></li>
+          <li><a href="/regulation?v=bid">《极速竞价交易规则》</a></li>
+          <li><a href="/regulation?v=bid_rule">《优名网极速竞价争议处理细则》</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="u-cls"></div>
+</div>
+<include file="Public:footer" /> <include file="Public:footer_commonjs" /> 
+<script type="text/javascript" src="{:C('SKINURL')}js/zh-cn.js"></script> 
+<script type="text/javascript" src="{:C('SKINURL')}js/help.js"></script>
+</body>
+</html>

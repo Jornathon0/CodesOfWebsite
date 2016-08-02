@@ -1,0 +1,48 @@
+<!--背景层 提示框-->
+<div id="pop1_bg"
+	style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 1002; opacity: 0.6; display: none; background: rgb(169, 169, 169);"></div>
+<div class="m-pop1" id="pop_ts">
+	<p class="f-p-t7 u_bb0">
+		<span class="u-fl">提示</span> <span class="u-fr close"
+			onclick="closeDialog()"></span> <span class="u-cls"></span>
+	</p>
+	<p class="z-img-ts s-bg-white u_bb0" id="ts"></p>
+	<p class="s-bg-fa u_pa15 u_tr">
+		<input type="button" value="确定" class="u-btn6 s-bg-2a"
+			onclick="closeDialog()" />
+	</p>
+</div>
+<div class="headerline">
+	<div class="header">
+    	<div class="logoNav u-fl">
+        	<a href="/" class="logo u-fl" title="新米网"></a>
+            <div class="topnav u-fl"><a href="/">首页</a><a href="/tao/buynow" class="on">限时抢购</a><a href="/account/buynow">购买记录</a><a href="#">规则</a></div>
+        </div>
+        <div class="loginNav u-fr">
+        	<if condition="$Think.session.XMUserInfo.uid gt 0">
+            <a rel="nofollow" href="/account/index" id="userId">{$Think.session.XMUserInfo.uid}(VIP{$Think.session.XMUserInfo.vip})</a><a rel="nofollow" href="/logout">安全退出</a>
+            <else />
+            <a href="javascript:;" onclick="openloginpop('#pop-login');">登录</a><a rel="nofollow" href="/register.html">注册</a>
+            </if>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!------------/headerline------------->
+
+<div class="bannerline">
+	<img src="{:C('SKINURL')}xmwv2/pics/banner01.jpg" width="980">
+</div>
+<div class="xmnote">
+    <div class="xmdt u-fl">新米动态：</div>
+    <div class="bobaohidden u-fl">
+    <div class="bogunbox">
+	<ul class="bobaoul">
+    <volist name="dtdeals" id="vo">
+    <li> {$vo.buyid}用户 于 {$vo.intime|date="Y-m-d H:i:s",###} 抢购到域名 {$vo.domain} </li>
+    </volist>
+    </ul>
+    </div>
+    </div>
+    <div class="clear"></div>
+</div>

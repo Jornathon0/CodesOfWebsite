@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 我收到的报价</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/jquery-ui.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<p>开发进度说明：还未开发</p>
+<body class="s-bg-global">
+<include file="Public:header" />
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>我收到的报价</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>我收到的报价</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+            <div class="m-acc-select u_be9 s-bg-white">
+                <!-- 标题 -->
+                <div class="m-acc-title s-bg-fc">
+                    <div class="u-fl"><a href="/account/sellnegotiation" class=active>所有记录</a></div>
+                    <div class="u-fl"><a href="/account/sellnegotiation/running" >正在议价</a></div>
+                    <div class="u-fl"><a href="/account/sellnegotiation/success" >议价成功</a></div>
+                    <div class="u-fl"><a href="/account/sellnegotiation/default" >议价失败</a></div>
+                    <input type="hidden" value="0,1,2" id="checktype" />
+                    <div class="u-cls"></div>
+                </div>
+                <!-- 搜索 -->
+                <div class="m-acc-search">
+                    <span class="u-ipt-i u_fl">
+                        <input type="text" class="i1" ph="请输入要查询的域名" />
+                        <span class="f-imgt1">起止时间</span>
+                        <input type="text" class="i2" id="startTime" />
+                        <span class="f-imgt2">至</span>
+                        <input type="text" class="i3" id="endTime" />
+
+                    </span>
+                    <input type="button" value="搜索" class="u-btn8" />
+                </div>
+                <!-- 内容 -->
+                <div class="m-acc-cons s-bg-fc u_mall1">
+                    <table>
+                        <tr>
+                            <th width="16px"></th>
+
+                            <th width="60px" class="u_tl">来源</th>
+                            <th width="150px" class="u_tl">域名</th>
+                            <th width="127px" class="u_tl">当前状态</th>
+                            <th width="120px" class="u_tr">最新报价</th>
+
+                            <th width="28px"></th>
+                            <th width="110px" class="u_tl">最后报价时间</th>
+                            <th width="56px;">操作</th>
+                            <th width="8px"></th>
+                        </tr>
+                        <!--<tr><td class="u_nb u_tc u_norecord" colspan="9">暂无记录！</td></tr>-->
+                        <tr><td></td><td class="u_tl">议价</td><td class="u_tl"><a href="/account/sellnegotiation/20160303171707963" target="_blank" class="u-txa1" title="jiumuge.com">jiumuge.com</a></td><td class="u_tl">谈判失败</td><td class="u_tr s-75b">￥400,000</td><td></td><td class="u_tl">2016-03-03</td><td><a class="u-abtn8" href="/account/sellnegotiation/20160303171707963" target="_blank">详情</a></td><td></td></tr>
+                    </table>
+                </div>
+                <!-- 分页 -->
+                <div id="paging" class="g-padding g-padding1">
+                </div>
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/account.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery-ui-datepicker.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#startTime").datepicker({
+                maxDate: new Date(), prevText: "上个月", nextText: "下个月", onSelect: function (dateText, obj) {
+                    $("#endTime").datepicker("option", "minDate", dateText);
+                }
+            });
+            $("#endTime").datepicker({
+                maxDate: new Date(), prevText: "上个月", nextText: "下个月", onSelect: function (dateText, obj) {
+                    $("#startTime").datepicker("option", "maxDate", dateText);
+                }
+            });
+
+            //点击分页按钮
+            $("#paging a").live("click", function () {
+                if (!$(this).attr("k"))
+                    return;
+                var pageindex = $(this).attr("k");
+                getData_negotiation(pageindex, 1);
+            });
+
+            $(".u-btn8").click(function () {
+                getData_negotiation(1, 1);
+            });
+            getData_negotiation(1, 1);
+        })
+    </script>
+
+</body>
+</html>

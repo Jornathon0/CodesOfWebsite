@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>交易管理 - {$eData.tit}交易详情</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>交易管理&nbsp;&gt;&nbsp;</li>
+                <li>交易详情&nbsp;&gt;&nbsp;</li>
+                <li>qer.com</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>交易详情</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 交易详情 -->
+            <div class="m-seller s-bg-fc u_be9">
+                <if condition="$eData.roleact eq 'buy'">
+                <h4 class="f-img-buyer s-bg-white"><span class="querentip">自动确认交易时间：{$querentime|date="Y-m-d H:i:s",###}</span>您是买方</h4>
+                <else />
+                <h4 class="f-img-seller s-bg-white"><span class="querentip">自动确认交易时间：{$querentime|date="Y-m-d H:i:s",###}</span>您是卖方</h4>
+                </if>
+                    <h3 class="u_bt2">
+                    <span class="s-2a domain">{$eData.tit}</span>
+                    <if condition="$eData.status eq 0">
+                    	<if condition="$eData.roleact eq 'buy'">
+                        <span class="s-ff6 z-wait">(等待您同意条款)</span>
+                        <else />
+                        <span class="s-ff6 z-wait">(等待买家同意条款)</span>
+                        </if>
+                    <elseif condition="$eData.status eq 1"/>
+                    	<if condition="$eData.roleact eq 'buy'">
+                        <span class="s-ff6 z-wait">(等待卖同意条款)</span>
+                        <else />
+                        <span class="s-ff6 z-wait">(等待买家同意条款)</span>
+                        </if>
+                    <elseif condition="$eData.status eq 2"/>
+                    	<if condition="$eData.roleact eq 'buy'">
+                        <span class="s-ff6 z-wait">(等待您付款到新米网xmw.com)</span>
+                        <else />
+                        <span class="s-ff6 z-wait">(等待买家付款到新米网xmw.com)</span>
+                        </if>
+                    <elseif condition="$eData.status eq 3"/>
+                    	<if condition="$eData.roleact eq 'buy'">
+                        <span class="s-ff6 z-wait">(等待卖家转移域名)</span>
+                        <else />
+                        <span class="s-ff6 z-wait">(等待您转移域名)</span>
+                        </if>
+                    <elseif condition="$eData.status eq 4"/>
+                    <if condition="$eData.roleact eq 'buy'">
+                        <span class="s-ff6 z-wait">(等待您确认收到域名)</span>
+                        <else />
+                        <span class="s-ff6 z-wait">(等待买家确认收到域名)</span>
+                        </if>
+                    <elseif condition="$eData.status eq 5"/>
+                    	<span class="s-ff6 z-wait">(本次交易已经完成)</span>
+                    <elseif condition="$eData.status eq 6"/>
+                    	<span class="s-ff6 z-wait">(本次交易已经取消)</span>
+                    </if>
+                    
+                    </h3>
+                    <div class="m-insd">
+                    
+                    	<if condition="$handlePower eq 1">
+                        <ul>
+                            <li>买家已确认交易，资金已打入您的帐号，请确认资金到账。</li>
+                        </ul>
+                        <p class="u_btn_container2">
+                            <a class="u-btn13" href="#资金明细页">资金明细</a>
+                        </p>
+                        <else />
+                        <ul>
+                            <li>交易确认成功，冻结的资金已经打入对方帐户。</li>
+                        </ul>
+                        <p class="u_btn_container2">
+
+                        </p>
+                        </if>
+                    
+                    </div>   
+            </div>
+            <!-- 交易数据 -->
+            <div class="m-account-data1 u_be9 s-bg-fc">
+                <h4 class="s-bg-white">
+                    <a class="s-3c m-ta2" href="javascript:void(0);">
+                        <span class="sp1">交易域名</span>
+                    </a>
+                    <div class="u-cls"></div>
+                </h4>
+                <table>
+                    <tr>
+                        <th width="16px"></th>
+                        <th width="150px" class="u_tl">来源</th>
+                        <th width="200px" class="u_tl">域名</th>
+                        <th width="200px" class="u_tl">接收账号 / 转移密码</th>
+                            <th width="120px" class="u_tr">价格</th>
+                        <th width="16px"></th>
+                    </tr>
+                    	<volist name="eDomainData" id="data">
+                        <tr>
+                            <td></td>
+                            <td class="u_tl">
+                                <span class="s-2a">中介</span>
+                            </td>
+                            <td class="u_tl"><span class="s-2a">{$data.domain}</span></td>
+                            <td class="u_tl"><span class=""></span></td>
+                            <td class="u_tr"><span class="s-75b"></span></td>
+                            <td></td>
+                        </tr>
+                        </volist>
+                        <!--<tr>
+                            <td></td>
+                            <td class="u_tl">
+                                <span class="s-2a">中介</span>
+                            </td>
+                            <td class="u_tl"><span class="s-2a">qer.com</span></td>
+                            <td class="u_tl"><span class=""></span></td>
+                            <td class="u_tr"><span class="s-75b"></span></td>
+                            <td></td>
+                        </tr>-->  
+                </table>
+                <div class="m-total2">
+                    <div class="u-fr">
+                        <p><span class="u-span15">交易总额：</span><span class="u_m4 s-75b u_mb15">￥{$eData.price|number_format}</span></p>
+                        <p><span class="u-span15">手续费：</span><span class="u_m4 s-75b u_mb15">￥{$eData.poundage|number_format}</span></p>
+                        <if condition="$eData.roleact eq 'buy'">
+                        <p><span class="u-span15">您需支付：</span><span class="u_m4 s-75b">￥{$eData['price']+$eData['poundage']|number_format}</span></p>
+                        <else />
+                        <p><span class="u-span15">您将收到：</span><span class="u_m4 s-75b">￥{$eData['price']-$eData['poundage']|number_format}</span></p>
+                        </if>
+                        
+                    </div>
+                    <div class="u-fr txt-total">合计</div>
+
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!--交易进度-->
+            <div class="m-account-data1 u_be9 s-bg-fc">
+                <h4 class="s-bg-white">
+                    <a class="s-3c m-ta2" href="javascript:void(0);">
+                        <span class="sp1">交易进度</span>
+                    </a>
+                    <div class="u-cls"></div>
+                </h4>
+                <table>
+                		<volist name="eExtData" id="data">
+                        <if condition="$i eq 1">
+                        <tr>
+                            <td width="16px"></td>
+                            <td width="535px"><span class="u-span16 s-ff6">{$data.remark}</span></td>
+                            <td width="135px">{$data.intime|date="Y-m-d H:i:s",###}</td>
+                            <td width="16px"></td>
+                        </tr>
+                        <else />
+                        <tr>
+                            <td></td>
+                            <td><span class="u-span17">{$data.remark}</span></td>
+                            <td>{$data.intime|date="Y-m-d H:i:s",###}</td>
+                            <td></td>
+                        </tr>
+                        </if>
+                        </volist>
+                        <!--<tr>
+                            <td width="16px"></td>
+                            <td width="535px"><span class="u-span16 s-ff6">卖家发起了本次交易</span></td>
+                            <td width="135px">2016-02-23 17:26:50</td>
+                            <td width="16px"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><span class="u-span17">买家修改了交易条款，等待买家同意条款</span></td>
+                            <td>2016-03-11 16:25:11</td>
+                            <td></td>
+                        </tr>-->
+                </table>
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+		<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}/js/popupBox.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}/js/account.js"></script>
+
+</body>
+</html>

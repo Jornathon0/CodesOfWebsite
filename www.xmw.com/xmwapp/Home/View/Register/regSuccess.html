@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>注册成功，激活邮箱</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="icon" href="{:C('SKINURL')}cimages/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+<meta charset="utf-8">
+<link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+<link type="text/css" href="{:C('SKINURL')}css/register.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+<input type='hidden' class='hideipt' value='1623175834' />
+<input type="hidden" class="hideipt" />
+<div class="s-bg-f7">
+  <div class="g-position">
+    <div class="m-position u-fl">
+      <ol>
+        <li>当前位置：&nbsp;</li>
+        <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+        <li>注册</li>
+      </ol>
+    </div>
+    <include file="Public:page_time" />
+    <div class="u-cls"></div>
+  </div>
+</div>
+<div class="g-content u-cls u_ptb18">
+  <div class="m-content1 s-bg-white">
+    <h3 class="s-3c">恭喜您注册成功！请激活账号！</h3>
+    <div class="m-re1">
+      <p class="f-p17">激活邮件已发送至<span class="u_email s-2a">{$data}</span>请进入邮箱完成激活</p>
+      <p class="f-p17 u_tc s-ca">请点击邮件里的链接，激活您的账户</p>
+      <p class="u_tc"><a href="http://{$emailurl}" target="_blank" class="u-abtn4 s-bg-2a">马上去激活</a></p>
+    </div>
+    <h4>没收到邮件？</h4>
+    <ul>
+      <li><span class="f-img-zc1">可以到垃圾邮件目录找找。</span></li>
+      <li><span class="f-img-zc1">或者点击下面的链接再次发送。</span></li>
+      <li><span class="f-img-zc1">若长时间未收到，请点击此 <a href="javascript:void(0)" id="reset">重新发送</a>。</span></li>
+    </ul>
+  </div>
+</div>
+<include file="Public:footer" /> <include file="Public:footer_commonjs" /> 
+<script type="text/javascript">
+        window.onload = function () {
+		    $("#reset").click(function () {
+		        if ($("#reset").html().match(/\d+/)) {
+		            //showDialog(lang.a14);
+		        } else {
+		            $.get("/resendemail");
+		            getAuthCodeWait(59);
+		        }
+			});
+        }
+        function getAuthCodeWait(i) {
+            var t = $("#reset").html();
+            var fun = setInterval(function () {
+                var v = $("#reset").html().match(/(.+?)(\d+)/);
+                if (v) {
+					//已进入倒计时
+                    if (v[2] == "1") {
+                        $("#reset").html(t).css("color","");
+                        clearInterval(fun);
+                    } else {
+                        $("#reset").html(t + (parseInt(v[2]) - 1)).css("color","#ccc");
+                    }
+                } else {
+					//准备进入
+                    $("#reset").html(t + i);
+                }
+            }, 1000);
+        }
+	</script>
+</body>
+</html>

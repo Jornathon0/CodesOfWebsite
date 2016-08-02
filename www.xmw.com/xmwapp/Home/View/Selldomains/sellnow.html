@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 我的限时抢购</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1000">
+
+    <meta property="qc:admins" content="1376071777766263757" />
+
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" /> 
+    
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>我的限时抢购</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>我已售的限时抢购</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+            <div class="m-acc-select u_be9 s-bg-white">
+                <!-- 标题 -->
+                <div class="m-acc-title s-bg-fc">
+					<div class="u-fl"><a href="/account/sellnow" <if condition="$act eq ''"> class=active</if>>所有</a></div>
+                    <div class="u-fl"><a href="/account/sellnow/check" <if condition="$act eq 'check'"> class=active</if>>审核</a></div>
+                    <div class="u-fl"><a href="/account/sellnow/wait" <if condition="$act eq 'wait'"> class=active</if> >等待交易</a></div>
+                    <div class="u-fl"><a href="/account/sellnow/end" <if condition="$act eq 'end'"> class=active</if> >交易结束</a></div>
+                    <input type="hidden" value="{$act}" id="checktype" />
+                    <div class="u-cls"></div>
+                </div>
+                <!-- 搜索 
+                <div class="m-btn-contrainer">
+                    <a href="/account/allsell/sellnegotiation?3" class="u-abtn9 s-bg-55b">提交一口价</a>
+                </div>-->
+                <!-- 内容 -->
+                        <div style="text-align:right; margin:7px 12px -10px 0;"><a href="/account/allsell" style="display:inline-block;color:#fff;" class="u-btn10">参与限时抢购</a></div>
+                        <div class="m-acc-cons s-bg-fc u_mall1">
+                            <table id="sellnowTable">
+                            	<thead>
+                                <tr>
+                                    <th width="16px"></th>
+                                    <th width="22px"></th>
+                                    <th width="120px" class="u_tl">域名</th>
+                                    <th width="120px" class="u_tr">价格</th>
+                                    <th width="25px"></th>
+                                    <th width="82px" class="u_tl">购买人id</th>
+                                    <th width="25px"></th>
+                                    <th width="150px" class="u_tl"> 抢购时间</th>
+                                    <th width="80px;" class="u_tr">状态</th>
+                                    <th width="16px"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr><td colspan='10' class='u_nb u_tc u_norecord'>暂无记录！</td></tr>
+                                <!--<tr>
+                                	<td></td>
+                                    <td></td>
+                                    <td class="u_tl"><span class="u-brka">11.com</span></td>
+                                    <td class="u_tr s-75b">￥8,000</td>
+                                    <td></td>
+                                    <td class="u_tl">12345</td>
+                                    <td></td>
+                                    <td class="u_tl">2016-07-23 11:10:15</td>
+                                    <td class="u_tr">待审核</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                	<td></td>
+                                    <td></td>
+                                    <td class="u_tl"><span class="u-brka">11.com</span></td>
+                                    <td class="u_tr s-75b">￥8,000</td>
+                                    <td></td>
+                                    <td class="u_tl">12347</td>
+                                    <td></td>
+                                    <td class="u_tl">2016-07-23 11:10:15</td>
+                                    <td class="u_tr">审核失败</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                	<td></td>
+                                    <td></td>
+                                    <td class="u_tl"><span class="u-brka">1sdhdhshdjsdhsddddjdhsh1.com</span></td>
+                                    <td class="u_tr s-75b">￥8,000,000,000</td>
+                                    <td></td>
+                                    <td class="u_tl">12457</td>
+                                    <td></td>
+                                    <td class="u_tl">2016-07-23 11:10:15</td>
+                                    <td class="u_tr s-75b">待交易</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                	<td></td>
+                                    <td></td>
+                                    <td class="u_tl"><span class="u-brka">1sdhdhshdjsdhsddddjdhsh1.com</span></td>
+                                    <td class="u_tr s-75b">￥8,000,000,000</td>
+                                    <td></td>
+                                    <td class="u_tl">万网</td>
+                                    <td></td>
+                                    <td class="u_tl">2016-07-23 11:10:15</td>
+                                    <td class="u_tr s-ff6">完成</td>
+                                    <td></td>
+                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>   
+                <!-- 分页 -->
+                <div id="paging" class="g-padding g-padding1">
+                </div>
+                       
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/logic/accountmy.js?v20150610"></script>
+    <script type="text/javascript">
+        $(function () {
+            var type = $("#checktype").val();
+			getDataList_sellnow(1, type);
+			
+           
+
+            $("#paging a").live("click", function () {
+                if (!$(this).attr("k")) return;
+                var pageindex = $(this).attr("k");
+                    getDataList_sellnow(pageindex, type);
+            });
+
+            
+
+            
+            $(document.body).click(function () {
+                $(".m-group-result,.m-prise-result").css("display", "none");
+                $("#group,#prise").css("background-color", "#fcfcfc");
+            });
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>会员登录 - 62.com优名网</title>
+    <meta name="keywords" content="域名代购,域名中介,国外域名代购,海外域名代购,好域名代购" />
+    <meta name="description" content="62优名网是最专业的域名交易平台,我们成功交易过大量的两数字三数字两字母等精品优质域名,我们还提供国外域名代购、域名中介、域名拍卖等域名相关的服务,我们更有金牌经纪人全程服务于您！" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+	<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/register.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+<div class="s-bg-f7">
+		<div class="g-position">
+			<div class="m-position u-fl">
+				<ol>
+	                <li>当前位置：&nbsp;</li>
+	                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+	                <li>注册</li>
+            	</ol>
+			</div>
+			<div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+			<div class="u-cls"></div>
+		</div>
+	</div>
+	<div class="g-content u-cls u_ptb18">
+		<div class="m-content2">
+			<div class="m-title2 s-bg-fb">
+				<div class="ut3">
+					<p class="s-3c f-p-t8">会员登录</p>
+					<p class="f-p18 s-ac">立即登录开始购买、出售域名、管理您的账户！</p>
+				</div>
+			</div>
+			<div class="m-login1 s-bg-white">
+				<div class="log-l">
+					<ul>
+						<li>
+							<span class="u-txs">账户：</span>
+							<span class="u-ipt-g f-img-login1">
+								<input type="text" ph="请输入您的ID/邮箱/手机" id="acc"/>
+							</span>
+						</li>
+						<li>
+							<span class="u-txs">密码：</span>
+							<span class="u-ipt-g f-img-login2">
+								<input type="password" id="pwd"/>
+							</span>
+							<a href="/findpsw/firststep" class="u_forget">忘记密码？</a>
+						</li>
+						<li><input type="submit" value="登录" class="s-bg-2a u-btn5a"/></li>
+						<li class="u_pl71">还不是会员？<a href="/register" class="u_forget">新用户注册</a></li>
+					</ul>
+				</div>
+				<div class="log-r">
+					<p>您还可以通过以下方式登录</p>
+					<a class="log-qq s-def" href="/QQLogin">QQ登录</a>
+                    <br />
+					<a class="log-xl s-def" href="/SinaLogin">微博登陆</a>
+				</div>
+				<div class="u-cls"></div>
+			</div>
+			
+		</div>
+	</div>
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#pwd").keyup(function () {
+                if (event.keyCode == 13) {
+                    $(".u-btn5a").click();
+                }
+            });
+            $(".u-btn5a").click(function () {
+                var pw=$("#pwd").val();
+                var acc=$("#acc").val();
+                if (pw&&acc&&pw!=""&&acc!="") {
+                    $.post("/LoginJson", {
+                        id: $("#acc").val(), pwd: $("#pwd").val(),msg:"Login"
+                    }, function (data, status) { 
+                        if (status == "success") {  
+                            switch (data.data) {
+                                case "0":{
+                                    showDialog(lang.a7);
+                                    break;
+                                };
+                                case "1": {
+                                    location.href = data.nexturl;
+                                    break;
+                                };
+                                case "2": {
+                                    showDialog(lang.a8);
+                                    break;
+                                };
+                                case "3": {
+                                    showDialog(lang.a9);
+                                    break;
+                                };
+                                case "4": {
+                                    showDialog(lang.a10);
+                                    break;
+                                };
+                                case "5": {
+                                    showDialog(lang.a11);
+                                    break;
+                                };   
+                            }
+                        } 
+                    })
+                }else{
+
+                    showDialog(lang.a6);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

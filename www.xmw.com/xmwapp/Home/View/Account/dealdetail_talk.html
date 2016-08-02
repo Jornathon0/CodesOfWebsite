@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>交易管理 - {$eData.tit}交易详情</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>交易管理&nbsp;&gt;&nbsp;</li>
+                <li>交易详情&nbsp;&gt;&nbsp;</li>
+                <li>qer.com</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>交易详情</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 交易详情 -->
+            <div class="m-seller s-bg-fc u_be9">
+                <h4 class="f-img-seller s-bg-white">您是<if condition="$eData.roleact eq 'buy'">买方<else />卖方</if></h4>
+                    <h3 class="u_bt2">
+                    <span class="s-2a domain">{$eData.tit}</span>
+                    <if condition="$eData.status eq 0">
+                    	<if condition="$eData.roleact eq 'buy'">
+                        <span class="s-ff6 z-wait">(等待您同意条款)</span>
+                        <else />
+                        <span class="s-ff6 z-wait">(等待买家同意条款)</span>
+                        </if>
+                    <elseif condition="$eData.status eq 1"/>
+                    	<if condition="$eData.roleact eq 'buy'">
+                        <span class="s-ff6 z-wait">(等待卖家同意条款)</span>
+                        <else />
+                        <span class="s-ff6 z-wait">(等待您同意条款)</span>
+                        </if>
+                    </if>
+                    
+                    </h3>
+                    <div class="m-insd">
+                    	
+                        <if condition="$handlePower eq 1">
+                        <ul class="insd">
+                            <li><span class="u_fw">若您对交易条款有异议，请点击“修改”按钮修改相关交易条款，这个操作需要<if condition="$eData.roleact eq 'buy'">卖<else />买</if>方的再次核对并同意交易。</span></li>
+                        </ul>
+                        <p class="u_btn_container2">
+                            <a class="u-btn13" id="agree">同意</a>
+                            <a class="u-btn13">修改</a>
+                            <a class="u-btn13" href="javascript:void(0)" id="cancel">取消交易</a>
+                        </p>
+                        <else />
+                        <p class="u_btn_container2">
+                            <a class="u-btn13" href="javascript:void(0)" id='cancel'>取消交易</a>
+                        </p>
+                        </if>
+                    
+                    </div>   
+            </div>
+            <!-- 交易数据 -->
+            <div class="m-account-data1 u_be9 s-bg-fc">
+                <h4 class="s-bg-white">
+                    <a class="s-3c m-ta2" href="javascript:void(0);">
+                        <span class="sp1">交易域名</span>
+                    </a>
+                    <div class="u-cls"></div>
+                </h4>
+                <table>
+                    <tr>
+                        <th width="16px"></th>
+                        <th width="150px" class="u_tl">来源</th>
+                        <th width="200px" class="u_tl">域名</th>
+                        <th width="200px" class="u_tl">接收账号 / 转移密码</th>
+                            <th width="120px" class="u_tr">价格</th>
+                        <th width="16px"></th>
+                    </tr>
+                    	<volist name="eDomainData" id="data">
+                        <tr>
+                            <td></td>
+                            <td class="u_tl">
+                                <span class="s-2a">中介</span>
+                            </td>
+                            <td class="u_tl"><span class="s-2a">{$data.domain}</span></td>
+                            <td class="u_tl"><span class=""></span></td>
+                            <td class="u_tr"><span class="s-75b"></span></td>
+                            <td></td>
+                        </tr>
+                        </volist>
+                        <!--<tr>
+                            <td></td>
+                            <td class="u_tl">
+                                <span class="s-2a">中介</span>
+                            </td>
+                            <td class="u_tl"><span class="s-2a">qer.com</span></td>
+                            <td class="u_tl"><span class=""></span></td>
+                            <td class="u_tr"><span class="s-75b"></span></td>
+                            <td></td>
+                        </tr>-->  
+                </table>
+                <div class="m-total2">
+                    <div class="u-fr">
+                        <p><span class="u-span15">交易总额：</span><span class="u_m4 s-75b u_mb15">￥{$eData.price|number_format}</span></p>
+                        <p><span class="u-span15">手续费：</span><span class="u_m4 s-75b u_mb15">￥{$eData.poundage|number_format}</span></p>
+                        <if condition="$eData.roleact eq 'buy'">
+                        <p><span class="u-span15">您需支付：</span><span class="u_m4 s-75b">￥{$eData['price']+$eData['poundage']|number_format}</span></p>
+                        <else />
+                        <p><span class="u-span15">您将收到：</span><span class="u_m4 s-75b">￥{$eData['price']-$eData['poundage']|number_format}</span></p>
+                        </if>
+                    </div>
+                    <div class="u-fr txt-total">合计</div>
+
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!--交易进度-->
+            <div class="m-account-data1 u_be9 s-bg-fc">
+                <h4 class="s-bg-white">
+                    <a class="s-3c m-ta2" href="javascript:void(0);">
+                        <span class="sp1">交易进度</span>
+                    </a>
+                    <div class="u-cls"></div>
+                </h4>
+                <table>
+                		<volist name="eExtData" id="data">
+                        <if condition="$i eq 1">
+                        <tr>
+                            <td width="16px"></td>
+                            <td width="535px"><span class="u-span16 s-ff6">{$data.remark}</span></td>
+                            <td width="135px">{$data.intime|date="Y-m-d H:i:s",###}</td>
+                            <td width="16px"></td>
+                        </tr>
+                        <else />
+                        <tr>
+                            <td></td>
+                            <td><span class="u-span17">{$data.remark}</span></td>
+                            <td>{$data.intime|date="Y-m-d H:i:s",###}</td>
+                            <td></td>
+                        </tr>
+                        </if>
+                        </volist>
+                        <!--<tr>
+                            <td width="16px"></td>
+                            <td width="535px"><span class="u-span16 s-ff6">卖家发起了本次交易</span></td>
+                            <td width="135px">2016-02-23 17:26:50</td>
+                            <td width="16px"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><span class="u-span17">买家修改了交易条款，等待买家同意条款</span></td>
+                            <td>2016-03-11 16:25:11</td>
+                            <td></td>
+                        </tr>-->
+                </table>
+            </div>
+<if condition="$handlePower eq 1">
+<form method="post" action="/account/deal_upd">
+    <div class="m-pop2 s-bg-white" id="pop19">
+        <input type="hidden" name="id" value="{$datetimeUrl}" />
+        <div class="pop-data3">
+            <table>
+                    <tr>
+                        <td width="100px">交易域名：</td>
+                        <td width="185px">
+                            <a class="u-txa1" href="javascript:void(0);">{$eData.tit}</a>
+                        </td>
+                        <td width="50px">价格：</td>
+                        <td width="122px">
+                            <div class="pop-ipt1">
+                                <!--<input type='hidden' name='moneyid' value='10928'/>-->
+                                <input type="text" name='money' class="money" value="{$eData.price}" ph="" />
+                            </div>
+                        </td>
+                    </tr> 
+            </table>
+            
+            
+            <div class="m-total4">
+                <div class="u-fr">
+                    <p><span class="u-span15">域名费用：</span><span class="u_m4 s-75b u_mb15">￥{$eData.price|number_format}</span></p>
+                    <p><span class="u-span15">手续费：</span><span class="u_m4 s-75b u_mb15">￥{$eData.poundage|number_format}</span></p>
+                    <if condition="$eData.roleact eq 'buy'">
+                    <p><span class="u-span15">您需支付：</span><span class="u_m4 s-75b">￥{$eData['price']+$eData['poundage']|number_format}</span></p>
+                    <else />
+                    <p><span class="u-span15">您将收到：</span><span class="u_m4 s-75b">￥{$eData['price']-$eData['poundage']|number_format}</span></p>
+                    </if>
+                </div>
+                <div class="u-fr txt-total">合计</div>
+
+                <div class="u-cls"></div>
+            </div>
+        </div>
+        <div class="pop-role1 s-bg-fc">
+            <div>
+            	<input type='hidden' name='who' value='{$eData.roleact}'/>
+                <div class="role1-txt">您的角色：</div>
+                <div class="role1-you"><if condition="$eData.roleact eq 'buy'">买家<else />卖家</if></div>
+                <div class="u-cls"></div>
+            </div>
+            <div>
+                <div class="role1-txt">由谁承担中介费：</div>
+                <div class="role1-r10">
+                    <label>
+                        <input type="radio" name='roledprice' value="two" <if condition="$eData.roledprice eq '2'">checked='checked'</if> class="u_vb" />
+                        <span>卖家</span>
+                    </label>
+                    <label>
+                        <input type="radio" name='roledprice' value="one" <if condition="$eData.roledprice eq '1'">checked='checked'</if> class="u_vb" />
+                        <span>买家</span>
+                    </label>
+                    <label>
+                        <input type="radio" name='roledprice' value="three" <if condition="$eData.roledprice eq '3'">checked='checked'</if> class="u_vb" />
+                        <span>买卖双方各付50%</span>
+                    </label>
+                </div>
+                <div class="u-cls"></div>
+            </div>
+            <div class="pop-btnsub">
+                <input type="submit" value="提交" class="u-btn16 s-bg-2a" />
+            </div>
+        </div>
+        <div class="close"></div>
+    </div>
+</form>
+</if>
+        </div>
+        <!-- 右边 -->
+        
+		<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}/js/popupBox.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}/js/account.js"></script>
+    	<if condition="$handlePower eq 1">
+    	<script type="text/javascript">
+            var arr_a = $(".u_btn_container2 a");
+            $(arr_a[1]).click(function () {
+                showBox("pop19");
+                $("#pop19").css("left", "29%");
+            });
+            $(".close").click(function () {
+                closeBox("pop19");
+            });
+        </script>
+        <script>
+            $(function () {
+                $('#cancel').click(function () {
+                    if (confirm(lang.a24 + "？")) {
+                        $.get('/account/dealdetailoperation', { type: <if condition="$eData.roleact eq 'buy'">1<else />2</if>, id: '{$datetimeUrl}' }, function (data) {
+							//alert(data.msg);
+                            if (data.data != 0) {
+                                location.href = location.href;
+                            } else {
+                                showDialog(data.msg, location.href);
+                            }
+                        });
+                    }
+                });
+				$('#agree').click(function () {
+                    if (confirm(lang.a177)) {
+                        $.get('/account/dealdetailoperation', { type: <if condition="$eData.roleact eq 'buy'">3<else />4</if>, id: '{$datetimeUrl}' }, function (data) {
+                            if (data.data) {
+                                location.href = location.href;
+                            } else {
+                                showDialog(lang.a23, location.href);
+                            }
+                        });
+                    }
+                });
+                $(".u-btn16").click(function () {
+                    var b = true;
+                    $(".money").each(function () {
+                        if (Number($(this).val()) < 1) {
+                            b = false;
+                            return false;
+                        }
+                    })
+                    if (!b) {
+                        alert(lang.a71);
+                        return false;
+                    }
+                });
+				
+            });
+        </script>
+        <else />
+        <script>
+            $(function () {
+                $('#cancel').click(function () {
+                    if (confirm(lang.a24 + "？")) {
+                        $.get('/account/dealdetailoperation', { type: <if condition="$eData.roleact eq 'buy'">1<else />2</if>, id: '{$datetimeUrl}' }, function (data) {
+							//alert(data.msg);
+                            if (data.data) {
+                                location.href = location.href;
+                            } else {
+                                showDialog(data.msg, location.href);
+                            }
+                        });
+                    }
+                });
+			});
+		</script>
+        </if>  
+
+</body>
+</html>

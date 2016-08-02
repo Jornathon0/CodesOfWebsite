@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 我的优质</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1000">
+
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<p>开发进度说明：还未开发</p>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>优质域名管理</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>我的优质</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+            <div class="m-acc-select u_be9 s-bg-white">
+                <!-- 标题 -->
+                <div class="m-acc-title s-bg-fc">
+                    <div class="u-fl"><a href="/account/highgrade" class="active">审核</a></div>
+                    <div class="u-fl"><a href="/account/highgrade/selling">出售中</a></div>
+                    <div class="u-fl"><a href="/account/highgrade/down">已下架</a></div>
+                    <div class="u-fl"><a href="/account/highgrade/sold">已出售</a></div>
+                    <input type="hidden" value="4" id="checktype">
+                </div>
+                <!-- 搜索 
+                <div class="m-btn-contrainer">
+                    <a href="/account/allsell/sellnegotiation?3" class="u-abtn9 s-bg-55b">申请优质</a>
+                </div>-->
+
+                        <div style="text-align:right; margin:7px 12px -10px 0;"><a href="/account/highgrade/add" style="display:inline-block;color:#fff;" class="u-btn10">申请优质</a></div>
+
+                <!-- 内容 -->
+                    <div class="m-acc-cons s-bg-fc u_mall1">
+                        <h3 class="s-bg-fe">审核中</h3>
+                        <table>
+                            <tbody><tr>
+                                <th width="16px"></th>
+                                <th width="170px" class="u_tl">域名</th>
+                                <th width="120px" class="u_tr">价格</th>
+                                <th width="39px"></th>
+                                <th width="127px" class="u_tl">简介</th>
+                                <th width="39px"></th>
+                                <th width="95px" class="u_tl">申请时间</th>
+                                <th width="56px;">操作</th>
+                                <th width="16px"></th>
+                            </tr>
+<tr><td class="u_nb u_tc u_norecord" colspan="8">暂无记录！</td>                        </tr></tbody></table>
+                    </div>
+                    <div class="m-acc-cons s-bg-fc u_mall2">
+                        <h3 class="s-bg-fe">审核失败</h3>
+                        <table>
+                            <tbody><tr>
+                                <th width="16px"></th>
+                                <th width="170px" class="u_tl">域名</th>
+                                <th width="120px" class="u_tr">价格</th>
+                                <th width="39px"></th>
+                                <th width="95px" class="u_tl">申请时间</th>
+                                <th width="24px"></th>
+                                <th class="u_tl">原因</th>               
+                            </tr>
+                        <tr><td colspan="7" class="u_nb u_tc u_norecord">暂无记录！</td></tr></tbody></table>
+                    </div>   
+                <!-- 分页 -->
+                <div id="paging" class="g-padding g-padding1"></div>
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/logic/account.js?v20150610"></script>
+    <script type="text/javascript">
+        $(function () {
+            var type = $("#checktype").val();
+            if (type == "6")
+                getDataList_all(1, type);
+            else
+                getDataList_high(1, type);
+
+            $("#paging a").live("click", function () {
+                if (!$(this).attr("k"))
+                    return;
+                var pageindex = $(this).attr("k");
+                if (type == "6")
+                    getDataList_all(pageindex, type);
+                else
+                    getDataList_high(pageindex, type);
+            });
+
+            $(".cancel").live("click", function () {
+                if (confirm(lang.a24 + "？")) {
+                    $.post("/account/highgradeOperation", { "id": this.id, "type": 0 }, function (data, status) {
+                        if (status == "success" && data.data == 1) {
+                            location.href = location.href
+                        }
+                        else {
+                            showDialog(lang.a23);
+                        }
+                    })
+                }
+            })
+            $(".sold_out").live("click", function () {
+                if (confirm(lang.a49 + "[" + $(this).parent().parent().children().eq(2).text() + "]？")) {
+                    $.post("/account/highgradeOperation", { "id": $(this).parent().parent().find("input").attr("value"), "type": 1 }, function (data, status) {
+                        if (status == "success" && data.data == 1)
+                            location.href = location.href;
+                        else
+                            showDialog(lang.a23);
+                    })
+                }
+            })
+
+            $(document.body).click(function () {
+                $(".m-group-result,.m-prise-result").css("display", "none");
+                $("#group,#prise").css("background-color", "#fcfcfc");
+            });
+        })
+    </script>
+
+
+
+</body>
+</html>

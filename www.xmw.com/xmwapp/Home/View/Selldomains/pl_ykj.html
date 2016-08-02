@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>申请一口价批量设置</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1000">
+
+    <meta property="qc:admins" content="1376071777766263757" />
+
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<p>开发进度说明：还未开发</p>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/allsell" class="s-2a">所有域名管理</a>&nbsp;&gt;&nbsp;</li>
+                <li>申请一口价批量设置</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <div class="m-title-a u_be9 s-bg-fc u_mb6">
+            <a href="javascript:void(0);">申请一口价批量设置</a>
+        </div>
+        <div class="m-insa s-bg-fc u_be89">
+            <ul>
+
+<li><span class='u_fw'>1.</span>域名须可以随时正常转移、过户。</li>
+<li><span class='u_fw'>2.</span>域名须不存在任何所有权和使用权争议。</li>
+<li><span class='u_fw'>3.</span>域名描述须不违反法律、不涉及敏感词汇。</li>
+<li><span class='u_fw'>4.</span>申请一口价无需审核，提交后直接上架展示出售，展示期间卖家可随时下架。</li>
+<li><span class='u_fw'>5.</span>一口价交易成功后收取8%的手续费，由卖家支付。</li>            </ul>
+        </div>
+        <!-- 数据 -->
+        <form method="post" action="/account/pl_operation" id="form">
+            <div class="m-batch-data s-bg-fc" id="batch-data">
+                <input type="hidden" value="1" name="type" />
+                <table>
+                    <tr class="s-bg-white u_bb0">
+                        <th width="16px"></th>
+                        <th></th>
+                        <th width="300px" class="u_tl">域名</th>
+                        <th width="230px" class="u_tl">标价</th>
+                        <th width="338px" class="u_tl">简介</th>
+                        <th width="16px"></th>
+                    </tr>
+                    <tr class="u_bb0">
+                        <td></td>
+                        <td></td>
+                        <td><span class="u_fw">批量设置</span></td>
+                        <td>
+                            <div class="m-batch-setmoney">
+                                <div class="m-batch-ipt s-bg-white">
+                                    <input type="text" class="s-75b money" maxlength="9" name="plmoney" />
+                                </div>
+                                <div class="batch-money">元</div>
+                                <div class="u-cls"></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="m-batch-ipt1 s-bg-white">
+                                <input type="text" name="pljj" />
+                            </div>
+                        </td>
+                        <td></td>
+                    </tr>
+                        <tr class="u_bb0">
+                            <td>
+                                <input type='hidden' value='620405' name='hide'/></td>
+                            <td>
+                                <input type="button" class="ipt_remove" value="移除" /></td>
+                            <td><span class="u_fw">884z.com</span></td>
+                            <td>
+                                <div class="m-batch-setmoney">
+                                    <div class="m-batch-ipt s-bg-white">
+                                        <input type="text" class="s-75b money" maxlength="9" value="800,000" name="money" />
+                                    </div>
+                                    <div class="batch-money">元</div>
+                                    <div class="u-cls"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="m-batch-ipt1 s-bg-white">
+                                    <input type="text" value="" name="jj" />
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                </table>
+            </div>
+            <div class="m-batch-tj s-bg-fc">
+                <input type="button" class="u-btn16 s-bg-2a" onclick="javascript: history.go(-1)" style="margin-right:50px;" value="返回" />
+                <input type="submit" value="提交" class="u-btn16 s-bg-2a pl_submit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/logic/account.js"></script>
+    
+    <script>showDialog(lang.a159,'/account/kt/ykj')</script>
+
+</body>
+</html>

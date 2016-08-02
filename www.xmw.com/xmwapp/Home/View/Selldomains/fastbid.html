@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 我提交的竞价</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/sell-domain.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<p>开发进度说明：还未开发</p>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>极速竞价管理</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>我提交的竞价</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+            <div class="m-acc-select u_be9 s-bg-white">
+                <!-- 标题 -->
+                <div class="m-acc-title s-bg-fc">
+                    
+                    <div class="u-fl"><a href='/account/fastbid' class='active'>审核</a></div>
+                    <div class="u-fl"><a href='/account/fastbid/bidding' >正在竞价</a></div>
+                    <div class="u-fl"><a href='/account/fastbid/ready' >即将开始</a></div>
+                    <div class="u-fl"><a href='/account/fastbid/end' >竞价结束</a></div>
+                    <input type='hidden' value='0' id='checktype' />
+                    <div class="u-cls"></div>
+                </div>
+                        <!-- 申请按钮 
+                        <div class="m-btn-contrainer">
+                            <a href="/account/allsell/sellnegotiation?3" class="u-abtn9 s-bg-55b">申请竞价</a>
+                        </div>-->
+                        <div style="text-align:right; margin:7px 12px -10px 0;"><a href="/account/fastbid/add" style="display:inline-block;color:#fff;" class="u-btn10">申请竞价</a></div>
+                        <!-- 审核中 -->
+                        <div class="m-acc-cons s-bg-fc u_mall1">
+                            <h3 class="s-bg-fe">审核中</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th width="16px"></th>
+                                        <th width="170px" class="u_tl">域名</th>
+                                        <th width="120px" class="u_tr">保留价</th>
+                                        <th width="39px"></th>
+                                        <th width="127px" class="u_tl">简介</th>
+                                        <th width="39px"></th>
+                                        <th width="95px" class="u_tl">申请时间</th>
+                                        <th width="56px;">操作</th>
+                                        <th width="16px"></th>
+                                    </tr>
+<td class='u_nb u_tc u_norecord' colspan='8'>暂无记录！</td>                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 审核成功 -->
+                        <div class="m-acc-cons s-bg-fc u_mall2">
+                            <h3 class="s-bg-fe">审核成功</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th width="16px"></th>
+                                        <th width="136px" class="u_tl">域名</th>
+                                        <th width="120px" class="u_tr">保留价</th>
+                                        <th width="120px" class="u_tr">起拍价</th>
+                                        <th width="30px"></th>
+                                        <th width="85px" class="u_tl">申请时间</th>
+                                        <th width="154px;" class="u_tr">操作</th>
+                                        <th width="16px"></th>
+                                    </tr>
+<td class='u_nb u_tc u_norecord' colspan='8'>暂无记录！</td>                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 审核失败 -->
+                        <div class="m-acc-cons s-bg-fc u_mall2">
+                            <h3 class="s-bg-fe">审核失败</h3>
+                            <table class="bid_ap_fail">
+                                <tbody>
+                                    <tr>
+                                        <th width="16px"></th>
+                                        <th width="170px" class="u_tl">域名</th>
+                                        <th width="120px" class="u_tr">保留价</th>
+                                        <th width="58px"></th>
+                                        <th width="140px" class="u_tl">提交时间</th>
+                                        <th width="154px" class="u_tl">原因</th>
+                                        <th width="16px"></th>
+                                    </tr>
+                                    <tr><td colspan="7" class="u_nb u_tc u_norecord">暂无记录！</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paging" class="g-padding g-padding1"></div>   
+
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.color.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/account.js?v20150610"></script>
+    <script type="text/javascript">
+        $(function () {
+            var type = $("#checktype").val();
+            if (type == "7")
+                getDataList_all(1, type);
+            else
+                getDataList_bid(1, type);
+
+            $("#paging a").live("click", function () {
+                if (!$(this).attr("k"))
+                    return;
+                var pageindex = $(this).attr("k");
+                if (type == "7")
+                    getDataList_all(pageindex, type);
+                else
+                    getDataList_bid(pageindex, type);
+            });
+
+            $(".cancel").click(function () {
+                if (confirm(lang.a24 + "？")) {
+                    $.post("/account/fastbidOperation", { "type": 0, "id": $(this).attr("id") }, function (data, status) {
+                        if (status == "success")
+                            location.href = location.href;
+                    })
+                }
+            });
+
+            // 竞价时间
+            if ($("#time_jj").length > 0) {
+                setInterval(function () {
+                    var r = $("#time_jj").html().match(/(\d+?):(\d+?):(\d+)/)
+                    var h = Number(r[1]);
+                    var m = Number(r[2]);
+                    var s = Number(r[3]);
+                    if (s == 0) {
+                        if (h == 0 && m == 0) {
+                            return;
+                        }
+                        s = 59;
+                        if (m == 0) {
+                            m = 59;
+                            h -= 1;
+                        }
+                        else
+                            m -= 1;
+
+                    } else {
+                        s -= 1;
+                    }
+                    $("#time_jj").html(bl(h) + ":" + bl(m) + ":" + bl(s));
+                }, 1000)
+            }
+
+            $(document.body).click(function () {
+                $(".m-group-result,.m-prise-result").css("display", "none");
+                $("#group,#prise").css("background-color", "#fcfcfc");
+            });
+        })
+
+    </script>
+
+</body>
+</html>

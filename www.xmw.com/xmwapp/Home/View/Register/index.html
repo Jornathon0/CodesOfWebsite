@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>会员注册</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}cimages/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />    
+    <link type="text/css" href="{:C('SKINURL')}css/register.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+<input type='hidden' class='hideipt' value='1623175834' />
+<input type="hidden" class="hideipt" />
+<div class="s-bg-f7">
+		<div class="g-position">
+			<div class="m-position u-fl">
+				<ol>
+	                <li>当前位置：&nbsp;</li>
+	                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+	                <li>注册</li>
+            	</ol>
+			</div>
+			<include file="Public:page_time" />
+
+			<div class="u-cls"></div>
+		</div>
+	</div>
+<div class="g-content u-cls u_ptb18">
+		<div class="m-content2">
+			<div class="m-title2 s-bg-fb">
+				<div class="u-fl ut2_l">
+					<span class="s-3c">会员注册</span>
+				</div>
+				<div class="u-fr ut2_r">
+					已有62账户、现在就<a href="/login" class="s-2a u-abtn5">登录</a>
+				</div>
+				<div class="u-cls"></div>
+			</div>
+<form action="/account/signup" id="form" method="post" >                <div class="m-reg s-bg-white" id="logins">
+				<ul>
+					<li>
+						<span class="u-txr">账户：</span>
+                        <span style="color:red;">*</span>
+						<span class="u-ipt-e">
+							<input type="text" ph="请输入邮箱或手机号" name="email"/>
+						</span>
+						<span></span>
+					</li>
+					<li class="u_mb0">
+						<span class="u-txr">密码：</span>
+                        <span style="color:red;">*</span>
+						<span class="u-ipt-e">
+							<input type="password" maxlength="20" name="pwd"/>
+						</span>
+						<span></span>
+					<li>
+						<p class="u-txq" id="safe">安全程度：<span class="s-bg-c4">弱</span><span class="s-bg-c4">中</span><span class="s-bg-c4">强</span></p>
+					</li>
+					</li>
+					<li>
+						<span class="u-txr">重复密码：</span>
+                        <span style="color:red;">*</span>
+						<span class="u-ipt-e">
+							<input type="password" />
+						</span>
+						<span></span>
+					</li>
+					<li>
+						<span class="u-txr">真实姓名：</span>
+                        <span style="color:red;">*</span>
+						<span class="u-ipt-e">
+							<input type="text" name="realName"/>
+						</span>
+						<span></span>
+					</li>
+					<li>
+						<span class="u-txr">手机号码：</span>
+                        <span style="color:red;">&nbsp;</span>
+						<span class="u-ipt-e">
+							<input type="text"  name="phone"/>
+						</span>
+						<span></span>
+					</li>
+					<li>
+						<span class="u-txr">QQ：</span>
+                        <span style="color:red;">&nbsp;</span>
+						<span class="u-ipt-e">
+							<input type="text"  name="QQ"/>
+						</span>
+						<span></span>
+					</li>
+                    <li class="tr_yzm">
+                        <span class="u-txr">验证码：</span>
+                        <span style="color: red;">*</span>
+                        <span class="u-ipt-f">
+                            <input type="text" name="yzm" />
+                        </span>
+                        <span class="u_span2">
+                            <img src="/getverify.html" onclick="this.src='/getverify.html?i='+Math.random();" style="width:95px;height:38px;cursor:pointer;" alt="点击刷新" title="点击刷新" />
+                        </span>
+                        <span id="yzm1"></span>
+                    </li>
+                    <li class="tr_sj_yzm" style="display:none;">
+						<span class="u-txr">手机验证码：</span>
+                        <span style="color:red;">*</span>
+						<span class="u-ipt-f">
+							<input type="text" name="sj_yzm"/>
+                            <input type="hidden" name="yzcode" id="yzcode" value="{$codeTime}">
+						</span>
+						<a href="javascript:void(0)" class="u-abtn6 s-bg-6c getAuthCode">获取验证码</a>
+						<span id="sj_yanzm"></span>
+					</li>
+                    <li><input type="checkbox" style="margin-left: 138px;vertical-align: middle; cursor:pointer;" id="agree" /> <span style="vertical-align: middle;">我已阅读并同意<a href="/regulation?v=agreement" target="_blank" title="阅读" style="color:#0086cf;">《用户协议》</a></span></li>
+					<li>
+						<input type="submit" value="立即注册" style="margin-left: 138px;" class="s-bg-2a u-btn5"/>
+                        <!--<button type="submit" style="margin-left: 138px;" class="s-bg-2a u-btn5">立即注册</button>-->
+					</li>
+				</ul>
+			</div>
+</form>		</div>
+	</div>
+
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/zh-cn.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/zc.js"></script> 
+    <if condition="$errortip != ''">
+    <script>$(function(){showDialog('{$errortip}');});</script> 
+    </if>
+</body>
+</html>

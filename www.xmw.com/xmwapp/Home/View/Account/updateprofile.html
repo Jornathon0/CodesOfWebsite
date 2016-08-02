@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>账户信息 - 修改资料</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1000">
+
+    <meta property="qc:admins" content="1376071777766263757" />
+
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>账户管理&nbsp;&gt;&nbsp;</li>
+                <li>修改资料</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>修改资料</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <div class="m-insf s-bg-fc">
+                <p>请确保您的联系方式真实有效，如果您的交易或帐户出现什么问题，我们将通过您提供的联系方式联系您！</p>
+            </div>
+            <!--您绑定的邮箱  -->
+            <!-- 数据 -->
+            <form action='/account/updatefile' method='post'>
+                <div class="m-question m-question1 s-bg-fc u_be9">
+                    <ul>
+                        <li class="u_mb15">
+                            <div class="question_txt">您的会员ID：</div>
+                            <div class="question_ipt s-bg-f5">
+                                <input type="text" value="{$info.uid}" readonly>
+                            </div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li class="u_mb15">
+                            <div class="question_txt">电子邮件：</div>
+                            <div class="question_ipt s-bg-f5">
+                                <input type="text" value="{$info.email}"  readonly="readonly"/>
+                            </div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li class="u_mb15">
+                            <div class="question_txt">真实姓名：</div>
+                            <div class="question_ipt s-bg-f5">
+                                <input type="text" value="{$info.uname}" readonly>
+                            </div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li class="u_mb15">
+                            <div class="question_txt">手机：</div>
+                            <div class="question_ipt s-bg-white">
+                                <input type="text" name='txtmobphone' value="{$info.umobile}" class="sc_mob" >
+                            </div>
+                            <div class="u_pr1 sc_mob_warn" style="display:none;"></div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li class="u_mb15">
+                            <div class="question_txt">联系电话：</div>
+                            <div class="question_ipt s-bg-white">
+                                <input type="text" name='txttelphone' value="{$info.telephone}" class="sc_tel">
+                            </div>
+                            <div class="u_pr1 sc_tel_warn" style="display:none;"></div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li class="u_mb15">
+                            <div class="question_txt">QQ：</div>
+                            <div class="question_ipt s-bg-white">
+                                <input type="text" value="{$info.qq}" name='txtQQ' class="sc_qq">
+                            </div>
+                            <div class="u_pr1 sc_qq_warn" style="display:none;"></div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li>
+                            <div class="u_mall12">
+                                <input type="submit" value="保存修改" class="u-btn12 s-bg-2a" >
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <!-- 右边 -->
+        <include file="Account:sidenav" />
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    <include file="Public:footer" />
+    <include file="Public:footer_commonjs" />
+    
+    <if condition="$status eq 1">
+    <script type="text/javascript">
+        showDialog(lang.a151);
+    </script>
+    <elseif condition="$status eq -1"/>
+    <script type="text/javascript">
+        showDialog(lang.a35);
+    </script>
+    <else />
+    </if>
+
+    <script type="text/javascript" src="{:C('SKINURL')}js/logic/account.js"></script>
+    <script type="text/javascript">
+        $(".u-btn12").click(function(){
+            var re =new RegExp("^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\\d{8}$");
+            if(!re.test($(".sc_mob").val())){
+                $(".sc_mob_warn").css("display", "").html(lang.a141);
+                $(".sc_mob").focus();
+                return false;
+            }
+            var tel = new RegExp("(^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\\d{8}$)|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$");
+            if(!tel.test($(".sc_tel").val())){
+                $(".sc_tel_warn").css("display", "").html(lang.a142);
+                $(".sc_tel").focus();
+                return false;
+            }
+            if(!/^\d{5,15}$/.test($(".sc_qq").val())){
+                $(".sc_qq_warn").css("display", "").html(lang.a142);
+                $(".sc_qq").focus();
+                return false;
+            }
+        })
+    </script>
+</body>
+</html>

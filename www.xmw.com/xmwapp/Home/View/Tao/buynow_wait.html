@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>限时抢购-等待中 - xmw.com新米网</title>
+    <meta name="keywords" content="#" />
+    <meta name="description" content="#" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}xmwv2/css/global.css" rel="stylesheet" />
+    <link type="text/css" href="{:C('SKINURL')}xmwv2/css/table.css" rel="stylesheet" />
+    <link type="text/css" href="{:C('SKINURL')}xmwv2/css/buynow.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/jquery-ui.css">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    <link type="text/css" href="{:C('SKINURL')}css/skin.css?v=201508120" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/bragin.css" />
+	
+</head>
+<body>
+<include file="header" />
+
+<div class="formsearch">
+	<div class="m-content">
+		<div class='m-title-a u_be9 s-bg-fc u_mb6'>
+        	<div class="timetip">距离开抢时间还有:<b class="c-ff3232" id="timetip" data-time="{$kqTime}"> </b></div>
+            <a href='javascript:void(0);'>
+                <span class='z-imga-t3 u-fl'></span>
+                <span class='u-fl s-05'>限时抢购</span>
+            </a>
+        </div>
+     </div>
+     <!------------/m-content------------->
+    
+</div>
+
+<div class="mainer">
+	<!---------------------新米table---------------------------->
+    <div class="outframe">
+        <table class="table table-border table-bg table-hover">
+            <thead>
+                <tr>
+                    <th width="2%"></th>
+                    <th width="21%">域名</th>
+                    <th width="2%"></th>
+                    <th width="30%">简介</th>
+                    <th width="1%"></th>
+                    <th width="14%" class="text-c">注册商</th>
+                    <th width="14%" class="text-c">一口价</th>
+                    <th width="12%" class="text-c">操作</th>
+                    <th width="1%"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="buywait">
+        <div class="waitlogo"></div>
+        <div class="waitTime">{$startTime|date="H:i",###}-{$endTime|date="H:i",###}</div>
+        <div class="waitTip">优质域名尽请期待！</div>
+        <div class="waitBtn"><a href="#">等待秒杀</a></div>
+    </div>
+    <!---------------------/新米table---------------------------->
+</div>
+<include file="footer" />
+
+<script src="{:C('SKINURL')}js/jquery-1.8.2.min.js"></script>
+<script src="{:C('SKINURL')}xmwv2/js/common.js"></script>
+
+<script src="{:C('SKINURL')}xmwv2/plus/layer/layer.js"></script>
+<include file="footcommon" />
+
+</body>
+</html>

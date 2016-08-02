@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 待验证的域名列表</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>待验证的域名</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl" style="width: 704px">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>待验证的域名列表</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 提示&警示 -->
+            <div class="m-insa s-bg-fc u_be89">
+                <ul>
+                    <li><span class="u_fw">1.</span>添加出售的域名需要经过验证域名whois信息，以确保交易安全。</li>
+                    <li><span class="u_fw">2.</span> 优名网（62.com）会自动验证域名whois邮箱和用户邮箱（注册邮箱及绑定邮箱）是否匹配。</li>
+                    <li><span class="u_fw">3.</span>若您的域名使用多个邮箱注册，请先在账户内<a href="/account/whoisemail" style="color:#0086cf;font-weight:bold"> 绑定这些邮箱</a>
+。</li>
+                    <li><span class="u_fw">4.</span>若优名网(62.com)无法获取域名whois信息、或您的域名启用whois隐私保护，请联系客服进行人工验证。</li>
+                </ul>
+            </div>
+            <!-- 数据 -->
+            <div class="m-account-data2 s-bg-fc u_be9">
+                <table>
+                    <tr class="s-bg-white">
+                        <th width="16px"></th>
+                        <th width="20px"></th>
+                        <th width="150px" class="u_tl">域名</th>
+                        <th width="185px" class="u_tl">状态</th>
+                        <th width="135px" class="u_tl">添加日期</th>
+                        <th width="180px" class="u_tr">操作</th>
+                        <th width="16px"></th>
+                    </tr>
+               		<tr><td colspan="7" class="u_nb u_tc u_norecord">暂无记录！</td></tr>
+                </table>
+                <div id="paging" class="g-padding g-padding1">
+                </div>
+                <div class="m-operation3">
+                    <div class="u-fl operation3-l">
+                        <label>
+                            <input type="checkbox" class="curPage" />
+                            <span>选中当前页</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" class="allPage"/>
+                            <span>选中所有</span>
+                        </label>
+                    </div>
+                    <div class="u-fl operation3-r">
+                        <span>操作已选域名：</span>
+                        <php>/*//注释掉，现在不用whois验证
+                        <input type="button" value="验证所有" class="u-btn10 btn_verify_all" />
+                        */</php>
+                        <input type="button" value="重新验证" class="u-btn10 btn_verify_apply" />
+                        <input type="button" value="批量删除" class="u-btn10 btn_pl_del" />
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+		<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/accountmy.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getDataList_withcheck(1);
+
+            $("#paging a").live("click", function () {
+                if (!$(this).attr("k"))
+                    return;
+                var pageindex = $(this).attr("k");
+                getDataList_withcheck(pageindex);
+            });
+
+            $(".btn_verify").live("click", function () {
+                var k = $(this).attr("k");
+				var thisBtn = $(this);
+                var id = $(this).parent().parent().find("input.curLine").attr("value");
+                var td = $(this).parent().prev().prev();
+                if (k == "0") {
+                    td.html("<img src='/public/xmwcom/images/index/loading.gif' width='20' height='20' />");
+                    $.post("/account/checkwithdomain", { "type": k, "id": id }, function (data, status) {
+                        if (status == "success" && data.status == 1) {
+                            //location.href = location.href;
+							td.html('验证成功');
+							setTimeout(td.parent().animate({'opacity':0},function(){
+								$(this).remove();
+								//重新设定cookie的值将这一条的记录隐去
+								var ckl = getCookie("selectAll");	
+									ckl = ckl.replace(id + ",", "");
+								setCookie("selectAll", ckl, 2);
+							}),1000);
+							
+                        } else {
+                            td.html(lang.a59);
+                        }
+                    });
+                } else if (k == "2") {
+                    td.html("<img src='/public/xmwcom/images/index/loading.gif' width='20' height='20' />");
+                    $.post("/account/checkwithdomain", { "type": k, "id": id }, function (data, status) {
+                        if (status == "success" && data.status == 1) {
+                            //location.href = location.href;
+							td.html('待验证');
+							setTimeout(thisBtn.animate({'opacity':0},function(){
+								$(this).remove();
+								//重新设定cookie的值将这一条的记录隐去
+								var ckl = getCookie("selectAll");	
+									ckl = ckl.replace(id + ",", "");
+								setCookie("selectAll", ckl, 2);
+							}),1000);
+							
+                        } else {
+                            td.html('重新验证失败');
+                        }
+                    });
+                } else {
+                    if (confirm(lang.a22 + "[" + td.prev().html() + "]？")) {
+                        $.post("/account/checkwithdomain", { "type": k, "id": id }, function (data, status) {
+                            if (status == "success") {
+								td.parent().animate({'opacity':0},function(){
+									$(this).remove();
+									//重新设定cookie的值将这一条的记录隐去
+									var ckl = getCookie("selectAll");	
+										ckl = ckl.replace(id + ",", "");
+									setCookie("selectAll", ckl, 2);
+								})
+                                //location.href = location.href;
+                            }
+                        });
+                    }
+                }
+            })
+			
+			//批量申请
+			$(".btn_verify_apply").click(function () {
+				var ckl = getCookie("selectAll");
+				if (ckl != null) {
+                    var resut_arr = ckl.match(/(.+?)\&(.*)/);
+					//alert(resut_arr[2]);return;
+					//console.log(resut_arr);
+					if (resut_arr != null && resut_arr[1] == href && resut_arr[2].replace(/\s/g, "") != "") {
+						$.post("/account/CheckDomain", { "type": "2","resut":resut_arr[2] }, function (data, status) {
+							if (status == "success") {
+								delCookie("selectAll");
+								showDialog("已经重新提交验证申请，请耐心等待","/account/withcheck");
+								//location.href = location.href;
+							}
+						})
+					}else{
+                        showDialog(lang.a61);
+					}
+				} else {
+                    showDialog(lang.a61);
+                }
+			});
+
+            $(".btn_verify_all").click(function () {
+				/*showDialog(lang.a60);
+                $.post("/account/CheckDomain", function (data, status) {
+                    if (status == "success") {
+						//location.href = location.href;
+						showDialog(lang.a60);
+                    }
+                });*/
+				showDialog(lang.a60);
+				var ckl = getCookie("selectAll");
+                if (ckl != null) {
+                    var resut_arr = ckl.match(/(.+?)\&(.*)/);
+					//alert(resut_arr[2]);return;
+					//console.log(resut_arr);
+					if (resut_arr != null && resut_arr[1] == href && resut_arr[2].replace(/\s/g, "") != "") {
+						$.post("/account/CheckDomain", { "type": "0","resut":resut_arr[2] }, function (data, status) {
+							if (status == "success") {
+								delCookie("selectAll");
+								showDialog("验证完毕","/account/withcheck");
+								//location.href = location.href;
+							}
+						})
+					}else{
+                        showDialog(lang.a61);
+					}
+				} else {
+                    showDialog(lang.a61);
+                }
+				
+            })
+
+            $(".btn_pl_del").click(function () {
+				showDialog('服务器君正在努力删除ing');
+                var ckl = getCookie("selectAll");
+                if (ckl != null) {
+                    var resut_arr = ckl.match(/(.+?)\&(.*)/);
+					//console.log(resut_arr);
+					//alert(resut_arr[2]);return;
+                    if (resut_arr != null && resut_arr[1] == href && resut_arr[2].replace(/\s/g, "") != "") {
+                        if (confirm(lang.a22 + "？")) {
+                            $.post("/account/CheckDomain", { "type": "1","resut" : resut_arr[2] }, function (data, status) {
+                                if (status == "success") {
+                                    delCookie("selectAll");
+									showDialog("删除成功","/account/withcheck");
+                                    //location.href = location.href;
+
+                                }
+                            })
+                        }
+                    }
+                    else
+                        showDialog(lang.a61);
+                } else {
+                    showDialog(lang.a61);
+                }
+            })
+
+        })
+    </script>
+
+</body>
+</html>

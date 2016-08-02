@@ -1,0 +1,203 @@
+<div class="gototop_wrap" style="top: 254.5px; display: block;">
+	<div class="gotoTop" style="display: block;">顶部</div>
+	<div class="phone" id="phone">
+		电话
+		<div style="display: none;">
+			4000-62-60-62<br> 0755-88996262<br> 0755-88896262
+		</div>
+		<span style="display: none;">&nbsp;</span>
+	</div>
+	<div onclick="javascript:window.open('/broker')" class="qqkf">客服</div>
+	<div class="showWechat">
+		微信
+		<div>关注微信</div>
+		<span>&nbsp;</span>
+	</div>
+	<div class="gotoBottom" style="display: block;">底部</div>
+</div>
+<!--背景层 提示框-->
+<div id="pop1_bg"
+	style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 1002; opacity: 0.6; display: none; background: rgb(169, 169, 169);"></div>
+<div class="m-pop1" id="pop_ts">
+	<p class="f-p-t7 u_bb0">
+		<span class="u-fl">提示</span> <span class="u-fr close"
+			onclick="closeDialog()"></span> <span class="u-cls"></span>
+	</p>
+	<p class="z-img-ts s-bg-white u_bb0" id="ts"></p>
+	<p class="s-bg-fa u_pa15 u_tr">
+		<input type="button" value="确定" class="u-btn6 s-bg-2a"
+			onclick="closeDialog()" />
+	</p>
+</div>
+<div class="s-bg-topa">
+	<div class="g-top">
+		<div class="m-top-nav u-fr">
+			<!-- 登录前 -->
+			<ul>
+            	<if condition="$Think.session.XMUserInfo.uid gt 0">
+                	<li><a rel="nofollow" href="/account/index" id="userId">{$Think.session.XMUserInfo.uid}(VIP{$Think.session.XMUserInfo.vip})</a></li>
+					<li><a rel="nofollow" href="/logout">安全退出</a></li>
+                <else />
+                	<li><a href="/login" class="active" id="login">登录</a></li>
+					<li><a rel="nofollow" href="register.html">注册</a></li>
+                </if>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="whois.html" target="_blank">域名工具</a></li>
+				<li><a href="yuminggujia.html">域名估价</a></li>
+				<li><a href="http://www.wrz.com" target="_blank">域名贷款</a></li>
+			</ul>
+		</div>
+		<div class="u-cls"></div>
+	</div>
+	<div class="s-bg-login" id="s-bg-login">
+		<div class="g-login">
+			<div class="m-reg u-fl">
+				<p class="u_mb26 u_ml7" style="font-size: 20px;">注册一个新账户</p>
+				<p class="f-p2 u_ml7">欢迎加入中国优质域名交易平台，您需要免费注册成为会员，才能享受62.com提供的以下服务</p>
+				<a rel="nofollow" href="register.html" class="u-abtn-res s-bg-fb75">免费注册新会员</a>
+			</div>
+			<div class="m-logall u-fl">
+				<a rel="nofollow" href="/QQLogin" target="_blank"
+					class="f-img-qq s-b15">QQ登录</a> <a rel="nofollow" href="/SinaLogin"
+					target="_blank" class="f-img-weibo  s-b15">微博登陆</a>
+			</div>
+			<div class="m-login u-fl">
+				<p class="u_mb36" style="font-size: 20px;">已是会员，请登录！</p>
+				<p class="f-p3 u_mb15">
+					<span class="s-b15 bt1">会员ID或E-mail：</span> <span
+						class="u-ipt-emial"> <input type="text" ph="ID/邮箱/手机"
+						id="email-id" value="2880133429@qq.com" />
+					</span>
+				</p>
+				<p class="f-p3">
+					<span class="s-b15 bt2">请输入您的密码：</span> <span
+						class="u-ipt-password"> <input type="password"
+						placeholder="6-20位密码" value="2880133429" class="password" id="password" />
+					</span>
+				</p>
+				<p class="f-prompt-p1">
+					<span class="s-red u-fl ts_denglu"></span> <a rel="nofollow"
+						href="findpsw-firststep.html" target="_blank" class="s-7c u-fr">忘记密码?</a>
+				</p>
+				<p class="u-cls">
+					<input type="button" class="s-btn-2a u-btn-login" id="deng-lu"
+						value="登录">
+				</p>
+			</div>
+			<div class="g-close u-fr"></div>
+			<div class="u-cls"></div>
+		</div>
+	</div>
+</div>
+<div class="s-bg-white">
+	<div class="g-header">
+		<div class="m-logo u-fl">
+			<a href="/"> <img src="{:C('SKINURL')}images/logo.png"
+				alt="62优名网" />
+				<h1 style="position: absolute; top: -50px">域名交易</h1>
+			</a>
+		</div>
+		<div class="m-search u-fl">
+			<span class="u-ipt-search"> <span class="u-slt-a" ym="a">淘域名</span>
+				<input type="text" ph="请输入域名关键字" value="" class="u-ipt-txta" />
+			</span> <input type="button" value="搜索" class="u-btn-search s-bg-6c" />
+			<div class="f-a-rlt">
+				<p ym="a">淘域名</p>
+				<p ym="b">查whois</p>
+			</div>
+			<div class="f-search-rlt"></div>
+		</div>
+		<div class="m-contact u-fr">
+			<p class="f-p1">4000-6260-62</p>
+			<p class="s-txt-coa u_pl20">7x24小时，全年无休</p>
+		</div>
+		<div class="m-slogan u-fr">
+			<img alt="域名和世界，都近在咫尺" src="{:C('SKINURL')}images/u-txt.png" />
+		</div>
+	</div>
+</div>
+<div class="s-bg-nav u-cls">
+	<div class="g-nav">
+		<ul>
+			<li><a href="/">首页</a></li>
+			<li class="nav_fa"><a href="buy-domains.html">买域名</a>
+				<ul>
+					<li><a href="buy-domains.html">议价域名</a></li>
+					<!-- <li><a href="/fast-bid">极速竞价</a></li> -->
+					<li><a href="yikoujia.html">一口价域名</a></li>
+					<li><a href="top-domains.html">优质域名</a></li>
+				</ul></li>
+			<li><a href="/sell-domains.html">卖域名</a></li>
+            <li><a href="/tao/buynow" class="f-img-new"><span></span>限时抢购</a></li>
+			<!--<li><a href="/top-domains.html">优质域名</a></li>-->
+			<li><a href="/escrow">域名中介</a></li>
+			<li><a href="/procurement">域名代购</a></li>
+			<li><a href="/terminal"><span></span>终端域名</a></li>
+			<li><a href="/piliangjiaoyi.html">批量交易</a></li>
+			<li><a rel="nofollow" href="/account/index.html"
+				class="f-img-account" id="account">我的账户</a></li>
+		</ul>
+	</div>
+	<div class="s-bg-account" id="s-bg-account">
+		<div class="g-account">
+			<div class="g-acc-container s-line1">
+				<h3 class="u_mb17 s-b15 f-img-t1">我是买家</h3>
+				<ul>
+					<li><a href="/account/deals.html">已买到的域名</a></li>
+					<li><a href="/account/negotiation.html">我给出的报价</a></li>
+					<li><a href="/account/partakefast.html">我参与的竞价</a></li>
+					<li><a href="/account/pay.html">我委托的代购</a></li>
+				</ul>
+			</div>
+			<div class="g-acc-container s-line1">
+				<h3 class="u_mb17 s-b15 f-img-t2">我是卖家</h3>
+				<ul>
+					<li><a href="/account/allsell.html">所有域名管理</a></li>
+					<li><a href="/account/adddomains.html">添加域名出售</a></li>
+					<li><a href="/account/sellnegotiation.html">我收到的报价</a></li>
+					<li><a href="/account/aprice.html">一口价管理</a></li>
+					<li><a href="/account/highgrade-selling.html">优质域名管理</a></li>
+					<li><a href="/account/terminal.html">我的终端域名</a></li>
+					<li><a href="/account/pldomain.html">我的批量交易</a></li>
+				</ul>
+			</div>
+			<div class="g-acc-container s-line1">
+				<h3 class="u_mb17 s-b15 f-img-t3">交易管理</h3>
+				<ul>
+					<li><a href="/yumingzhongjie.html">发起中介交易</a></li>
+					<li><a href="/account/deals.html">我的所有交易</a></li>
+				</ul>
+				<br />
+				<h3 class="u_mb17 s-b15 f-img-t6">问题反馈</h3>
+				<ul>
+					<li><a href="/account/submit.html">提交问题</a></li>
+					<li><a href="/account/list.html">我的提问</a></li>
+				</ul>
+			</div>
+			<div class="g-acc-container s-line1">
+				<h3 class="u_mb17 s-b15 f-img-t4">资金管理</h3>
+				<ul>
+					<li><a href="/account/recharge.html">账户充值</a></li>
+					<li><a href="/account/withdrawal.html">提现</a></li>
+					<li><a href="/account/record.html">财务明细</a></li>
+					<li><a href="/account/frozendetail.html">冻结明细</a></li>
+					<li><a href="/account/vouchers.html">代金券</a></li>
+					<li><a href="/account/offline.html">下线推广</a></li>
+					<li><a href="/account/resell.html">域名分销</a></li>
+				</ul>
+			</div>
+			<div class="g-acc-container">
+				<h3 class="u_mb17 s-b15 f-img-t5">账户管理</h3>
+				<ul>
+					<li><a href="/account/bind.html">账号安全</a></li>
+					<li><a href="/account/whoisemail.html">Whois邮箱</a></li>
+					<li><a href="/account/updateprofile.html">修改资料</a></li>
+					<li><a href="/account/updatepwd.html">修改密码</a></li>
+					<li><a href="/account/thirdparty.html">第三方绑定</a></li>
+				</ul>
+			</div>
+			<div class="g-close u-fr u_mt_8"></div>
+			<div class="u-cls"></div>
+		</div>
+	</div>
+</div>

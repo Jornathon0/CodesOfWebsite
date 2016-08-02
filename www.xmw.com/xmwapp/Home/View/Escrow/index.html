@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>域名中介 - 中介的好处 - 62.com优名网</title>
+    <meta name="keywords" content="域名中介,域名代购,域名经纪,域名交易" />
+    <meta name="description" content="62优名网有专业的域名经纪人，我们的域名中介已经有大量成功案例，完成多单精品域名交易，包括两数字、两字母COM，单数字CN等域名交易" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/sell-domain.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li>域名中介</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="g-a-container">
+            <div class="m-ta s-bg-white u_be9">
+                <div class="title">
+                    <a class="s-3c" href="javascript:void(0)">
+                        <span class="z-img-t12"></span>
+                        <span>域名中介</span>
+                    </a>
+                </div>
+                <div class="u-cls"></div>
+            </div>
+            <div class="m-insa s-bg-fc u_be89">
+                <ul>
+                    <li><span class="u_fw">1.</span>买家向优名网（62.com）支付域名全款后，卖家才开始域名过户。</li>
+<li><span class="u_fw">2.</span>买家拿到域名且完成交易后，优名网（62.com）方解冻款项释放给卖家。</li>
+<li><span class="u_fw">3.</span>手续费按照支付方会员等级收取，交易未达成不收取手续费。</li>
+                </ul>
+            </div>
+            <div class="m-insb s-bg-fc u_be89" id="animateb">
+                <span class="f-img-dg7">发起交易</span>
+                <span class="f-img-dg6"></span>
+                <span class="f-img-dg8">同意条款</span>
+                <span class="f-img-dg6"></span>
+                <span class="f-img-dg9">买家付款</span>
+                <span class="f-img-dg6"></span>
+                <span class="f-img-dg10">过户域名</span>
+                <span class="f-img-dg6"></span>
+                <span class="f-img-dg11">买家确认</span>
+            </div>
+            <div class="m-transa s-bg-fc u_be89">
+                <p class="f-p-t6 s-bg-white u_bb0 s-3c">发起中介交易</p>
+                <form method="post" action="/escrowoperation" id="form">
+                    <div class="transb">
+                        <div class="u_bb0 u_pl110">
+                            <div class="t-left">交易域名：</div>
+                            <div class="t-right">
+                                <div class="t-pri" id="t-pri">
+                                    <p>
+                                        <span class="u-ipt-d u_mr60">
+                                            <input type="text" class="domainName" name="domainName[]" maxlength="50" /></span>
+                                        <span class="pri-txt">价格：</span>
+                                        <span class="u-ipt-d">
+                                            <input type="text" name="money[]" class="money" /></span>
+                                    </p>
+                                </div>
+                                <div class="t-tol">
+                                    <div class="u-btn4 s-2a" id="addDomain">添加多个域名</div>
+                                    <div class="u-txm s-f1">合计：</div>
+                                    <div class="u-fl">
+                                        <p class="u_mb10">
+                                            <span class="u-txn">域名费用：</span>
+                                            <span class="u_fw s-75b money_total">￥0</span>
+                                        </p>
+                                        <p class="u_mb10">
+                                            <span class="u-txn">平台手续费：</span>
+                                            <span class="u_fw s-75b money_sxf" sxf="{$sxf|default=5}">￥0</span>
+                                        </p>
+                                        <p>
+                                            <span class="u-txn money_result_m"></span>
+                                            <span class="u_fw s-75b money_result"></span>
+                                        </p>
+                                    </div>
+                                    <div class="u-cls"></div>
+                                </div>
+                            </div>
+                            <div class="u-cls"></div>
+                        </div>
+                        <div class="t-roles">
+                            <p class="u_mb10">
+                                <span class="u-txo">对方的会员ID：</span>
+                                <span class="u-ipt-d">
+                                    <input type="text" class="user" maxlength="10" name="user" />
+                                </span>
+                                <span style="color:#ff6d00; margin-left:5px;display:none" class="user_tips" >请输入正确的会员ID</span>
+                            </p>
+                            <p>
+                                <span class="u-txo">您的角色：</span>
+                                <label>
+                                    <input type="radio" name="dprice" value="buy" class="u-rd1" />
+                                    <span class="u-txp">买家</span>
+                                </label>
+                                <label class="u_ml85">
+                                    <input type="radio" name="dprice" value="sell" class="u-rd1" />
+                                    <span class="u-txp">卖家</span>
+                                </label>
+                            </p>
+                            <p>
+                                <span class="u-txo">由谁承担中介费：</span>
+                                <label>
+                                    <input type="radio" name="roledprice" value="one" class="u-rd1" />
+                                    <span class="u-txp">买家</span>
+                                </label>
+                                <label class="u_ml85">
+                                    <input type="radio" name="roledprice" value="two" class="u-rd1" />
+                                    <span class="u-txp">卖家</span>
+                                </label>
+                                <label class="u_ml85">
+                                    <input type="radio" name="roledprice" value="three" class="u-rd1" />
+                                    <span class="u-txp">买卖双方各付50%</span>
+                                </label>
+                            </p>
+                            <p>
+                                <br />
+                                <input type="checkbox" style="margin-left:138px;vertical-align: middle; cursor:pointer;" id="agree" /> <span style="vertical-align: middle;">我已阅读并同意<a href="/regulation?v=deal" target="_blank" title="阅读" style="color:#0086cf;">《优名网域名交易服务协议》</a></span>                             
+                                <input type="submit" style="margin-top:20px;" value="提交申请" class="u-btn3 s-bg-2a escrow_sub" />
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+<div class="g-b-container">
+    <div class="m-bb-container">
+        <div class="m-bb-title s-bg-fb">
+            <a href="javascript:void(0);" class="u-tia s-3c">域名中介案例</a>
+        </div>
+        <div class="m-apply-dg m-apply-dga">
+            <div class="m-apply-title">
+                <span class="u-fl">域名</span>
+                <span class="u-fr">价格</span>
+                <div class="u-cls"></div>
+            </div>
+            <div class="m-animate3" id="animate3">
+                <div class="animate3 box">
+                    <ul class="list">
+                            <li>
+                                <div class="spanl"><a href="http://biao.com" target="_blank" rel="nofollow">biao.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://ww.com" target="_blank" rel="nofollow">ww.com</a></div>
+                                <div class="spanr">1000万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://345.com" target="_blank" rel="nofollow">345.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://33.com" target="_blank" rel="nofollow">33.com</a></div>
+                                <div class="spanr">1000万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://71.com" target="_blank" rel="nofollow">71.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://64.com" target="_blank" rel="nofollow">64.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://68.com" target="_blank" rel="nofollow">68.com</a></div>
+                                <div class="spanr">1000万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://30.com" target="_blank" rel="nofollow">30.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://63.com" target="_blank" rel="nofollow">63.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://73.com" target="_blank" rel="nofollow">73.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://80.com" target="_blank" rel="nofollow">80.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://32.com" target="_blank" rel="nofollow">32.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://81.com" target="_blank" rel="nofollow">81.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://06.com" target="_blank" rel="nofollow">06.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://08.com" target="_blank" rel="nofollow">08.com</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://0.cn" target="_blank" rel="nofollow">0.cn</a></div>
+                                <div class="spanr">500万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://6wan.com" target="_blank" rel="nofollow">6wan.com</a></div>
+                                <div class="spanr">50万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://yingshi.com" target="_blank" rel="nofollow">yingshi.com</a></div>
+                                <div class="spanr">200万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://99.cn" target="_blank" rel="nofollow">99.cn</a></div>
+                                <div class="spanr">200万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                            <li>
+                                <div class="spanl"><a href="http://21.cn" target="_blank" rel="nofollow">21.cn</a></div>
+                                <div class="spanr">100万以上</div>
+                                <div class="u-cls"></div>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="u-cls"></div>
+    </div>
+</div>
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/escrow.js?v=20150514"></script>
+	<script type="text/javascript" src="{:C('SKINURL')}js/jquery.cxscroll.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/popupBox.js"></script>
+<script type="text/javascript">
+    $("#animate3").cxScroll({ direction: "bottom", step: 2, speed: 800, time: 2000 });
+</script>
+
+</body>
+</html>

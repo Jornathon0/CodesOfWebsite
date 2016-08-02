@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 添加出售域名</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<p>开发进度说明：还未开发</p>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>添加批量交易</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>添加域名出售</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+                <form method="post" action="/account/AddDomainCheck" enctype="multipart/form-data">
+                <div class="m-addDomains u_be9 s-bg-fc">
+                    <p class="f-p26">请输入您的域名或者选择上传Txt或Excel文件。<a href="/mibiao.rar" class="download-demo-btn" target="_blank">点击下载模板</a></p>
+                    <p class="f-p-t9">域名列表：</p>
+                    <p class="f-p27" style="border: 1px solid rgb(235, 235, 235);">
+                        <textarea class="txta_v" ph="域名必填，价格和简介选填，一行一个。例如。
+62.com  8000  优名网
+62.cn  9000
+62.com.cn
+62.net  域名注册" name="domain" style="color: rgb(216, 216, 216);"></textarea>
+                    </p>
+                    <p class="f-p-t10">
+                        <span class="u_fw u-span11">上传Txt或Excel文件：</span>
+                        <input type="file" class="file" name="fileField">
+                    </p>
+                        <p class="f-p-t10" style="margin-top: 10px;">
+                            <span class="u_fw u-span11">标题：</span>
+                            <span class="u-ipt-d">
+                                <input type="text" class="user check-ipt" check-info="标题" name="title">
+                            </span>
+                        </p>
+                        <p class="f-p-t10" style="margin-top: 10px;">
+                            <span class="u_fw u-span11">总价格：</span>
+                            <span class="u-ipt-d">
+                                <input type="text" class="user check-ipt money" check-info="总价格" name="allprice">
+                            </span>
+                        </p> 
+                        <p class="f-p-t10" style="margin-top: 10px; height: auto;">
+                            <span class="u_fw u-span11">含义：</span>
+                            <textarea class="nofocus tarea-x" name="intro" id="" cols="30" rows="10"></textarea>
+                        </p>   
+                        <div class="m-addoper">
+                            <div class="u-fl addoper-l">
+                            </div>
+                            <div class="u-fl addoper-r">
+                                <p class="u_mtb30">
+                                    <input type="hidden" name="pl" id="pl" value="1">
+                                    <input type="submit" id="sbt-pltj" value="提交" class="u-btn9 btn_tj">
+                                </p>
+                            </div>
+                            <div class="u-cls"></div>
+                        </div>
+                </div>
+            </form>
+        </div>
+        <!-- 右边 -->
+        
+		<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/account.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            
+            $(".btn_tj").click(function () {
+                var f = $(".file").val();
+                var ph = $(".txta_v").attr("ph");
+                if (ph)
+                    ph = ph.replace(/\r/g, "");
+                var d = $(".txta_v").val().replace(/\r/g, "") == ph ? "" : $(".txta_v").val();
+                if (f && !/.*\.txt$|.*\.xls|.*\.xlsx$/i.test(f)) {
+                    showDialog(lang.a45);
+                    return false;
+                }
+                if (!f && d == "") {
+                    showDialog(lang.a46);
+                    return false;
+                }
+            })
+            $('#sbt-pltj').click(function (e) {
+                return $('.check-ipt').each(function () {
+                    var _iptText, _ref;
+                    if ($.trim($(this).val()) === '') {
+                        e.preventDefault();
+                        _iptText = (_ref = $(this).attr('check-info')) != null ? _ref : '';
+                        showDialog(_iptText + '不能为空');
+                        return false;
+                    }
+                });
+            });
+        })
+
+    </script>
+
+</body>
+</html>

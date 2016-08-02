@@ -1,0 +1,7 @@
+<!--我的所有域名导航-->
+<div class="u-fl"><a href="/account/allsell" <if condition="$checktype eq 0"> class=active</if>>所有</a></div>
+<div class="u-fl"><a href="/account/allsell/sellnegotiation" <if condition="$checktype eq 1"> class=active</if>>议价</a></div>
+<div class="u-fl"><a href="/account/allsell/buynow" <if condition="$checktype eq 4"> class=active</if>>限时抢购</a></div>
+<!--<div class="u-fl"><a href="/account/allsell/hotsell" <if condition="$checktype eq 2"> class=active</if>>一口价</a></div>-->
+<!--<div class="u-fl"><a href="/account/allsell/bargain" <if condition="$checktype eq 3"> class=active</if>>优质</a></div>-->
+<input id="checktype" type="hidden" value="{$checktype}" />

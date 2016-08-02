@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>交易管理 - 我的所有交易</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/jquery-ui.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>交易管理&nbsp;&gt;&nbsp;</li>
+                <li>我的所有交易</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>我的所有交易</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+            <div class="m-acc-select u_be9 s-bg-white">
+                <!-- 标题 -->
+                <div class="m-acc-title s-bg-fc">
+                    <div class="u-fl"><a href="/account/deals" <if condition="$act eq ''">class="active"</if>>所有</a></div>
+                    <div class="u-fl"><a href="/account/deals/dealing" <if condition="$act eq 'dealing'">class="active"</if>>进行中</a></div>
+                    <div class="u-fl"><a href="/account/deals/complete" <if condition="$act eq 'complete'">class="active"</if>>已完成</a></div>
+                    <div class="u-fl"><a href="/account/deals/cancel" <if condition="$act eq 'cancel'">class="active"</if>>已取消</a></div>
+                    <if condition="$act eq 'dealing'">
+                    <input type="hidden" id="checktype" value="1" />
+                    <elseif condition="$act eq 'complete'"/>
+                    <input type="hidden" id="checktype" value="2" />
+                    <elseif condition="$act eq 'cancel'"/>
+                    <input type="hidden" id="checktype" value="3" />
+                    <else />
+                    <input type="hidden" id="checktype" value="0" />
+                    </if>
+                    
+                    <div class="u-cls"></div>
+                </div>
+                <!-- 搜索 -->
+                <div class="m-acc-search">
+                    <span class="u-ipt-i u_fl">
+                        <input type="text" class="i1 i_domain" ph="请输入要查询的域名" />
+                        <span class="f-imgt1">起止时间</span>
+                        <input type="text" class="i2" id="startTime" />
+                        <span class="f-imgt2">至</span>
+                        <input type="text" class="i3" id="endTime" />
+
+                    </span>
+                    <input type="button" value="搜索" class="u-btn8" id="my_parse_serch" />
+                </div>
+                <!-- 内容 -->
+                <div class="m-acc-cons s-bg-fc u_mall1" id="myalldeals">
+                    <table>
+                        <tr>
+                            <th width="16px"></th>
+                            <th width="150px" class="u_tl"><span order="title">域名</span></th>
+                            <th width="120px" class="u_tr"><span order="buymoney">金额</span></th>
+                            <th width="36px"></th>
+                            <th width="100px" class="u_tl"><span order="_type">来源</span></th>
+                            <th width="90px" class="u_tl"><span order="behavior">行为</span></th>
+                            <th width="180px" class="u_tl"><span order="_state" class="f-img-up">状态</span></th>
+                            <th width="64px">操作</th>
+          <th width="8px"></th>
+                        </tr>
+                    </table>
+                </div>
+                <!-- 分页 -->
+                <div id="paging" class="g-padding g-padding1"></div>
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+		<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/account.js"></script>
+    <script src="{:C('SKINURL')}js/jquery-ui-datepicker.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var type = $("#checktype").val();
+
+            $("#startTime").datepicker({
+                maxDate: new Date(), prevText: lang.a1, nextText: lang.a2, onSelect: function (dateText, obj) {
+                    $("#endTime").datepicker("option", "minDate", dateText);
+                }
+            });
+            $("#endTime").datepicker({
+                maxDate: new Date(), prevText: lang.a1, nextText: lang.a2, onSelect: function (dateText, obj) {
+                    $("#startTime").datepicker("option", "maxDate", dateText);
+                }
+            });
+            getDataList_deals(1, type);
+
+            var arrs_span = $(".m-acc-cons th span");
+            $(arrs_span).click(function () {
+                var this_class = $(this).attr("class");
+                if (this_class == undefined) {
+                    $(arrs_span).removeAttr("class");
+                    $(this).addClass("f-img-down");
+                } else {
+                    $(this).hasClass("f-img-down") ? $(this).removeClass("f-img-down").addClass("f-img-up") : $(this).removeClass("f-img-up").addClass("f-img-down");
+                }
+                getDataList_deals(1, type);
+            });
+
+            $("#my_parse_serch").click(function () {
+                getDataList_deals(1, type);
+            })
+
+            $("#paging a").live("click", function () {
+                if (!$(this).attr("k"))
+                    return;
+                var pageindex = $(this).attr("k");
+                getDataList_deals(pageindex, type);
+            });
+        })
+    </script>
+
+</body>
+</html>

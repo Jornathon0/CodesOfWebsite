@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 添加结果</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1000">
+
+    <meta property="qc:admins" content="1376071777766263757" />
+
+    <link rel="icon" href="{:C('SKINURL')}/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}/images/favicon.ico" type="image/x-icon" />
+    <link type="text/css" href="{:C('SKINURL')}/css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}/css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}/css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li>域名添加结果</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl" style="width: 704px">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>域名添加结果</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <if condition="$list['count']['fail'] gt 0">
+            <!-- 提交失败的域名 -->
+                <div class="m-account-data1 u_be9 s-bg-fc u_hi408">
+                    <h4 class="s-bg-white">
+                        <div class="u-fl">
+                            <a class="s-3c m-ta2">
+                                <span class="sp1">{$tiptext}失败的域名</span>
+                                <span class="sp2"><b></b>{$list['count']['fail']}</span>
+                            </a>
+                        </div>
+                        <div class="u-fr">
+                            <input type="button" onclick="javascript: location.href = '/account/adddomains    ';" value="重新提交" class="u-btn10" />
+                        </div>
+                        <div class="u-cls"></div>
+                    </h4>
+                    
+                    <table>
+                        <tr>
+                            <th width="16px"></th>
+                            <th width="240px" class="u_tl">域名</th>
+                            <th width="120px" class="u_tr">价格</th>
+                            <th width="160px"></th>
+                            <th width="150px" class="u_tl">失败原因</th>
+                            <th width="16px"></th>
+                        </tr>
+                        	<volist name="list['fail']" id="vo">
+                            <tr>
+                                <td class="u_nb"></td>
+                                <td class="u_nb"><a class="u-txa3">{$vo.domain}</a></td>
+                                <td class="u_nb u_tr s-75b">{$vo.price|default="-"}</td>
+                                <td class="u_nb "></td>
+                                <td class="u_nb"><span class="u-span12">{$vo.tip}</span></td>
+                                <td class="u_nb"></td>
+                            </tr>
+                            </volist>
+                    </table>
+                </div>
+                <if condition="$list['count']['fail'] gt 5"><div class="m-showorhide">加载全部</div></if>
+            </if>
+            <if condition="$list['count']['suc']  gt 0">
+            <!-- 提交成功的域名 -->
+                <div class="m-account-data1 u_be9 s-bg-fc u_hi408">
+                    <h4 class="s-bg-white">
+                        <a class="s-3c m-ta2">
+                            <span class="sp1">{$tiptext}成功的域名</span>
+                            <span class="sp2"><b></b>{$list['count']['suc']}</span>
+                        </a>
+                        <div class="u-cls"></div>
+                    </h4>
+                    <table>
+                        <tr>
+                            <th width="16px"></th>
+                            <th width="550px" class="u_tl">域名</th>
+                            <th width="120px" class="u_tr">价格</th>
+                            <th width="16px"></th>
+                        </tr>
+                        	<volist name="list['suc']" id="vo">
+                            <tr>
+                                <td class="u_nb"></td>
+                                <td class="u_tl u_nb"><a class="u-txa2">{$vo.domain}</a></td>
+                                <td class="u_tr u_nb s-75b">￥{$vo.price}</td>
+                                <td class="u_nb"></td>
+                            </tr>
+                            </volist>
+                            
+                    </table>
+                </div>
+                <if condition="$list['count']['suc'] gt 5"><div class="m-showorhide">加载全部</div></if>
+             </if>
+        </div>
+        <!-- 右边 -->
+        
+<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/logic/account.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".m-showorhide").click(function () {
+                $(this).prev().removeClass("u_hi408");
+                $(this).css("display", "none");
+            });
+            $.post("/account/CheckDomain");
+        })
+    </script>
+
+</body>
+</html>

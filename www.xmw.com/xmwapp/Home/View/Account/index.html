@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的账户</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}cimages/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css" rel="stylesheet" />    
+    <link type="text/css" href="{:C('SKINURL')}css/account.css" rel="stylesheet"/>
+    <link type="text/css" href="{:C('SKINURL')}css/sell-domain.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+<input type='hidden' class='hideipt' value='1623175834' />
+<input type="hidden" class="hideipt" />
+<div class="s-bg-f7">
+		<div class="g-position">
+			<div class="m-position u-fl">
+				<ol>
+	                <li>当前位置：&nbsp;</li>
+	                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+	                <li>注册</li>
+            	</ol>
+			</div>
+			<include file="Public:page_time" />
+
+			<div class="u-cls"></div>
+		</div>
+	</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white u_bb0">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span class="z-img-t19"></span>
+                            <span>我的账户</span>
+                        </a>
+                    </div>
+                    <div class="lastTime">
+                        <span>上次登录时间：</span><span>{$userinfo.lasttime|date="Y-m-d H:i:s",###}</span>
+                    </div>
+                    <div class="lastIp">
+                        <a href="Login-log.html">
+                            <span>上次登录IP：</span><span class="s1" title="{$userinfo.lastip}({$userinfo.local})">{$userinfo.lastip}({$userinfo.local})</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+                <div class="s-bg-fc m-validation">
+                    <p><a class="s-def" href="/account/whoisemail"><b></b>您有&nbsp;<span class="u_fw s-2a">1 个邮箱</span>&nbsp;需要验证</a></p>
+                </div>
+            </div>
+            <!-- 个人信息 -->
+            <div class="m-personinfo s-bg-fc u_be9">
+                <div class="personinfo-l">
+                    <p class="s-3c f-p24">您好，<span id="name">{$userinfo.uname}</span>，欢迎回来！</p>
+                    <p class="u_mb15">
+                        <span class="u-span3">会员ID：</span>
+                        <span class="u-span5">{$userinfo.uid}</span>
+                    </p>
+                    <p class="u_mb15">
+                        <span class="u-span3">会员邮箱：</span>
+                        <span class="u-span5">{$userinfo.email}</span>
+                    </p>
+                    <div style="position: relative;">
+                        <span class="u-span3">会员等级：</span>
+                        <span class="u-span5" style="overflow:inherit;"><div class="moneylink" style="display:inline;">
+    <span class="link u_2a">VIP{$userinfo.vip}手续费 ({$userinfo.sxf}%)</span>
+    <dl class="box">
+        <dt><span>等级</span><span>手续费</span></dt>
+            <dd><span>VIP1</span><span>5</span></dd>            <dd class="even"><span>VIP2</span><span>4</span></dd>            <dd><span>VIP3</span><span>3.5</span></dd>            <dd class="even"><span>VIP4</span><span>3</span></dd>            <dd><span>VIP5</span><span>2.5</span></dd>    </dl>
+</div>
+</span>
+                    </div>
+                </div>
+                <div class="personinfo-r">
+                    <p class="f-p25">
+                    		<if condition="$userinfo['emailbind'] eq 1">
+                            <a href="/account/bind/email" class="bind-email s-2a" title="邮箱">已绑定</a>
+                            <else />
+                            <a href="/account/bind/email" class="unbind-email s-ab" title="邮箱">未绑定</a>
+                            </if>
+                            <if condition="$userinfo['mobilebind'] eq 1">
+                            <a href="/account/bind" class="bind-phone s-2a" title="手机">已绑定</a>
+                            <else />
+                            <a href="/account/bind" class="unbind-phone s-ab" title="手机">未绑定</a>
+                            </if>
+                    </p>
+                    <p class="u_mb15">
+                        <span class="u-span4">一口价服务：</span>
+                        <a href='kt-ykj.html' k="2" class='ubind-kt s-def'><b></b>现在去开通</a>
+
+                    </p>
+                    <p class="u_mb15">
+                        <span class="u-span4">优质服务：</span>
+                        <a href='kt-yz.html' k="3" class='ubind-kt s-def'><b></b>现在去开通</a>
+                    </p>
+                    <p>
+                        <span class="u-span4 user_lv" style="cursor: pointer;">会员积分：</span>
+                        <a class="s-def integral">0</a>
+                    </p>
+                </div>
+                <div class="u-cls"></div>
+            </div>
+            <div class="m-account-data u_be9 s-bg-fc">
+                <table>
+                    <tr>
+                        <th width="16px"></th>
+                        <th width="90px" class="u_tl">货币单位</th>
+                        <th width="150px" class="u_tr">账户余额</th>
+                        <th width="150px" class="u_tr">冻结资金</th>
+                        <th width="150px" class="u_tr">可用余额</th>
+                        <th width="" class="u_tr">代金券</th>
+                        <th width="16px"></th>
+                    </tr>
+                        <tr>
+                            <td></td>
+                            <td>人民币</td>
+                            <td class="u_tr"><a href="/account/record/all">￥0</a> </td>
+                            <td class="u_tr"><a href="/account/frozendetail">￥0</a></td>
+                            <td class="u_tr"><a href="/account/record">￥0</a></td>
+                            <td class="u_tr"><a href="/account/vouchers" id="vouchers">￥0</a></td>
+                            <td></td>
+                        </tr>
+                </table>
+                <div class="m-online-money">
+                    <a href="/account/recharge" class="u-abtn7 s-bg-2a">在线充值</a>
+                    <a href="/account/withdrawal" class="u-abtn7 s-bg-2a">申请提现</a>
+                </div>
+            </div>
+            <div class="m-account-data1 u_be9 s-bg-fc">
+                <h4 class="s-bg-white">
+                    <a class="s-3c m-ta2" href="/account/deals/dealing">
+                        <span class="sp1">未完成的交易</span>
+                    </a>
+                    <a class="s-ae1 more" href="/account/deals/dealing">更多&gt;&gt;</a>
+                    <div class="u-cls"></div>
+                </h4>
+                <table>
+                    <tr>
+                        <th width="16px"></th>
+                        <th width="200px" class="u_tl">交易时间</th>
+                        <th width="96px" class="u_tl">行为</th>
+                        <th width="145px" class="u_tl">交易标题</th>
+                        <th width="120px" class="u_tr">金额</th>
+                        <th width="58px;"></th>
+                        <th width="56px">操作</th>
+                        <th width="16px"></th>
+                    </tr>
+                    <empty name="dealing">
+                    <td class='u_nb u_tc u_norecord' colspan='8'>暂无记录</td>
+                    <else />
+                    <volist name="dealing" id="vo">
+                    <tr>
+                        <td></td>
+                        <td>{$vo.updatetime|date="Y-m-d H:i:s",###}</td>
+                        <td class="u_tl"><if condition="$vo.act eq 'buy'">买入<else />卖出</if></td>
+                        <td class="u_tl">
+                            <span class="u-span6">{$vo.tit}</span>
+                            <span class="u-span7 s-c2">
+                            <if condition="$vo.color eq 1">
+                            <font style="color:#ff6f02">{$vo.tip}</font>
+                            <else />
+                            {$vo.tip}
+                            </if>
+                            </span>
+                        </td>
+                        <td class="u_tr">￥{$vo.price}</td>
+                        <td></td>
+                        <td>
+                            <a class="u-abtn8" href="/account/dealdetail/{$vo.intime|date="YmdHis",###}{$vo.fromid}" target="_blank">详情</a>
+                        </td>
+                        <td></td>
+                    </tr>
+                    </volist>
+                    </empty> 
+                    
+                </table>
+            </div>
+            <div class="m-account-data1 u_be9 s-bg-fc">
+                <h4 class="s-bg-white">
+                    <a class="s-3c m-ta2" href="/account/negotiation">
+                        <span class="sp1">我的出价</span>
+                    </a>
+                    <a class="s-ae1 more" href="/account/negotiation">更多&gt;&gt;</a>
+                    <div class="u-cls"></div>
+                </h4>
+                <table>
+                    <tr>
+                        <th width="16px"></th>
+                        <th width="160px" class="u_tl">域名</th>
+                        <th width="140px" class="u_tl">当前状态</th>
+                        <th width="120px" class="u_tr">最新报价</th>
+                        <th width="170px" class="u_tr">最后报价时间</th>
+                        <th width="28px"></th>
+                        <th width="56px">操作</th>
+                        <th width="16px"></th>
+                    </tr>
+
+                    <td class='u_nb u_tc u_norecord' colspan='8'>暂无记录</td>
+
+                </table>
+            </div>
+
+            <div class="m-account-data1 u_be9 s-bg-fc">
+                <h4 class="s-bg-white">
+                    <a class="s-3c m-ta2" href="/account/sellnegotiation">
+                        <span class="sp1">收到的报价</span>
+                    </a>
+                    <a class="s-ae1 more" href="/account/sellnegotiation">更多&gt;&gt;</a>
+                    <div class="u-cls"></div>
+                </h4>
+                <table>
+                    <tr>
+                        <th width="16px"></th>
+                        <th width="160px" class="u_tl">域名</th>
+                        <th width="140px" class="u_tl">当前状态</th>
+                        <th width="120px" class="u_tr">最近报价</th>
+                        <th width="170px" class="u_tr">最后报价时间</th>
+                        <th width="28px"></th>
+                        <th width="56px">操作</th>
+                        <th width="16px"></th>
+                    </tr>
+
+                    <td class='u_nb u_tc u_norecord' colspan='8'>暂无记录</td>
+
+                </table>
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+		<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+<script type="text/javascript" src="{:C('SKINURL')}js/popupBox.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/account.js?v=20150519"></script>
+<script type="text/javascript">
+	$(".integral,.user_lv").click(function () {
+		showBox("pop10");
+		$("#pop10").css("left", "29%");
+	});
+	$(".close").click(function () {
+		closeBox("pop10");
+	});
+	// $.post("/account/vouchersSumInf", function (data, status) {
+	//     if (status == "success") {
+	//         $("#vouchers").html(formatMoney(data, 0, "￥"));
+	//     }
+	// })
+	//悬浮
+	$(".moneylink").hover(function () {
+		$(this).find(".box").stop().fadeIn("fast");
+	}, function () {
+		$(this).find(".box").stop().fadeOut("fast");
+	});
+</script>
+</body>
+</html>

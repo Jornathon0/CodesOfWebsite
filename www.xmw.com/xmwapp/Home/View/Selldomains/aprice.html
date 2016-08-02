@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 我的一口价</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<p>开发进度说明：还未开发</p>
+<body class="s-bg-global">
+<include file="Public:header" />
+    
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>我的一口价域名</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>我的一口价</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+            <div class="m-acc-select u_be9 s-bg-white">
+                <!-- 标题 -->
+                <div class="m-acc-title s-bg-fc">
+
+                    <div class="u-fl"><a href="/account/aprice" class=active>出售中</a></div>
+                    <div class="u-fl"><a href="/account/aprice/down" >已下架</a></div>
+                    <div class="u-fl"><a href="/account/aprice/sold" >已出售</a></div>
+                    <input type="hidden" value="0" id="checktype" />
+                    <div class="u-cls"></div>
+                </div>
+                <!-- 搜索 
+                <div class="m-btn-contrainer">
+                    <a href="/account/allsell/sellnegotiation?3" class="u-abtn9 s-bg-55b">提交一口价</a>
+                </div>-->
+                <!-- 内容 -->
+                        <div style="text-align:right; margin:7px 12px -10px 0;"><a href="/account/aprice/add" style="display:inline-block;color:#fff;" class="u-btn10">提交一口价</a></div>
+                        <div class="m-acc-cons s-bg-fc u_mall1">
+                            <table>
+                                <tr>
+                                    <th width="16px"></th>
+                                    <th width="22px"></th>
+                                    <th width="110px" class="u_tl">域名</th>
+                                    <th width="120px" class="u_tr">价格</th>
+                                    <th width="25px"></th>
+                                    <th width="127px" class="u_tl">简介</th>
+                                    <th width="25px"></th>
+                                    <th width="95px" class="u_tl">到期时间</th>
+                                    <th width="120px;" class="u_tr">操作</th>
+                                    <th width="16px"></th>
+                                </tr>
+                                <tr><td colspan="10" class="u_nb u_tc u_norecord">暂无记录！</td></tr>
+                            </table>
+                        </div>   
+                <!-- 分页 -->
+                <div id="paging" class="g-padding g-padding1">
+                </div>
+                    <div class="m-operation4">
+                        <div class="u-fl operation4-l">
+                            <label>
+                                <input type="checkbox" class="curPage" />
+                                <span>选中当前页</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" class="allPage" />
+                                <span>选中所有</span>
+                            </label>
+                        </div>
+                        <div class="u-fl operation3-r">
+                            <span>操作已选域名：</span>
+                            <input type="button" value="批量下架" class="u-btn10 btn_pl" v="sold" k="/account/pl_operation?type=6" />
+                            <input type="button" value="批量设置" class="u-btn10 btn_pl" k="/account/pl_set/ykjset" />
+                        </div>
+                        <div class="u-cls"></div>
+                    </div>   
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+<include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/account.js?v20150610"></script>
+    <script type="text/javascript">
+        $(function () {
+            var type = $("#checktype").val();
+            if (type == "5")
+                getDataList_all(1, type);
+            else
+                getDataList_aprice(1, type);
+
+            $("#paging a").live("click", function () {
+                if (!$(this).attr("k"))
+                    return;
+                var pageindex = $(this).attr("k");
+                if (type == "5")
+                    getDataList_all(pageindex, type);
+                else
+                    getDataList_aprice(pageindex, type);
+            });
+
+            $(".sold_out").live("click", function () {
+                if (confirm(lang.a49 + "[" + $(this).parent().parent().children().eq(2).text() + "]？")) {
+                    $.post("/account/apriceOperation", { "id": $(this).parent().parent().find("input").attr("value") }, function (data, status) {
+                        if (data.data == 1)
+                            location.href = location.href;
+                        else
+                            showDialog(lang.a23);
+                    })
+                }
+            })
+
+            
+            $(document.body).click(function () {
+                $(".m-group-result,.m-prise-result").css("display", "none");
+                $("#group,#prise").css("background-color", "#fcfcfc");
+            });
+        })
+    </script>
+
+</body>
+</html>

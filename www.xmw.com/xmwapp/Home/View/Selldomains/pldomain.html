@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我是卖家 - 我的批量交易</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}images/favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <link type="text/css" href="{:C('SKINURL')}css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<p>开发进度说明：还未开发</p>
+<include file="Public:header" />
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>我是卖家&nbsp;&gt;&nbsp;</li>
+                <li>批量交易</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>批量交易</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <!-- 选项卡 -->
+            <div class="m-acc-select u_be9 s-bg-white">
+                <!-- 标题 -->
+                <div class="m-acc-title s-bg-fc">
+                    <div class="u-fl"><a href="/account/pldomain" class=active>全部</a></div>
+                    <div class="u-fl"><a href="/account/pldomain/check" >待验证</a></div>
+                    <div class="u-fl"><a href="/account/pldomain/with" >待展示</a></div>
+                    <div class="u-fl"><a href="/account/pldomain/sell" >出售中</a></div>
+                    <div class="u-fl"><a href="/account/pldomain/sold" >已出售</a></div>
+                    <input type="hidden" value="-1" id="checktype" />
+                    <div class="u-cls"></div>
+                </div>
+                <!-- 内容 -->
+                <div class="m-acc-cons s-bg-fc u_mall1">
+                    <table>
+                        <tr>
+                            <th width="16px"></th>
+                            <th width="22px"></th>
+                            <th width="110px" class="u_tl">标题</th>
+                            <th width="120px" class="u_tr">价格</th>
+                            <th width="25px"></th>
+                            <th width="127px" class="u_tl">域名个数</th>
+                            <th width="25px"></th>
+                            <th width="95px" class="u_tl">提交时间</th>
+                                <th width="120px;" class="u_tr">状态</th>   
+                            <th width="16px"></th>
+                        </tr>
+                        <!--<tr><td colspan="10" class="u_nb u_tc u_norecord">暂无记录！</td></tr>-->
+                        <tr><td></td><td class="u_tl"><input type="hidden" value="217"></td><td class="u_tl"><a class="u-txa1" title="asdasdasddd" href="/account/pldomaindetail/217">asdasdasddd</a></td><td class="u_tr s-75b">￥12,312,333</td><td></td><td class="u_tl"><span class="u-span13" title="2">2</span></td><td></td><td class="u_tl">2016-03-03</td><td class="u_tr">未验证</td><td></td></tr>
+                    </table>
+                </div>
+                <!-- 分页 -->
+                <div id="paging" class="g-padding g-padding1">
+                </div>
+            </div>
+        </div>
+        <!-- 右边 -->
+        
+<div class="u-fr">
+        <include file="Account:sidenav" />
+</div>
+<!-- 优先加载menu js-->
+<script src="/js/plugs/jquery-1.8.2.min.js"></script>
+<script>
+    var href = location.href.match(/\/\/.+?\/(.+)/)[1];
+    var n = href;
+    if (href.indexOf("account/adddomains") < 0) {
+        try { n = href.match(/(.+?\/.+?)\//i)[1]; }
+        catch (e) { };
+    }
+    switch (n) {
+        case "account/Loglog":
+            n = "account/bind";
+            break;
+        case "account/updatepage":
+            n = "account/sellpage";
+            break;
+        case "account/addpage":
+            n = "account/sellpage";
+            break;
+        case "account/feedback":
+            n = "account/list";
+            break;
+    }
+    var sld_a = $(".process1 li a[href*='" + n + "']");
+    if (sld_a.length == 0) {
+        $(".process1:first").css("display", "block");
+    } else {
+        sld_a.addClass("t");
+        if (n == 'account/adddomains')
+            $(".process1 li a[href*='account/adddomains/pl']").removeClass('t');
+        var sld_h3 = sld_a.parent(0).parent(0).parent(0).prev();
+        //var pos_y = getPos_y(sld_h3);
+        //sld_h3.addClass("active_s").css("background-position", "0px " + (-pos_y - 74) + "px");
+        sld_a.parent(0).parent(0).parent(0).css("display", "block");
+    }
+</script>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<div class="s-bg-2a bottom">
+    <div class="g-b-banner">
+        <ul>
+            <li class="u_mr52">
+                <p>7X24 <span>小时</span></p><p class="f-pa1   s-d1">全年无休</p>
+            </li>
+            <li class="u_mr60">
+                <p>一对一服务</p><p class="f-pa1   s-d1">经纪人跟进协助</p>
+            </li>
+            <li class="u_mr72">
+                <p>交易额领先</p><p class="f-pa1   s-d1">年交易额过数亿元</p>
+            </li>
+            <li>
+                <p>4年服务经验</p><p class="f-pa1   s-d1">服务超5万客户</p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="s-bg-white">
+    <div class="g-footer-nav">
+        <div class="g-f-container u_ml34">
+            <p class="f-img-t7"><a href="/about" rel="nofollow" class="s-def">关于我们</a></p>
+            <ol>
+                <li><a href="/about" rel="nofollow">62.com简介</a></li>
+                <li><a href="/culture" rel="nofollow">企业文化</a></li>
+                <li><a href="/contact" rel="nofollow">联系我们</a></li>
+                <li><a href="/regulation?v=privacy" rel="nofollow">隐私声明</a></li>
+            </ol>
+        </div>
+        <div class="g-f-container u_ml145">
+            <p class="f-img-t8"><a href="/about" rel="nofollow" class="s-def">帮助中心</a></p>
+            <ol>
+                <li><a href="/help/help_1" rel="nofollow">注册引导</a></li>
+                <li><a href="/help/help_13" rel="nofollow">积分费率</a></li>
+                <li><a href="/help/help_3" rel="nofollow">如何添加出售</a></li>
+                <li><a href="/help/help_1" rel="nofollow">更多...</a></li>
+            </ol>
+        </div>
+        <div class="g-f-container u_ml138">
+            <p class="f-img-t9"><a href="/contact" rel="nofollow" class="s-def">服务与支持</a></p>
+            <ol>
+                <li><a href="javascript:void(0)" class="u_fw s-2a f-img-l1">4000-6260-62</a></li>
+                <li><a href="javascript:void(0)" class="f-img-l2">Support@62.com</a></li>
+                <li><a href="/broker" class="f-img-l3">域名经纪人</a></li>
+                <li><a rel="nofollow" href="/account/recharge#bankcards" class="f-img-l4">付款方式</a></li>
+            </ol>
+        </div>
+        <div class="g-f-container u_ml96">
+            <p class="f-img-t10">关注我们</p>
+            <div class="m-focus" style="background:url(../images/quickMark62.jpg);width:95px; height:95px;padding-top:0;margin-left:10px;"></div>
+            <a target="_blank" style="display:block;margin:8px 0 0 12px;" href="http://shang.qq.com/wpa/qunwpa?idkey=4b086cbdba21b01eac329c2793d3623764305531e62ac47599ed8eba8872fc0c"><img border="0" src="../images/qqqun.png" alt="域名交易www.62.com" title="域名交易www.62.com"></a>
+            
+        </div>
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="s-bg-fd">
+    <div class="g-footer-certi">
+        <p class="f-p4" style="margin-left:150px;">
+            <a rel="nofollow" href="javascript:void(0)" style="background:none;"><img src="../images/gxjsrdqy.png" style="height:40px;" alt="国家高新技术认定企业" title="国家高新技术认定企业" /></a>
+            <a rel="nofollow" href="http://www.internic.net/registrars/registrar-1916.html" target="_blank" title="域名注册资质ICANN认证" class="f-img-a2"></a>
+            <a rel="nofollow" href="http://www.anquan.org/seccenter/search/http://62.com" target="_blank" title="安全联盟" class="f-img-a3"></a>
+            <a rel="nofollow" href="http://www.anquan.org/authenticate/cert/?site=www.62.com&at=business" target="_blank" title="信誉档案" class="f-img-a7"></a>
+            <a rel="nofollow" href="http://sq.ccm.gov.cn/ccnt/sczr/service/business/emark/toDetail/F5F54082AAF44D6DB930393E0FD3B3A4" target="_blank" title="网络文化经营许可证" class="f-img-a4"></a>
+            <a rel="nofollow" href="http://www.cyberpolice.cn/wfjb/" target="_blank" title="网络举报" class="f-img-a6"></a>
+            <a rel="nofollow" href="javascript:void(0)" style="background:none"><img src="../images/copyright.png" style="height:42px;" alt="软件著作权" title="软件著作权" /></a>
+            <a rel="nofollow" href="https://sealsplash.geotrust.com/splash?&dn=www.62.com" style="background:none" target="_blank"><img src="https://seal.geotrust.com/getgeotrustsslseal?at=0&sealid=0&dn=www.62.com&lang=en&gmtoff=0" style="height:42px;" alt="This site has chosen a GeoTrust SSL Certificate to improve Web site security" title="GeoTrust SSL安全证书" /></a>
+        </p>
+        <p class="f-p5" style="text-align:center">
+            <span>Copyright © 2012-2016 IWO Inc. |&nbsp;</span>
+            <a rel="nofollow" href="https://my.qhee.com/u/5925" target="_blank">深圳前海股权交易中心挂牌企业：662739</a><br/>       
+            <span class="u_pl35">SP经营许可证编号：B2-20150020&nbsp;|&nbsp;</span>
+            <a rel="nofollow" href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备12030860号-7</a>
+            <span rel="nofollow">&nbsp;|&nbsp; 增值电信业务经营许可证：粤B2-20150415</span>
+            <span rel="nofollow">&nbsp;|&nbsp; 粤网文［2014］0511-161号</span>
+            <script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6ab0f2e1be69a72ee1610998956dfb1e' type='text/javascript'%3E%3C/script%3E"));</script>
+        </p>
+    </div>
+</div>
+<div class="s-bg-f7">
+</div>
+
+    <script src="{:C('SKINURL')}js/jquery-1.8.2.min.js"></script>
+    <script src="{:C('SKINURL')}js/common.js?v=20150901"></script>
+    
+    <script type="text/javascript" src="{:C('SKINURL')}js/account.js?v20150610"></script>
+    <script type="text/javascript">
+        $(function () {
+            var type = $("#checktype").val();
+            getDataList_pldomain(1, type);
+
+            $("#paging a").live("click", function () {
+                if (!$(this).attr("k"))
+                    return;
+                var pageindex = $(this).attr("k");
+                getDataList_pldomain(pageindex, type);
+            });
+
+            $(".sold_out").live("click", function () {
+                if (confirm(lang.a22 + "[" + $(this).parent().parent().children().eq(2).text() + "]？")) {
+                    $.post("/account/pldomainOperation", { "id": $(this).parent().parent().find("input").attr("value"), "type": 2 }, function (data, status) {
+                        if (parseInt(data) == 1)
+                            location.href = location.href;
+                        else
+                            showDialog(lang.a23);
+                    })
+                }
+            })
+
+            $(".btn_verify_all").click(function () {
+                $.post("/account/CheckDomain", function (data, status) {
+                    if (status == "success") {
+                        showDialog(lang.a60);
+                    }
+                })
+            })
+
+
+            $(document.body).click(function () {
+                $(".m-group-result,.m-prise-result").css("display", "none");
+                $("#group,#prise").css("background-color", "#fcfcfc");
+            });
+        })
+    </script>
+
+</body>
+</html>

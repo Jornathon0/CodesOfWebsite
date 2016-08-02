@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>账户信息 - 修改密码</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=1000">
+
+    <meta property="qc:admins" content="1376071777766263757" />
+
+    <link rel="icon" href="{:C('SKINURL')}/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{:C('SKINURL')}/images/favicon.ico" type="image/x-icon" />
+    <link type="text/css" href="{:C('SKINURL')}/css/common.css?v=201508120" rel="stylesheet" />
+    
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}/css/detail.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}/css/account.css" />
+
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}/css/skin.css" />
+    
+</head>
+<body class="s-bg-global">
+<include file="Public:header" />
+
+<div class="s-bg-f7">
+    <div class="g-position">
+        <div class="m-position u-fl">
+            <ol>
+                <li>当前位置：&nbsp;</li>
+                <li><a href="/" class="s-2a">首页</a>&nbsp;&gt;&nbsp;</li>
+                <li><a href="/account/index" class="s-2a">我的账户</a>&nbsp;&gt;&nbsp;</li>
+                <li>账户管理&nbsp;&gt;&nbsp;</li>
+                <li>修改密码</li>
+            </ol>
+        </div>
+        <div class="m-serverTime u-fr">
+    <include file="Public:page_time" />
+</div>
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+<div class="g-content u-cls">
+    <div class="m-content">
+        <!-- 左边 -->
+        <div class="u-fl">
+            <!-- 标题&验证 -->
+            <div class="s-bg-fc u_be9" style="width: 702px;">
+                <div class="m-ta s-bg-white">
+                    <div class="title">
+                        <a class="s-3c" href="javascript:void(0)">
+                            <span>修改密码</span>
+                        </a>
+                    </div>
+                    <div class="u-cls"></div>
+                </div>
+            </div>
+            <div class="m-insf s-bg-fc">
+                <p>密码由6-16个字母、数字、符号组成，区分大小写。为了保证您的账号安全，请尽量设置复杂一点的密码。</p>
+            </div>
+            <!-- 数据 -->
+            <form action="/account/updatepwds" method="post">
+                <div class="m-question m-question1 s-bg-fc u_be9">
+                    <ul>
+                        <li class="u_mb15">
+                            <div class="question_txt">原登录密码：</div>
+                            <div class="question_ipt s-bg-white">
+                                <input type="password" name="txtrawpw" class="oldpwd" maxlength="20" />
+                            </div>
+                            <div class="u_pr1 oldpwd_ipt" style="display:none;"></div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li class="u_mb15">
+                            <div class="question_txt">新登录密码：</div>
+                            <div class="question_ipt s-bg-white">
+                                <input type="password" name="txtnewpw" class="newpwd" maxlength="20" /></div>                            
+                            <div class="u_pr1 newpwd_ipt" style="display:none;"></div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li class="u_mb15">
+                            <div class="question_txt">确认新登录密码：</div>
+                            <div class="question_ipt s-bg-white">
+                                <input type="password" name="txtnewspw" class="newpwd_ag" maxlength="20" /></div>                            
+                            <div class="u_pr1 newpwd_ag_ipt" style="display:none;"></div>
+                            <div class="u-cls"></div>
+                        </li>
+                        <li>
+                            <div class="u_mall12">
+                                <input type="submit" value="保存修改" class="u-btn12 s-bg-2a">
+                                <a class="u-abtn13 s-2a" href="/findpsw/firststep">忘记密码？</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <!-- 右边 -->
+        <include file="Account:sidenav" />
+
+        <div class="u-cls"></div>
+    </div>
+</div>
+
+    
+<include file="Public:footer" />
+<include file="Public:footer_commonjs" />
+    
+    <script type="text/javascript" src="{:C('SKINURL')}/js/logic/account.js"></script>
+
+    <if condition="$status eq 1">
+    <script type="text/javascript">
+        showDialog(lang.a151);
+    </script>
+    <elseif condition="$status eq -1"/>
+    <script type="text/javascript">
+        showDialog(lang.a35);
+    </script>
+    <else />
+    </if>
+
+
+    <script type="text/javascript">
+        $(".u-btn12").click(function () {
+            if ($(".oldpwd").val() == "") {
+                $(".oldpwd_ipt").css("display", "").html(lang.a6);
+                $(".oldpwd").focus();
+                return false;
+            }
+            if ($(".newpwd").val().length<6) {
+                $(".newpwd_ipt").css("display", "").html(lang.a3);
+                $(".newpwd").focus();
+                return false;
+            }
+            if ($(".newpwd_ag").val() != $(".newpwd").val()) {
+                $(".newpwd_ag_ipt").css("display", "").html(lang.a4);
+                $(".newpwd_ag").focus();
+                return false;
+            }
+        })
+    </script>
+
+</body>
+</html>

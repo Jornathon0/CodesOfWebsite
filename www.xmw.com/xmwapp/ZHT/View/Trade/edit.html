@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>域名管理-修改域名信息</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script> 
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/plus/layer/layer.js"></script>
+<script>
+
+</script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+	<div class="crumbs">
+    <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">域名管理</a><em>»</em><a href="javascript:;">域名详情</a>
+    </div>
+</div>
+</div>
+
+  <form action="/Packets/addHandle.html"  onsubmit="return check();" method="post" enctype="multipart/form-data">
+        <div class="module" id="moduleList"> 
+            <div class="module-content" id="moduleList-content">
+                <div class="formbox" id="formbox">
+                    <div class="formconent" style="display:block;">
+                        <table class="formtable">
+                            <tbody>
+                            <tr>
+                                <td class="tit2">域名：</td>
+                                <td class="tit4">{$data['title']}(ID:{$data['did']})</td>
+                            </tr>
+                            <tr>
+                            <td class="tit2">类型：</td>
+                                <td class="tit4">
+                                  <if condition="$data['type'] == 1">
+                                        极速竞价
+                                  <elseif condition="$data['type'] == 2" />
+                                        一口价
+                                  <elseif condition="$data['type'] == 3" />
+                                        优质
+                                  <elseif condition="$data['type'] == 4" />
+                                        议价
+                                  <elseif condition="$data['type'] == 5" />
+                                        终端
+                                  <else />
+                                        限时一口价
+                                  </if>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tit2">价格：</td>
+                                <td class="tit4">{$data['price']} 元</td>
+                            </tr> 
+                            <tr>
+                                <td class="tit2">最低价格：</td>
+                                <td class="tit4">            <if condition="$v['lowestprice'] == '' ">
+                                --
+                                <else/>
+                                {$v['lowestprice']} 元
+                                </if>
+                                </td>
+                            </tr>
+                            <tr>
+                              <td class="tit2">验证状态:</td>
+                              <td><if condition="$data['checked'] == 1">
+                              已验证
+                              <else/>
+                              未验证
+                              </if>  
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="tit2">审核状态:</td>
+                              <td><if condition="$data['verstatus'] == 1">
+                              已审核
+                              <else/>
+                              未审核
+                              </if>  
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="tit2">推荐状态:</td>
+                              <td><if condition="$data['recstatus'] == 1">
+                              已推荐
+                              <else/>
+                              未推荐
+                              </if>  
+                              </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+<!--         <div class="submitline cl">
+            <if condition="$type == 2">
+                <div class="cell"><input type="submit" class="btn" value="提交"/></div>
+            <else />
+                <div class="cell"><input type="submit" class="btn" value="修改"/></div>
+            </if>
+            <div class="cell">
+                <input type="reset" class="btn-gray" value="取消" onclick="window.location.href='/News/settings.html'"/>
+            </div>
+        </div> -->
+    </form>
+<include file='Common/popup'/>
+</body>
+</html>

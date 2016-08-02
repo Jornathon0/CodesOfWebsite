@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>权限管理-增加节点</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+    <script>
+        $(function() {
+            iframeSetHeight("#appiframe-news3");
+        });
+    </script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="/admin/node.html">权限管理</a><em>»</em><a href="javascript:;">增加节点</a>
+            </div>
+        </div>
+    </div>
+    <form action="/Admin/addNodeHandle" method='post'>
+        <div class="formconent" >
+            <table class="formtable">
+                <tr>
+                    <td class="tit">{$title}标识:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 1">
+                                <input type="text" class="inputtext" placeholder="" name="name" value="" />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="name" value="{$idData['name']}" />
+                            </if>
+                        </div>
+                        <span class="tip">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">{$title}描述:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 1">
+                                <input type="text" class="inputtext" placeholder="" name="title" value="" />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="title" value="{$idData['title']}" />
+                            </if>
+                        </div>
+                        <span class="tip">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">排序:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 1">
+                                <input type="text" class="inputtext" placeholder="" name="sort" value="" />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="sort" value="{$idData['sort']}" />
+                            </if>
+                        </div>
+                        <span class="tip">*数值越小排在越前</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">是否开启:</td>
+                    <td>
+                        <div class="cell">
+                            <input type="hidden" name="pid" value="{$pid}" />
+                            <input type="hidden" name="level" value="{$level}" />
+                            <input type="hidden" name="type" value="{$type}" />
+                            <if condition="($type == 1) or ($idData['status'] == 1)">
+                                <INPUT type=radio name="radio" value="1" CHECKED>是
+                                <INPUT type=radio name="radio" value="-1" >否
+                            <else />
+                                <INPUT type=radio name="radio" value="-1" >是
+                                <INPUT type=radio name="radio" value="1" CHECKED>否
+                            </if>
+                            
+                        </div> 
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="submitline cl">
+            <div class="cell">
+                <if condition="$type == 1">
+                    <input type="submit" class="btn" value="添加" /> 
+                <else />
+                    <input type="submit" class="btn" value="修改" /> 
+                </if>
+            </div>
+            <div class="cell"><INPUT type="button" ID=btnEmergency VALUE="返回列表"  onclick="window.location.href='/admin/node.html'"></div>
+        </div>
+   </form>
+</body>
+</html>

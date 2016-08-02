@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>权限管理-用户列表</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+$(function(){
+	//搜索按钮
+	dohover('#submitbox','submitbox-hover');
+	$('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    });
+	
+	$("#checkAll").click(function() {
+		$('input[name="id"]').prop("checked",this.checked); 
+	});
+});
+
+//锁定_解锁用户   锁定后该用户无法登陆
+//type  1:锁定用户  2：解锁
+function confirmLock(type,id,name){
+    if(type == 1)
+        $('#tipsTxt').text('您确定要锁定 '+name+' 这个用户吗？锁定后该用户无法登陆！');
+    else
+        $('#tipsTxt').text('您确定要解锁 '+name+' 这个用户吗？');
+    $('#yes').attr('onclick',"window.appiframe.Lock("+type+","+id+")");
+    //父级页面载入窗口
+    iframeopenpop('#pop-confirm');
+}
+
+function Lock(type,id){
+    if(type == 1)
+        var action = 'lockUserbyID';
+    else
+        var action = 'unlockUserbyID';
+    window.parent.iframeclosepop('#pop-confirm'); 
+    $.ajax({
+        type: "POST",
+        url: '/admin/getAjax.html',
+        data: {act:action,"selectedID": id},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+            if(rs == 'yes'){
+                $('#tips2Txt').text('操作成功！'); 
+                iframeopenpop('#pop-sure');
+                location.reload();
+            }else{
+                $('#tips2Txt').text('操作失败！'); 
+                iframeopenpop('#pop-sure'); 
+            }
+        }
+    });
+}
+
+//删除用户
+function confirmDel(id,name){
+    //处理弹窗相应参数
+    $('#tipsTxt').text('您确定要删除 '+name+' 这个用户吗？');
+    $('#yes').attr('onclick',"window.appiframe.del("+id+")");
+    //父级页面载入窗口
+    iframeopenpop('#pop-confirm');
+}
+
+//删除操作
+function del(id){
+    window.parent.iframeclosepop('#pop-confirm'); 
+    $.ajax({
+        type: "POST",
+        url: '/admin/getAjax.html',
+        data: {act:'deleteUserbyID',"selectedID": id},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+            if(rs == 'yes'){
+                $('#tips2Txt').text('删除成功！'); 
+                iframeopenpop('#pop-sure');
+                location.reload();
+            }else{
+                $('#tips2Txt').text('删除失败！'); 
+                iframeopenpop('#pop-sure'); 
+            }
+        }
+    });
+}
+</script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+	<div class="crumbs">
+    <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">权限管理</a><em>»</em><a href="javascript:;">用户</a>
+    </div>       
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    <div class="module-content" id="moduleList-content"> 
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th width="40"><span><input type="checkbox" id="checkAll" /></span></th>
+              <th><span>UID</span></th>
+              <th><span>用户名</span></th>
+              <th><span>角色</span></th>
+              <th><span>产品数目</span></th>
+              <th><span>资源数目</span></th>
+              <th><span>上次登录时间</span></th>
+              <th><span>上次登录地区</span></th>
+              <th><span>用户分组</span></th> 
+              <th><span>状态</span></th>
+              <th><span>操作</span></th>
+            </tr>
+          </thead>
+          <tbody>
+          <foreach name="data" item="v">
+                <tr>
+                  <td align="center"><input type="checkbox" id="id1" name="id" value="{$v['aid']}" /></td>
+                  <td>{$v['aid']}</td>
+                  <td>{$v['username']}</td>
+                  <td>{$v['rolename']}</td>
+                  <td>{$v['pcount']}</td>
+                  <td>{$v['rcount']}</td>
+                  <td>{$v['last_login_time']}</td>
+                  <td>{$v['last_login_area']}</td>
+                  <td>普通用户</td> 
+                  <td 
+                        <if condition="$v['status'] == 1">
+                              class="green">活动
+                        <else />
+                              class="orange">锁定
+                        </if>
+                  </td>
+                  <td>
+                      <if condition="$v['status'] == 1">
+                         <a class="suoding" href="#" onClick="confirmLock(1,{$v['aid']},'{$v['username']}');" title="锁定">锁定</a>
+                      <elseif condition="$v['status'] == 2" />
+                         <a class="jiesuo"   href="#" onClick="confirmLock(2,{$v['aid']},'{$v['username']}');" title="解锁">解锁</a>
+                      <else /></if>
+                      <a class="o-del" href="javascript:;" onClick="confirmDel({$v['aid']},'{$v['username']}');">删除</a>
+                  </td>                       
+                </tr>
+            </foreach>
+             
+          </tbody>
+        </table>
+        </div>
+        <div class="pageline">
+            {$page}
+        </div>
+    </div>
+</div>
+<include file="Common/popup"/>
+</body>
+</html>

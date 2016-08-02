@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>财务管理-支付处理</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+$(function() {
+    iframeSetHeight("#appiframe-news3");
+});
+
+
+/*
+ * 详情处理页面
+ * type  1：  支付处理
+ *       2：  确定转账
+ *       3：  确定退款
+ */ 
+function dowith(id,type)
+{    
+    if(type == 1){
+      var  act = 'WithdrawdowithByid';
+      var tips = "处理";
+    }else if(type == 2){
+      var  act = 'WithdrawpayByid';
+      var tips = "确定";
+    }else if(type == 3){
+      var  act = 'WithdrawbackByid';
+      var tips = "退款";
+    }else{
+        return;
+    }              
+    $.ajax({
+        type: "POST",
+        url: '/Withdraw/getAjax.html',
+        data: {act:act,id:id},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+            if(rs == 'ok'){  
+                alert(tips+"成功！");
+                window.location.href = "/Withdraw/index.html";
+            }else{
+                alert(tips+"失败！  可能是用户被锁定，请联系管理员！"); 
+            }
+        }
+    });
+    return true;
+}
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">财务管理</a><em>»</em><a href="javascript:;">支付处理</a>
+            </div>
+        </div>
+    </div>   
+        <div class="formconent" >
+            <table class="formtable">
+                <tr>
+                    <td class="tit">订单ID:</td>
+                    <td>{$data['id']}</td>
+                </tr>
+                <tr>
+                    <td class="tit">提现金额:</td>
+                    <td>{$data['total']}</td>
+                </tr>
+                <tr>
+                    <td class="tit">税:</td>
+                    <td>{$data['taxfee']}</td>
+                </tr>
+                <tr>
+                    <td class="tit">银行转账金额:</td>
+                    <td>{$data['subtotal']}</td>
+                </tr>
+                <tr>
+                    <td class="tit">收款名称:</td>
+                    <td>{$data['skname']}</td>
+                </tr>
+                 <tr>
+                    <td class="tit">银行账号:</td>
+                    <td>{$data['bankcard']}</td>
+                </tr>
+                <tr>
+                    <td class="tit">开户行:</td>
+                    <td>{$data['openingbank']}</td>
+                </tr>
+                <tr>
+                    <td class="tit">申请时间</td>
+                    <td>{$data['add_time']|date='Y-m-d',###}</td>
+                </tr>
+                <tr>
+                    <td class="tit">更新时间</td>
+                    <td>{$data['update_time']|date='Y-m-d',###}</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="submitline cl">
+            <div class="cell">
+                <if condition="$type == 1">
+                    <input style='margin: 0 0 0 25px;' onclick="dowith({$data['id']},1);" type="button" class="btn" value="支付处理" /> 
+                <elseif condition="$type == 2"/>
+                    <input style='margin: 0 0 0 25px;' onclick="dowith({$data['id']},2);" type="button" class="btn" value="确定转账" /> 
+                <else />
+                    <input style='margin: 0 0 0 25px;' onclick="dowith({$data['id']},3);" type="button" class="btn" value="确定退款" /> 
+                </if> 
+                
+                <if condition="$type == 2">
+                    <INPUT style='margin: 0 0 0 20px;' type="button" ID=btnEmergency VALUE="返回列表"  onclick="window.location.href='/Withdraw/WithdrawSure.html'"> 
+                <else />
+                    <INPUT style='margin: 0 0 0 20px;' type="button" ID=btnEmergency VALUE="返回列表"  onclick="window.location.href='/Withdraw/index.html'"> 
+                </if>
+            </div>
+        </div> 
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>会员管理-个人会员</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script> 
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/plus/layer/layer.js"></script>
+<script>
+$(function(){
+	//搜索按钮
+	dohover('#submitbox','submitbox-hover');
+	$('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    }); 
+    
+     /*start 会员列表操作区域展开和收缩*/
+    $(".checkbtn").on("click",function(){
+        var vId=$(this).attr("id");
+        $(".check_box").not("#checkBox-"+vId).hide();
+        $("#checkBox-"+vId).toggle();
+    });
+   $(".table tr td").not(".table tr.check_box td").on("click",function(){
+       $(".check_box").not($(this).parent("tr").next(".check_box")).hide();
+       $(this).parent("tr").next(".check_box").toggle();
+       
+       var display = $(this).parent("tr").next(".check_box").css('display');
+       if (!(display == "none")) {
+         var vUid=$(this).parent("tr").find("td").eq(0).html();
+         //alert(vUid);
+       };
+   });
+    $("body").on("click",function(){
+        $(".check_box").hide();
+    });
+    $(".check_box td,.table tr td input,.table tr td,.checkbtn,.table tr td a").on("click",function(e){e.stopPropagation();});
+    /*end 会员列表操作区域展开和收缩*/
+});
+
+
+function bigpic(src){
+    layer.open({
+        type: 1,
+        title: false,
+        offset:  [($(window.parent.document).scrollTop() + 120) +'px', '25%'],
+        closeBtn: 1,
+        shadeClose: true,
+        skin:'bigpic_box',
+        content: '<div class="bigpic"><img width="500" height="331" src="' + src + '"></div>'
+    });
+}
+/*
+ * 记录处理
+ * 操作类型type 1：激活   2：锁定  3：解锁 4:删除
+ * 记录id：id
+ * 调用方式  step：0  按钮调用   1：本身调用
+ */
+function doAction(type,id,name,step){
+    var action = '';
+    var act = '';
+    //激活处理
+    if(type == 1){
+        action = '激动';
+        act = 'activebyID';
+    }else if(type == 2){
+        action = '锁定';
+        act = 'lockbyID';
+    }else if(type == 3){
+        action = '解锁';
+        act = 'unlockbyID';
+    }else if(type == 4){
+        action = '删除';
+        act = 'deletebyID';
+    }else if(type == 5){
+        action = '个人认证通过';
+        act = 'personcheckbyID';
+    }else if(type == 6){
+        action = '个人认证不通过';
+        act = 'personuncheckbyID';
+    }else if(type == 7){
+        action = '企业认证通过';
+        act = 'checkbyID';
+    }else if(type == 8){
+        action = '企业认证不通过';
+        act = 'uncheckbyID';
+    }
+    else if(type == 9){
+        action = '银行卡认证通过';
+        act = 'bankcheckbyID';
+    }else if(type == 10){
+        action = '银行卡认证不通过';
+        act = 'bankuncheckbyID';
+    }
+    if(step == 0){
+        //处理弹窗相应参数
+        $('#tipsTxt').text("您确定要 "+action+" 用户 '"+name+"'吗？");
+        $('#yes').attr('onclick',"window.appiframe.doAction("+type+","+id+",'"+name+"',1)");
+        //父级页面载入窗口
+        iframeopenpop('#pop-confirm');
+    }else{
+        window.parent.iframeclosepop('#pop-confirm');
+        //异步处理
+        $.ajax({
+            type: "POST",
+            url: '/member/getAjax.html',
+            data: {act:act,id: id},
+            dataType: "json",
+            beforeSend: function() {},
+            success: function(rs) {
+                if(rs == 'ok'){
+                    if(type == 9){
+                        $("#tdidshenhe"+id).html('<span style="color: #6bfa3f">审核通过</span>');
+                    }else if(type == 10){
+                        $("#tdidshenhe"+id).html('<span style="color: #9f9f9f">审核不通过</span>');
+                    }else{
+                        $('#tips2Txt').text(action+'成功！'); 
+                        iframeopenpop('#pop-sure');
+                        location.reload();
+                    }
+                }else{
+                    $('#tips2Txt').text(action+'失败！'); 
+                    iframeopenpop('#pop-sure');
+                }
+            }
+        });
+    }
+} 
+
+function changeStatus(type){
+    $("#p").attr("value",1);
+    $("#status").attr("value",type);
+    $("#formsearch").submit();
+}
+
+function setpage(p){
+    $("#p").attr("value",p);
+    $("#formsearch").submit();
+}
+
+function tagchange(id){
+    var tags = '';
+    $('input[type="checkbox"][id="checktag'+id+'"]:checked').each(
+        function() {
+            if(tags != '')
+                tags = tags + ',' + $(this).val();
+            else
+                tags = tags + $(this).val(); 
+    });
+    $.ajax({
+        type: "POST",
+        url: '/Member/getAjax.html',
+        data: {act:'usersettag',"selectedID": id,'tags':tags},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+        }
+    }); 
+}
+ 
+ 
+</script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+	<div class="crumbs">
+    <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">会员管理</a><em>»</em><a href="javascript:;">银行卡管理</a>
+    </div>
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    
+    <div class="module-content" id="moduleList-content">
+        <div class="h86 topline clearfix">
+            <div class="xuanxiang">
+            	<span class="xuan_x">
+                    <input type="radio" name='clickstatus' onclick="changeStatus(0)" <if condition="$status eq 0">checked</if> value='全部'><em>全 部</em>&nbsp;&nbsp;
+                    <input type="radio" name='clickstatus' onclick="changeStatus(1)" <if condition="$status eq 1">checked</if>  value='审核通过'><em>审核通过</em>&nbsp;&nbsp;
+                    <input type="radio" name='clickstatus' onclick="changeStatus(2)" <if condition="$status eq 2">checked</if> value='审核不通过'><em>审核不通过</em>&nbsp;&nbsp;
+                    <input type="radio" name='clickstatus' onclick="changeStatus(-1)" <if condition="$status eq -1">checked</if>  value='待审核'><em>待审核</em>
+                </span> 
+            </div>
+            
+            <div class="rightbtn">
+            	<form id="formsearch" action="/member/bank.html" method="post">
+                    <span class="searchtip">搜索</span>
+
+                        <input style="height: 25px;" type="text" name="keywords" class="searchword" placeholder="请输入搜索词..." value="{$keywords}"/>
+                        <div class="submitbox" id="submitbox">
+                        <input type="submit" value="搜索" class="searchbtn" />
+                        <input type="hidden" id="status" name="status" value="{$status}" />
+                        <input type="hidden" id="p" name="p" value="{$p}" />
+                    </div>
+                </form>
+            </div> 
+        </div>
+        
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th><span>ID</span></th>
+              <th><span>用户名</span></th>
+              <th><span>帐号（邮箱/手机）</span></th>
+              <th><span>银行ID</span></th>
+              <th><span>收款名称</span></th>
+              <th><span>开户行</span></th>
+              <th><span>银行卡号</span></th>
+              <th><span>身份证正面</span></th>
+              <th><span>身份证反面</span></th>
+              <th width="186"><span>操作</span></th>
+            </tr>
+          </thead>
+          <tbody>
+              
+              <tr>
+            <foreach name="data" item="v">
+                <td>{$v['id']}</td>
+                <td>{$v['uname']}</td>
+                <td><if condition="$v.email eq 0">NULL<else/>{$v['email']}</if>/<if condition="$v.mobile eq 0">NULL<else/>{$v['mobile']}</if></td>
+                <td>{$v['bankname']}</td>
+                <td>{$v['skname']}</td>
+                <td>{$v['openingbank']}</td>
+                <td>{$v['bankcard']}</td>
+                <td><img onclick="bigpic('/{$v['idzm']}');" src="/{$v['idzm']}" width="125" height="80" alt=""/></td>
+                <td><img onclick="bigpic('/{$v['idfm']}');" src="/{$v['idfm']}" width="125" height="80" alt=""/></td>
+                
+                <td id="tdidshenhe{$v['id']}"><if condition="$v['status'] eq -1 or $v['status'] eq 3">
+                        <a id="{$v['id']}" title="查看" class="btn check" onclick="doAction(9,{$v['id']},'{$v.openingbank}',0)">审核通过</a>
+                        <a id="{$v['id']}" title="查看" class="btn check" onclick="doAction(10,{$v['id']},'{$v.openingbank}',0)">审核不通过</a>
+                    <elseif  condition="$v['status'] eq 1"/>
+                        <span style="color: #6bfa3f">审核通过</span>
+                    <else  />
+                        <span style="color: #9f9f9f">审核不通过</span>
+                    </if></td>
+          </tr>
+          <!--<tr class="check_box" id="checkBox-{$v['uid']}">
+                    <td colspan="10">
+                        <div class="box_wrap">
+                          <div class="submitline cl">
+                              <div class="cell">
+                                  <input type="hidden" name='uid' value="{$v['uid']}">
+                                  <input type="hidden" name='status' value="{$v['status']}">
+                                  <input type="hidden" name='type' value="{$v['type']}">
+                                  <if condition="$v['status'] == -1">
+                                      <input type="button" class="btn" value="审核通过" onclick="doAction(1,{$v['uid']},'审核通过',0);"/> 
+                                  <elseif condition="$v['status'] == 1"/>
+                                      <input type="button" class="btn" value="锁定" onclick="doAction(2,{$v['uid']},'锁定',0);"/> 
+                                  <else />
+                                      <input type="button" class="btn" value="解锁" onclick="doAction(3,{$v['uid']},'解锁',0);"/> 
+                                  </if>
+                                  <input type="button" class="btn del" value="删除" onclick="doAction(4,{$v['uid']},'{$v['truename']}',0)"/>
+                              </div>
+                          </div>
+                          <ul class="form_conent">
+                              <li><span class="label_name">收款人：</span><span>{$v['email']}</span></li>
+                              <li><span class="label_name">开户行：</span><span>{$v['qq']}</span></li>
+                              <li><span class="label_name">银行卡号：</span><span>{$v['qq']}</span></li>
+                              <li class="user_pic">
+                              <p>
+                                <span class="label_name">身份证正面：</span>
+                                <span class="pic">
+                                    <img id="imgid1" src="{$v['idzm']}" width="500" height="331" alt=""/>
+                                </span>
+                              </p>
+                              <p>
+                                <span class="label_name">身份证反面：</span>
+                                <span class="pic">
+                                    <img id="imgid1" src="{$v['idfm']}" width="500" height="331" alt=""/>
+                                </span>
+                              </p>
+                            </li>
+                          </ul>
+                      </div>
+                    </td>
+                </tr> -->
+          </foreach>  
+          </tbody>
+        </table>
+        </div>
+        <div class="pageline">
+           {$page}
+        </div>
+    </div>
+</div>
+
+<include file="Common/popup"/>
+</body>
+</html>

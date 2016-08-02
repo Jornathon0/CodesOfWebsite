@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>基础设置管理-会员等级列表</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+	<div class="crumbs">
+    <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">基础设置管理</a><em>»</em><a href="javascript:;">会员等级列表</a>
+    </div>       
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    <div class="module-content" id="moduleList-content"> 
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th width="40"><span><input type="checkbox" id="checkAll" /></span></th>
+              <th><span>ID</span></th>
+              <th><span>等级名称</span></th>
+              <th><span>积分下限</span></th>
+              <th><span>积分上限</span></th>
+              <th><span>手续费率(%)</span></th>
+              <th><span>一口价提交数量</span></th>
+              <th><span>优质提交数量</span></th>
+              <th><span>限时抢购提交数量</span></th> 
+              <th><span>是否启用</span></th>
+             <!--  <th><span>添加时间</span></th> -->
+              <th><span>修改时间</span></th>
+              <th><span>操作</span></th>
+            </tr>
+          </thead>
+          <tbody>
+          <foreach name="data" item="v">
+                <tr>
+                  <td align="center"><input type="checkbox" id="id1" name="id" value="{$v['id']}" /></td>
+                  <td>{$v['id']}</td>
+                  <td>{$v['titles']}</td>
+                  <td>{$v['integral_min']}</td>
+                  <td>{$v['integral_max']}</td>
+                  <td>{$v['rates']}</td>
+                  <td>{$v['fixed_num']}</td>
+                  <td>{$v['quality_num']}</td>
+                  <td>{$v['flashsale_num']}</td> 
+                  <td>
+                    <if condition="$v['status']==-1">
+                      否
+                    <else />
+                    是
+                    </if>
+                  </td>
+                  <!-- <td>{$v['addtime']}</td>  -->
+                  <td>{$v['updatetime']|date='Y-m-d h:m:s',###}</td>
+                  <td><a class="o-pen" href="/basesetting/addGrade.html?type=2 && id={$v['id']}" title="修改"> [修改]</a></td>                   
+                </tr>
+            </foreach>
+             
+          </tbody>
+        </table>
+        </div>
+        <div class="pageline">
+            {$page}
+        </div>
+    </div>
+</div>
+<include file="Common/popup"/>
+</body>
+</html>

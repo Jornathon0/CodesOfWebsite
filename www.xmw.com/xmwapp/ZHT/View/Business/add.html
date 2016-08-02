@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商务合作管理-管理中心</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+    var iframeID = "#appiframe-add-article";
+    $(function() {
+        //iframe 自适应
+        iframeSetHeight("#appiframe-add-article");
+        $('body').resize(function(t) {
+            var main = $(window.parent.document).find("#appiframe-add-article");
+            var thisheight = parseInt($('body').height()) + 18;
+            if (thisheight < 610)
+                thisheight = '610';
+            main.height(thisheight);
+        });
+    }); 
+    function msg(title){
+    	 $('#tipsTxt').text(title);
+    	 $("#yes").remove();
+    	 $("#no").html('确定');
+    	 iframeopenpop('#pop-confirm');
+    }
+    function check(){  
+        if($('#name').val() == '')
+        { 
+        	msg('客服名称不能为空！');
+            return false;
+        } 
+        if($('#email').val() == '')
+        { 
+        	 msg('Email不能为空！');
+            return false;
+        } 
+        if($('#telphone').val() == '')
+        { 
+        	 msg('联系电话不能为空！');
+            return false;
+        } 
+        if($('#qq').val() == '')
+        { 
+        	 msg('联系QQ不能为空！');;
+            return false;
+        } 
+        return true;
+    }
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="/Business/index.html">商务合作管理</a><em>»</em><a href="javascript:;">商务合作添加</a>
+            </div>
+        </div>
+    </div>
+
+    <form action="/Business/addHandle.html"  onsubmit="return check();" method="post" enctype="multipart/form-data">
+        <div class="module" id="moduleList"> 
+            <div class="module-content" id="moduleList-content">
+                <div class="formbox" id="formbox">
+                    <div class="formconent" style="display:block;">
+                        <table class="formtable">
+                            <tbody>
+                                <tr>
+                                    <td class="tit">经纪人名称:</td>
+                                    <td>
+                                        <input  type="text"  name="fromid" value="{$data['agid']}" style="display:none;" />
+                                        <input  type="text"  name="fromtype" value="{$fromtype}" style="display:none;" />
+                                        <div class="cell"><input type="text" class="inputtext" id="name" name="name" value="{$data['name']}" style="width:400px;" /></div>
+                                        <span class="tip">*</span>
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td class="tit">类型:</td>
+                                    <td>
+                                        <div class="cell">
+                                            <select id='type' name="type" style="width:210px;font-size:18px">
+                                            <foreach name='qtype'  item='v' key="key"> 
+                                                <if condition="$key eq $data['type']">
+                                                    <option value="{$key}" selected = "selected">{$v}</option>
+                                                <else />
+                                                    <option value="{$key}">{$v}</option>
+                                                </if>
+                                            </foreach> 
+                                            </select>
+                                        </div>
+                                        <span class="tip">*</span>
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td class="tit">Email:</td>
+                                    <td>
+                                        <div class="cell"><input type="text" class="inputtext" id="email" name="email" value="{$data['email']}" style="width:400px;" /></div>
+                                        <span class="tip">*</span>
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td class="tit">联系电话:</td>
+                                    <td>
+                                        <div class="cell"><input type="text" class="inputtext" id="telphone" name="telphone" value="{$data['telphone']}" style="width:400px;" /></div>
+                                        <span class="tip">*</span>
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td class="tit">联系QQ:</td>
+                                    <td>
+                                        <div class="cell"><input type="text" class="inputtext" id="qq" name="qq" value="{$data['qq']}" style="width:400px;" /></div>
+                                        <span class="tip">*</span>
+                                    </td>
+                                </tr> 
+                            </tbody>
+                        </table>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+        <div class="submitline cl">
+            <if condition="$fromtype == 1">
+                <div class="cell"><input type="submit" class="btn" value="提交"/></div>
+            <else />
+                <div class="cell"><input type="submit" class="btn" value="修改"/></div>
+            </if>
+            <div class="cell"><input type="reset" class="btn-gray" value="取消" onclick="window.location.href='/Business/index.html'"/></div>
+        </div>
+    </form>
+<include file='Common/popup'/>
+</body>
+</html>

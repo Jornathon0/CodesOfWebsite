@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>权限管理-节点</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/zytj_iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+
+<script>
+$(function(){
+	//搜索按钮
+	dohover('#submitbox','submitbox-hover');
+	$('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    });
+	
+    $("#checkAll").click(function() {
+            $('input[name="id"]').prop("checked",this.checked); 
+    });
+});
+
+function confirmDel(id,type,name,level){
+    if(type == 0)
+    {
+	//处理弹窗相应参数
+        if(level == 1){
+            $('#tipsTxt').text("您确定要删除 '"+name+"' 这个应用吗？ 会把其所有子控制器方法都删除掉！ ");
+        }else if(level == 2){
+            $('#tipsTxt').text("您确定要删除 '"+name+"' 这个控制器吗？ 会把其所有子方法都删除掉！ ");
+        }else{
+            $('#tipsTxt').text("您确定要删除 '"+name+"' 这个方法吗?");
+        }
+        $('#yes').attr('onclick',"window.appiframe.confirmDel("+id+",1,name,"+level+")");
+	//父级页面载入窗口
+	iframeopenpop('#pop-confirm');
+    }else{
+        window.parent.iframeclosepop('#pop-confirm');
+        $.ajax({
+                type: "POST",
+                url: '/admin/getAjax.html',
+                data: {act:'deleteNodebyID',level:level,"selectedID": id},
+                dataType: "json",
+                beforeSend: function() {},
+                success: function(rs) { 
+                    if(rs == 'ok'){
+                       $('#tips2Txt').text('删除成功！'); 
+                        iframeopenpop('#pop-sure');
+                        $('#td'+id).remove();
+                    }else{
+                        $('#tips2Txt').text('应用不为空，不能直接删除！'); 
+                        iframeopenpop('#pop-sure'); 
+                    }
+                    
+                }
+        });
+    }
+}
+
+$(function(){
+ 
+				
+})
+function addBtn(id){ 
+    var uu = $('#cd'+id);
+    var yu = $('#display_cp'+id);
+    if(uu.hasClass('on')){
+        uu.removeClass('on');
+        uu.addClass('zd_cp');
+        yu.show();
+    }else{
+        uu.addClass('on'); 
+        uu.removeClass('zd_cp');
+        yu.hide();
+    }
+}
+</script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+	<div class="crumbs">
+    <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">权限管理</a><em>»</em><a href="javascript:;">节点</a>
+    </div>    
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    
+    <div class="module-content" id="moduleList-content">
+        <foreach name="data" item="app">
+            <div class="h45 topline clearfix">
+                <div class="leftbtn">
+                    <span class="txt left">{$app['title']}</span>                
+                    <a href="/Admin/addnode.html?type=1&pid={$app['id']}&level=2" class="btn">添加控制器</a>
+                </div>
+            </div>
+            <foreach name="app.child" item="action">
+                <div class="listbox" id="td{$action['id']}">
+                    <div class="listbox">
+                    <div class="biaoti">
+                        <div style=" float:left; width:32.5%; padding-right:10px;">
+                            <i class="zhe" id="cd{$action['id']}" onclick="addBtn({$action['id']});">展开收缩</i><span>{$action.title}</span><em class="duozuo">
+                            <a href="/Admin/addnode.html?type=1&pid={$action['id']}&level=3">[添加动作方法]</a></em><em class="shanchu">
+                            <a href="javascript:;" onclick="confirmDel({$action['id']},0,'{$action.title}',2)">删除</a></em><em class="xiugai">
+                            <a href="/Admin/addnode.html?type=2&pid={$action['id']}&level=2">修改</a></em>
+                        </div>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" width="100%" id="display_cp{$action['id']}" class="table display_cp">         
+                      <tbody>   
+                      <foreach name="action.child" item="method">
+                          <if condition="($method['num']%3  == 0) AND ($method['num'] neq 0)"><tr/></if>
+                          <if condition="$method['num']%3  == 0"><tr></if>
+                            <td id="td{$method['id']}">{$method.title}<em class="shanchu">
+                                    <a href="javascript:;" onclick="confirmDel({$method['id']},0,'{$method.title}',3)">删除</a></em><em class="xiugai">
+                                    <a href="/Admin/addnode.html?type=2&pid={$method['id']}&level=3">修改</a></em></td>
+                      </foreach>
+                          <tr/>
+                      </tbody>
+                    </table>
+                    <div class="clear20"></div>
+                    </div>   
+                </div>
+            </foreach>
+        </foreach>
+    </div>
+</div>
+<include file="Common/popup"/>
+</body>
+</html>

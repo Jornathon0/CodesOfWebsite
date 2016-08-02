@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>财务管理-用户提现申请</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/plus/laydate/laydate.js"></script>
+
+ 
+<script>
+$(function(){
+	//搜索按钮
+	dohover('#submitbox','submitbox-hover');
+	$('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    });
+	
+	$("#checkAll").click(function() {
+		$('input[name="id"]').prop("checked",this.checked); 
+	});
+});
+
+function confirmDel(id){
+	//处理弹窗相应参数
+	$('#tipsTxt').text('您确定要删除id='+id+'的这条记录吗？');
+	$('#yes').attr('onclick',"window.appiframe.del("+id+")");
+	//父级页面载入窗口
+	iframeopenpop('#pop-confirm');
+}
+
+//删除操作
+function del(id){
+	alert('这里去异步操作删除id='+id+'的这条记录了');
+	//异步删除完后，父窗口移除确认弹窗，并刷新本iframe页面
+	window.parent.iframeclosepop('#pop-confirm');
+	window.location.href=window.location.href;
+}
+
+//搜索不同状态
+function changeStatus(type){
+    $("#p").val(1);
+    $("#start").attr("value",'');
+    $("#end").attr("value",'');
+    $("#clickstatus").attr("value",type); 
+    $("#formsearch").submit();
+}
+
+
+//排序  type：  1：按更新时间排序 （默认）
+function ordertype(type){
+    if($("#ordervalue").val() == '1'){
+        $("#ordervalue").val('0');
+    }else{
+        $("#ordervalue").val('1');
+    }
+    $("#ordertype").val(type);
+    $("#formsearch").submit();
+}
+ 
+
+//翻页
+function setpage(p){
+    $("#p").val(p);
+    $("#formsearch").submit();
+}
+
+$(function(){
+  var start = {
+      elem: '#start',
+      format: 'YYYY/MM/DD',
+      max: laydate.now(), //最大日期
+      istime: true,
+      istoday: false,
+      choose: function(datas){
+           end.min = datas; //开始日选好后，重置结束日的最小日期
+           end.start = datas //将结束日的初始值设定为开始日
+      }
+  };
+  var end = {
+      elem: '#end',
+      format: 'YYYY/MM/DD',
+      max: laydate.now(),
+      istime: true,
+      istoday: false,
+      choose: function(datas){
+          start.max = datas; //结束日选好后，重置开始日的最大日期
+      }
+  };
+  laydate(start);
+  laydate(end);
+
+}); 
+</script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+    <div class="crumbs">
+        <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">财务管理</a><em>»</em><a href="javascript:;">用户提现<if condition="$type eq 1">申请<else />确认</if></if></a>
+    </div>
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    
+    <div class="module-content" id="moduleList-content">
+        <div class="h86 topline clearfix" style='height: 45px;'>
+            <form id="formsearch" action="/withdraw/index.html" method="post">
+             <div class="xuanxiang">
+                 <span class="xuan_x">
+                    <input type="radio" name='clickstatus' onclick="changeStatus(0)" <if condition="$clickstatus eq 0">checked</if> value='全部'><em>全 部</em>&nbsp;&nbsp;
+                    <input type="radio" name='clickstatus' onclick="changeStatus(1)" <if condition="$clickstatus eq 1">checked</if>  value='前天'>前天&nbsp;&nbsp;
+                    <input type="radio" name='clickstatus' onclick="changeStatus(2)" <if condition="$clickstatus eq 2">checked</if>  value='昨天'>昨天&nbsp;&nbsp;
+                    <input type="radio" name='clickstatus' onclick="changeStatus(3)" <if condition="$clickstatus eq 3">checked</if>  value='今天'>今天&nbsp;&nbsp;
+                </span> 
+                <span>申请金额共：<em>{$totalmoney}</em>&nbsp;元</span> &nbsp;&nbsp;
+             </div>
+                <div  class="xuanxiang">
+                <div class="rightbtn">
+                	     <div class="date_box">
+                          <span>提现开始日期：</span><span><input type="text" class="inputtext laydate-icon" name="start" id="start" value="{$starttime}"></span>
+                          <span>结束日期：</span><span><input type="text" class="inputtext laydate-icon" name="end" id="end" value="{$endtime}"></span>
+                        </div>
+                        <span class="searchtip">搜索</span>
+                        <input type="text" name="keywords" class="searchword" placeholder="请输入搜索词..." value="{$keywords}"/>
+                        <div class="submitbox" id="submitbox">
+                            <input type="submit" value="搜索" class="searchbtn" />
+                        </div>
+                    <input type="hidden" id="clickstatus" name="clickstatus" value="{$clickstatus}" />
+                    <input type="hidden" id="ordervalue" name="ordervalue" value="{$ordervalue}" />
+                    <input type="hidden" id="ordertype" name="ordertype" value="{$ordertype}" />
+                    <input type="hidden" id="p" name="p" value="{$p}" />
+                    <input type="hidden" id="type" name="type" value="{$type}" />
+                    <input type="hidden" id="utype" name="utype" value="{$utype}" />
+                </div>
+                </div>
+            </form> 
+        </div>
+        
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th width="8%"><span class="order_btn" onclick="ordertype(4)">ID<em class="icon icon-arrow"></em></span></th>
+              <th width="10%"><span>用户名</span></th>
+              <th width="10%"><span>帐号（邮箱/手机）</span></th>
+              <th width="8%"><span class="order_btn" onclick="ordertype(3)">收款银行<em class="icon icon-arrow"></em></span></th>
+              <th width="15%"><span>开户行</span></th>
+              <th width="20%"><span>卡号</span></th>
+              <th width="6%"><span class="order_btn" onclick="ordertype(2)">提现金额<em class="icon icon-arrow"></em></span></th>
+              <th width="8%"><span class="order_btn" onclick="ordertype(1)">申请日期<em class="icon icon-arrow"></em></span></th>
+              <th width="8%"><span>状态</span></th>
+              <th width="10%"><span>操作</span></th>
+            </tr>
+          </thead>
+          <tbody>
+          <foreach name="dataList" item="v">
+                <tr>
+                  <td>{$v['id']}</td>
+                  <td>{$v['uname']}</td>
+                  <td><if condition="$v.email eq 0">NULL<else/>{$v['email']}</if>/<if condition="$v.mobile eq 0">NULL<else/>{$v['mobile']}</if></td>
+                  <td>{$v['bankname']}</td>
+                  <td>{$v['openingbank']}</td>
+                  <td>{$v['bankcard']}</td>
+                  <td>{$v['money']}</td> 
+                  <td>{$v['add_time']|date='Y-m-d',###}</td>  
+                    <if condition="$v['flag'] == 1">
+                        <td class='green'> 申请提现
+                    <elseif condition="$v['flag'] == 2"/>
+                        <td class='orange'> 提现处理中
+                    <elseif condition="$v['flag'] == 3"/>
+                        <td class='blue'> 提现成功
+                    <else />
+                        <td class='huise'> 退款
+                    </if>
+                  </td> 
+                  <td>
+                    <if condition="$type == 1">
+                        <a class='zhifu' href="/Withdraw/dowith.html?id={$v[id]}&type=1" title="支付">支付</a>
+                        <a class='fahuo' href="/Withdraw/dowith.html?id={$v[id]}&type=3" title="退款">退款</a>
+                    <else />
+                        <a class='querenfk' href="/Withdraw/dowith.html?id={$v[id]}&type=2" title="确认转账">确认转账</a>
+                    </if>
+                  </td>            
+                </tr>
+          </foreach>
+          </tbody>
+        </table>
+        </div>
+        <div class="pageline">
+            {$page}
+        </div>
+    </div>
+</div>
+
+<include file="Common/popup"/>
+
+</body>
+</html>

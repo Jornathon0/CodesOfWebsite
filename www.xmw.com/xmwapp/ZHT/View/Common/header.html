@@ -1,0 +1,109 @@
+<div class="topline">
+    <div class="topline-bd">
+        <ul class="topnav">
+            <li>
+                <div class="topmenu"><i class="icon-bg icon-home"></i><a href="#">素材首页</a></div>
+            </li>
+            <li>
+                <div class="topmenu"><a href="#" class="username">{$Think.session.XZUserInfo.nickname}</a></div>
+            </li>
+            <li>
+                <div class="topmenu"><a href="/quit.html">登出</a></div>
+            </li>
+            <li>
+                <div class="topmenu"><a href="#" class="email-num"><i class="icon-bg icon-email"></i><span>10</span></a></div>
+            </li>
+            <li>
+                <div class="topmenu"><a href="#">我的支出</a></div>
+            </li>
+            <li>
+                <div class="topmenu"><a href="#">我的广告主</a><i class="icon-bg icon-nb"></i></div>
+                <div class="ISadvertiser">
+                    <div class="ISadvertiser-bd">
+                        <a href="#">广告主链接1</a>
+                        <a href="#">广告主链接2</a>
+                        <a href="#">广告主链接3</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="topmenu"><a href="#">我是媒体</a><i class="icon-bg icon-nb"></i></div>
+                <div class="ISmedia">
+                    <div class="ISmedia-bd">
+                        <a href="#">媒体链接1</a>
+                        <a href="#">媒体链接2</a>
+                        <a href="#">媒体链接3</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="topmenu"><i class="icon-bg icon-collect"></i><a href="#">我的收藏</a></div>
+            </li>
+            <li>
+                <div class="topmenu"><i class="icon-bg icon-contact"></i><a href="#">联系客服</a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--end:topline-->
+<div class="logoline">
+    <div class="logoline-bd">
+        <a href="#" title="#" class="logo">素材平台</a>
+        <div class="logoline-r">
+            <div class="topsearchbox clearfix">
+                <form action="#" method="post" class="search-form">
+                    <div class="search-cate">
+                        <div class="div-select" id="searchcate">
+                            <div class="div-selected">
+                                <input type="hidden" name="cate" value="1" />
+                                <span>找产品</span>
+                                <i class="icon-jtb"></i>
+                            </div>
+                            <div class="div-select-choose">
+                                <ul>
+                                    <li data-value="1"><a href="javascript:;">找产品</a></li>
+                                    <li data-value="2"><a href="javascript:;">找资源</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-words"><input type="text" name="keyword" value="" autocomplete="off" placeholder="请输入关键字搜索..." /></div>
+                    <div class="search-submit"><input type="submit" value="搜 索" /></div>
+                </form>
+                <div class="or">或者</div>
+                <if condition="$Think.session.XZUserInfo.type eq 1">
+                    <div class="fbbtn" id="fbbtn">
+                        <a href="/product/release-step1.html" class="gofabu"><span>发布一个产品</span><i class="icon-bg icon-snb"></i></a>
+                        <ul>
+                            <li><a href="/product/release-step1.html">发布一个产品</a></li>
+                            <li><a href="/resource/release-step1.html">发布一个资源</a></li>
+                        </ul>
+                    </div>
+                    <else />
+                    <div class="fbbtn" id="fbbtn">
+                        <a href="/resource/release-step1.html" class="gofabu"><span>发布一个资源</span></a>
+                    </div>
+                </if>
+            </div>
+            <div class="clear"></div>
+            <div class="skin clearfix">
+                <a href="javascript:;" class="skin-yellow-on"></a>
+                <a href="javascript:;" class="skin-green"></a>
+                <a href="javascript:;" class="skin-pink"></a>
+                <a href="javascript:;" class="skin-blue"></a>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--end:logoline-->
+<div class="topnavline">
+    <div class="topnavline-bd">
+        <div class="wsqy"><a href="#"><i class="icon-bg icon-ren"></i><span>我是企业</span></a></div>
+        <a href="javascript:;">首页</a>
+        <a href="#">账号设置</a>
+        <a href="#">我的消息</a>
+        <a href="#">我的主页</a>
+    </div>
+</div>
+<!--end:topnavline-->

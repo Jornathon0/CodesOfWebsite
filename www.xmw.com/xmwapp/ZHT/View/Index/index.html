@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>管理中心</title>
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_admin.css" />
+        <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+        <script type="text/javascript" src="{:C('SKINURL')}js/ht_admin.js"></script>
+        <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_popup.css">
+        <script type="text/javascript" src="{:C('SKINURL')}js/ht_popup.js"></script>
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_ie.css" />
+        <script type="text/javascript" src="{:C('SKINURL')}js/ht_ie.js"></script>
+        <![endif]-->
+    </head>
+    <!--[if IE]>
+        <body class="ie">
+    <![endif]-->
+    <!--[if !IE]>
+        <body>
+    <![endif]-->
+    <!--[if lt IE 9]><div class="ietopbar"><a href="javascript:;">关闭</a>尊敬的用户，建议您在电脑上使用如下浏览器访问：Chrome、Firefox、Safari、IE8以上（不包含IE8），以保证您的使用体验</div><![endif]-->
+
+    <div class="header cl" id="header">
+        <div class="logo"><a href="/">后台管理平台</a><span>v1.0</span></div>
+        <div class="header-nav">
+            <div class="nav-clock">
+                <a class="" href="javascript:;">
+                    <i class="icon icon-clock"></i>
+                    <span id="clock"></span>
+                </a>
+            </div>
+            <div class="nav-bell">
+                <a class="" href="#">
+                    <i class="icon icon-bell icon-animated-bell"></i>
+                    <em>8</em>
+                </a>
+            </div>
+            <div class="nav-msg">
+                <a class="" href="#">
+                    <i class="icon icon-xinjian icon-animated-vertical"></i>
+                    <em>99+</em>
+                </a>
+            </div>
+            <div class="nav-admin">
+                <a class="user-name" href="javascript:;">
+                    <img src="{:C('SKINURL')}images/user.jpg" alt=""/>
+                    <span class="name">{$username}</span>
+                    <i class="icon icon-dropdown"></i>
+                </a>
+                <ul>
+                    <li><a href="javascript:;"><i class="icon icon-profile"></i>个人资料</a></li>
+                    <li><a href="/login/quit.html"><i class="icon icon-quit"></i>退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- #header -->
+
+    <!-- <div id="menu"> -->
+<!--         <div class="top-title">
+            <div class="crumb">
+                <div class="crumb-inner">
+                    <a href="/">
+                        <span class="icon icon-home"></span>
+                    </a>
+                </div>
+            </div> -->
+<!--             <div class="crumb">
+                <div class="crumb-inner" id="gameName">
+                    <a id="gameName-button" class="select-button" target="appiframe" href="/add.html" style="color: white;">
+                        <span class="selectmenu-status">网站首页</span>
+                        <span class="select-icon select-icon-dropdown"></span>
+                    </a>
+                </div>
+            </div> -->
+
+<!--             <div class="crumb" style="float: right;">
+                <div class="crumb-inner" id="gameName">
+                    <a id="gameName-button" class="select-button"  target="appiframe" href="/clearcache.html" style="color: white;">
+                        <span class="selectmenu-status">刷新缓存</span>
+                        <span class="select-icon select-icon-dropdown" style="background-position: left -1142px;"></span>
+                    </a>
+                </div>
+            </div> -->
+    <!-- </div> -->
+    <!-- #menu -->
+
+    <!-- div id="notice" class="notice-box">
+        <a class="icon icon-close" onClick="$('#notice').hide();"></a>
+        <span class="icon icon-horn-green"></span>
+        <span class="notice-text">2016-11-11 新米网平台隆重上线
+            <a target="_blank" href="#" class="blue">查看详情</a></span>
+    </div-->
+    <!-- #notice -->
+
+    <div id="container">
+        <div id="side" class="side">
+            <div id="sidemenu" class="panel">
+
+                <h3 class="current" id="1">
+                    <a href="/pages/index.html" target="appiframe">
+                        <span class="menu-icon menu-icon-home"></span>
+                        <em>首页</em>
+                    </a>
+                </h3>
+                <volist name="menulist" id="v">
+                	<div class="menu-divider"></div>
+                    <h3 id="2">
+                        <a href="javascript:;">
+                            <span class="menu-icon menu-icon-player"></span>
+                            <em>{$v['title']}</em>
+                        </a>
+                        <span class="icon icon-arrow"></span>
+                    </h3>
+                    <div class="panel-cotent">
+                        <ul class="menu-list">
+                        <volist name="v.list" id="vs">
+                           <li id="201"><a href="/{$v.name}/{$vs.name}.html" target="appiframe">{$vs.title}</a></li>
+                        </volist>
+                        </ul>
+                    </div>
+                </volist>
+            </div>
+        </div>
+        <div id="main">
+            <div class="content">
+
+                <div class="iframebox" id="iframebox">
+                    <iframe src="/pages/index.html" style="width: 100%; height: 100%; min-height: 800px; display:inline;" frameborder="0" id="appiframe" name="appiframe" class="appiframe"></iframe>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- #container -->
+    <div id="footer" class="footer">
+        <p class="link">
+            <a href="#">关于我们</a> |
+            <a href="#">微博</a> 
+        </p>
+        <p class="copyright"> Copyright © 2016  巨网科技技术部支持  赣ICP备xxxxxx-1号</p>
+    </div>
+    <!-- #footer -->
+
+    <!--右侧底部按钮-->
+    <div class="col-tool" id="colTool">
+        <!--<a class="question"><span class="icon icon-note"></span>问题</a>-->
+        <a class="tixing havetixing" id="tixing"><span class="icon icon-tixing icon-animated-bell"></span><b>有新提醒</b><em></em></a>
+    </div>
+    <a href="javascript:;" class="back-top" id="back-top">
+        <span class="icon icon-top"></span>
+    </a>
+
+    <!--提醒框-->
+    <div class="remind-box" id="remindBox" style="display: none;">
+        <div class="remind-title" id="remindIcon">
+            <span class="icon icon-close" id="remindClose" onClick="$('#remindBox').hide();"></span><span class="icon icon-tixing"></span>提醒
+        </div>
+        <div class="remind-text">
+            <div class="textarea">
+                提醒：你好，新的企业会员 "dingwengeng" 已注册，请注意跟进！
+            </div>
+        </div>
+        <div class="remind-btn">
+            <a class="btn" id="remindBtn" style="height: 28px; line-height: 28px;">查看更多提醒</a>
+            <span class="error" id="remindTips"></span>
+        </div>
+    </div>
+
+<!--显示大图相关-->
+<script>
+//图片居中定位
+function dingwei(_this){
+    //alert($(window).height());
+    var img=new Image();
+    img.src=_this.src;
+    
+    //alert(img.height);
+    $(_this).parent().width(img.width);
+    $(_this).parent().height(img.height);
+    //var mt = ($(window).height()-_this.height)/2 ;
+    //$(_this).parent().css('margin-top',mt);
+}
+
+//打开大图展示
+function openbigpic($this){
+	//var i = n-1;
+	var src = $this.attr('src');
+	$('#bigpics').find('img').attr('src',src);
+	
+	var h = $("#bigpics").find('a').height();
+	var bodyH = $(document).height(); //页面文档高度
+	var winH = $(window).height(); 	//可视窗口高度
+	var sTop = $(document).scrollTop(); //滚轮已滚高度
+	//var top = (winH-h)/2+sTop;
+	var top = (winH-h)/2;
+	$("#bigpics").find('a').css({'margin-top':top});
+	
+    $('#bigpics').css('display','block');
+	//changepic(i);
+};
+
+//关闭大图展示
+function closebigpic(){
+    $('#bigpics').css('display','none');
+};
+</script>
+<style>
+.bigpics{ position:fixed; left:0px; top:0px; z-index:100; width:100%; height:100%; display:none; z-index:1000;}
+.bigpics .bigpicsbg{ background-color:#000; position:absolute; top:0px; left:0px; filter:alpha(opacity=70); opacity:0.7; width:100%; height:100%; }
+.bigpics a{ display:block; margin:0 auto; position:relative; z-index:200; text-align:center;}
+</style>
+<div class="bigpics" id="bigpics">
+<a href="#"><img src="{:C('SKINURL')}images/nopic.png" onload="dingwei(this)" /></a>
+<div class="bigpicsbg" onclick="closebigpic();"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>管理中心</title>
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+        <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+        <script type="text/javascript" src="{:C('SKINURL')}s/ht_global.js"></script>
+        <script type="text/javascript" src="{:C('SKINURL')}s/ht_iframeHeight.js"></script>
+        <script>
+            $(function() {
+                iframeSetHeight("#appiframe-index");
+            });
+
+        </script>
+    </head>
+    <body>
+        <div class="pd">
+            <div class="filter-tool">
+                <a id="refresh" class="refreshbtn" target="appiframe" href="/clearcache.html" style="color: white;">
+                <span class="icon icon-refresh">
+                </span>
+                </a>
+                <h3>欢迎页面</h3>
+            </div>
+        </div>
+        <!--<div class="module" id="moduleList">
+            <div class="module-title"><h3>任务转化</h3><span title="收起" class="module-icon module-toggle"><a class="icon icon-arrow"></a></span></div>
+            <div class="module-content" id="moduleList-content">
+                
+            </div>
+        </div>-->
+        <!--框架-->
+
+
+    </body>
+</html>

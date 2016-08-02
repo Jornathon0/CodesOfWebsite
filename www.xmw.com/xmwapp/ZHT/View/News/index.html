@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>产品支出-管理中心</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+    $(function() {
+        //搜索按钮
+        dohover('#submitbox', 'submitbox-hover');
+        $('#submitbox').mousedown(function() {
+            $(this).addClass('submitbox-down');
+        }).mouseup(function() {
+            $(this).removeClass('submitbox-down');
+        });
+
+        $("#checkAll").click(function() {
+            $('input[name="itemid"]').prop("checked", this.checked);
+        });
+    });
+
+    function confirmDel(id) {
+        //处理弹窗相应参数
+        $('#tipsTxt').text('您确定要删除id=' + id + '的这条记录吗？');
+        $('#yes').attr('onclick', "window.appiframe.del(" + id + ")");
+        //父级页面载入窗口
+        iframeopenpop('#pop-confirm');
+    }
+
+    /*
+     * 删除操作-删除单个记录
+     * param：  id      删除资讯的nid
+     * param    value   资讯的title
+     * param    type    0：用户点击记录后面的删除按钮   1： 弹出用户选择确认按钮后调用
+     * 
+     */
+    function del(id,value,type) { 
+        if(type == 0){
+            $('#tipsTxt').text("您确定要删除'" +value+"'这篇文章吗？");
+            $('#yes').attr('onclick', "window.appiframe.del("+id+",'"+value+"',1)");
+            //父级页面载入窗口
+            iframeopenpop('#pop-confirm');
+        }else{
+            window.parent.iframeclosepop('#pop-confirm'); 
+            $.ajax({
+                type: "POST",
+                url: '/news/getAjax.html',
+                data: {act:'deleteDatabyID',"selectedID": id},
+                dataType: "json",
+                beforeSend: function() {},
+                success: function(rs) { 
+                    if(rs == '0'){
+                        $('#tips2Txt').text('删除成功！'); 
+                        iframeopenpop('#pop-sure');
+                        location.reload();
+                    }else{
+                        $('#tips2Txt').text('删除失败，未知错误！'); 
+                        iframeopenpop('#pop-sure');
+                    }
+                }
+            });
+        }
+    }
+    /*
+     * 删除操作-删除多条记录
+     */
+    function dels(){
+        window.parent.iframeclosepop('#pop-confirm');
+        var _list = [];var i=0;
+        $('input[name="itemid"]').each(function(){
+            if(this.checked){_list[i++] = this.value;}
+        }); 
+        $.ajax({
+            type: "POST",
+            url: '/news/getAjax.html',
+            data: {act:'deleteDatabyIDs',"selectedIDs": _list},
+            dataType: "json",
+            beforeSend: function() {},
+            success: function(rs) {
+                $('#tips2Txt').text('删除成功！'); 
+                iframeopenpop('#pop-sure');
+                location.reload();
+            }
+        });
+  
+    }
+    //左上角批量操作（提交按钮）
+    function listmenusubmit() { 
+        var weight = jQuery("#operation-select-val").val();
+        var chechedCount = 0;
+        $('input[name="itemid"]').each(function(){
+              if(this.checked) 
+                  chechedCount = chechedCount + 1;
+        });
+        if(chechedCount <= 0){
+            $('#tips2Txt').text('您未选中任何数据'); 
+            iframeopenpop('#pop-sure');
+            return;
+        }
+        if(weight == 'del'){
+            $('#tipsTxt').text('您确定要删除这'+chechedCount+'条数据吗？');
+            $('#yes').attr('onclick', "window.appiframe.dels()");
+            //父级页面载入窗口
+            iframeopenpop('#pop-confirm');
+        }else{
+            $('#tips2Txt').text('请选择操作方法!'); 
+            iframeopenpop('#pop-sure');
+        }
+    }
+</script>
+</head>
+<body>
+    <div class="pd">
+        <div class="filter-tool"> 
+            <div class="breadlink">
+                <a href="javascript:;">首页</a><em>></em>
+                <a href="javascript:;">资讯管理</a><em>></em>
+                <a href="javascript:;">资讯列表</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="module" id="moduleList">
+        <div class="module-content" id="moduleList-content">
+            <div class="h45 topline clearfix">
+                <div class="rightbtn">
+                    <form action="/news/index.html" method="post">
+                        <span class="searchtip">搜索</span>
+                        <div class="select-box" id="searchcate-select">
+                            <input type="hidden" id="searchcate-select-val" name="scategory" value="{$scategory}" />
+                            <span class="select">
+                                <a class="select-button">
+                                    <span class="selectmenu-status" style="width:56px;">{$scategoryName}</span>
+                                    <span class="select-icon select-icon-dropdown"></span>
+                                </a>
+                            </span>
+                            <div class="selectmenu selectmenu-list">
+                                <ul>
+                                    <li><a data-val="0">所有栏目</a></li>
+                                    <foreach name='datacategory' item='v'>
+                                            <li><a data-val="{$v['ncid']}">{$v['html']}{$v['typename']}</a></li>
+                                        </foreach>
+                                </ul>
+                            </div>
+                        </div> 
+                        <input type="text" name="keywords" class="searchword" placeholder="请输入搜索词..." value="{$keywords}"/>
+                        <div class="submitbox" id="submitbox">
+                            <input type="submit" value="搜索" class="searchbtn" />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="leftbtn">
+                    <span class="txt left">批量操作</span>
+                    <div class="select-box" id="operation-select">
+                        <input type="hidden" id="operation-select-val" name="operation" value="defalut" />
+                        <span class="select">
+                            <a class="select-button">
+                                <span class="selectmenu-status" style="width:56px;">请选择</span>
+                                <span class="select-icon select-icon-dropdown"></span>
+                            </a>
+                        </span>
+                        <div class="selectmenu selectmenu-list" >
+                            <ul>
+                                <li><a data-val="defalut">请选择</a></li>
+                                <li><a data-val="del">删除</a></li> 
+                            </ul>
+                        </div>
+                    </div>
+                    <a class="btn" onclick="listmenusubmit();">提交</a>
+                </div>
+            </div>
+
+            <div class="listbox"> 
+                <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                    <thead>
+                        <tr>
+                            <th width="40"><span><input type="checkbox" id="checkAll" /></span></th>
+                            <th><span>ID</span></th>
+                            <th><span>列表图片</span></th>
+                            <th><span>发布人</span></th>
+                            <th><span>分类</span></th>
+                            <th><span>标题</span></th>
+                            <th><span>入库时间</span></th>
+                            <th><span>点击次数</span></th>
+                            <th width="92"><span>操作</span></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <foreach name='dataList' item='v'>
+                        <tr>
+                            <td align="center"><input type="checkbox" id="id1" name="itemid" value="{$v['nid']}" /></td>
+                            <td>{$v['nid']}</td>
+                            <td><img src="/Uploads{$v['thumbnail']}" width="66" height="50" alt=""/></td>
+                            <td>{$v.author_name}</td>
+                            <td>{$v.categoryName}</td>
+                            <td>{$v.title}</td>
+                            <td>{$v.add_time|date='Y-m-d',###}</td>
+                            <td>{$v.click}</td>
+                            <td><a class="o-pen" href="/news/edit.html?nid={$v['nid']}" title="编辑">编辑</a><a class="o-del" href="javascript:;" onclick="del({$v['nid']},'{$v['title']}',0)">删除</a></td>
+                        </tr>
+                        </foreach>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pageline">
+                {$page}
+            </div>
+        </div>
+    </div>
+
+<include file='Common/popup'/>
+</body>
+</html>

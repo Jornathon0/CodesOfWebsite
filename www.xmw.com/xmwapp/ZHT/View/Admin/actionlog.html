@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>权限管理-操作日志</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+
+<script>
+$(function(){
+	//搜索按钮
+	dohover('#submitbox','submitbox-hover');
+	$('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    }); 
+}); 
+ 
+</script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+    <div class="crumbs">
+        <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">权限管理</a><em>»</em><a href="javascript:;">操作日志</a>
+    </div> 
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    
+    <div class="module-content" id="moduleList-content">    	
+        <div class="h86 topline clearfix" style='height: 45px;'>
+            <div class="rightbtn">
+            	<form id="formsearch" action="/admin/actionLog.html" method="post">
+                    <span class="searchtip">搜索</span>
+                    <input type="text" name="keywords" class="searchword" placeholder="请输入搜索词..." value="{$keywords}"/>
+                    <div class="submitbox" id="submitbox">
+                        <input type="submit" value="搜索" class="searchbtn" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th><span>ID</span></th>
+              <th><span>用户ID</span></th>
+              <th><span>用户名</span></th>
+              <th><span>标题</span></th>
+              <th><span>操作日期</span></th> 
+            </tr>
+          </thead>
+          <tbody>
+            <foreach name='data' item='v'>
+                <tr>
+                  <td>{$v['id']}</td>
+                  <td>{$v['aid']}</td>
+                  <td>{$v['username']}</td>
+                  <td>{$v['memo']}</td>
+                  <td>{$v['dateline']|date='Y-m-d',###}</td> 
+                </tr>
+            </foreach>
+          </tbody>
+        </table>
+        </div>
+        <div class="pageline">
+            {$page}
+        </div>
+    </div>
+</div> 
+</body>
+</html>

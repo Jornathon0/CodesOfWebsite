@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>红包管理-红包领取记录列表</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">红包管理</a><em>»</em><a href="javascript:;">红包领取记录列表</a>
+            </div>
+        </div>
+    </div>
+
+   <div class="module" id="moduleList">  
+    <div class="module-content" id="moduleList-content">
+        <div class="h86 topline clearfix">
+          
+            <div class="xuanxiang">
+                <span class="xuan_x">
+红包历史发放总额：<em>{$totalcount}</em>&nbsp;
+                </span> 
+
+                <div class="rightbtn"  style='margin-bottom: 10px;'>
+                <form id="formsearch" action="/packets/index.html" method="post">
+               <!--  <span class="searchtip">搜索</span> -->
+                    <input type="text" name="keywords" class="searchword" placeholder="请输入会员ID或者姓名..." value="{$keywords}"/>
+                    <div class="submitbox" id="submitbox">
+                        <input type="submit" value="搜索" class="searchbtn" />
+                        <input type="hidden" id="service" name="service" value="{$service}" />
+                        <input type="hidden" id="ordervalue" name="ordervalue" value="{$ordervalue}" />
+                        <input type="hidden" id="ordertype" name="ordertype" value="{$ordertype}" />
+                        <input type="hidden" id="p" name="p" value="{$p}" />
+                    </div>
+                </form>
+            </div> 
+            </div>
+            
+
+<!--         <div class="tj-data">
+                        <span class="tj">今日新增会员数：<em>{$todayCount}</em>&nbsp;</span>
+                        <span class="tj">昨日新增会员数：<em>{$yestodayCount}</em>&nbsp;</span>
+        </div> -->
+        
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th width="20%" onclick="ordertype(6)"><span class="order_btn">ID<em class="icon icon-arrow"></em></span></th>
+              <th width="10%"><span>会员ID</span></th>
+              <th width="20%"><span>会员姓名</span></th>
+              <th width="30%" onclick="ordertype(5)"><span class="order_btn">红包金额<em class="icon icon-arrow"></em></span></th>
+              <th width="20%"><span>领取时间</span></th>
+            </tr4
+          </thead>
+          <tbody>
+          <foreach name="data" item="v">
+                <tr>
+                  <td>{$v['id']}</td>
+                  <td>{$v['uid']}</td>
+                  <td>{$v['uname']}</td>
+                  <td>{$v['packetsmoney']}</td>
+                  <td>{$v['addtime']}</td>
+                </tr>
+            </foreach>
+          </tbody>
+        </table>
+        </div>
+        <div class="pageline">
+            {$page}
+        </div>
+    </div> </div>
+</div>
+<include file='Common/popup'/>
+</body>
+</html>

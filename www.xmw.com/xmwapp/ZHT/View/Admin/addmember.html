@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>权限管理-增加用户</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+$(function() {
+    iframeSetHeight("#appiframe-news3");
+});
+//检查
+function check()
+{    
+    if($('#name').val() == '')
+    {  
+        alert('用户名不能为空！');  
+        return false;
+    } 
+    if($('#password').val() == '')
+    { 
+        alert('密码不能为空！');
+        return false;
+    }
+    if($('#password').val() != $('#password2').val())
+    { 
+        alert('2次密码不相同！');  
+        return false;
+    }
+    
+    if($('#role').val() == '')
+    { 
+        alert('请选择角色！');  
+        return false;
+    }
+    //验证用户名唯一性
+    $.ajax({
+        type: "POST",
+        url: '/admin/getAjax.html',
+        data: 'act=checkNameOnly&id='+$('#aid').val()+'&name='+$('#name').val(), 
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) {  
+           if(rs == '0'){
+                $("#formid").submit();
+            }else if(rs == '1'){
+                $('#tips2Txt').text('该用户名已使用，请换个名称！'); 
+                iframeopenpop('#pop-sure');
+            }else{
+                $('#tips2Txt').text('未知错误！'); 
+                iframeopenpop('#pop-sure');
+            }
+        }
+    });
+    return false;
+}
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="/admin/index.html">权限管理</a><em>»</em><a href="javascript:;">增加用户</a>
+            </div>
+        </div>
+    </div>                                                    
+    <form id='formid' action="/Admin/addMemberHandle.html" method='post'>
+        <div class="formconent" >
+            <table class="formtable">
+                <tr>
+                    <td class="tit">用户名称:</td>
+                    <td>
+                        <div class="cell">
+                            <input type="text" class="inputtext" placeholder="" id="name" name="name" value="" />
+                        </div>
+                        <span class="tip">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">用户密码:</td>
+                    <td>
+                        <div class="cell">
+                            <input type="password" class="inputtext" placeholder="" id="password" name="password" value="" />
+                        </div>
+                        <span class="tip">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">用户密码:</td>
+                    <td>
+                        <div class="cell">
+                            <input type="password" class="inputtext" placeholder="" id="password2" name="password2" value="" />
+                        </div>
+                        <span class="tip">*2次密码必须一致</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">所属角色:</td>
+                    <td>
+                        <div class="cell">
+                            <div class="select-box" id="cate-select"> 
+                                <select name="role" style="height:40px;width:210px;font-size:16px">
+                                    <foreach name='roledata' item='v'> 
+                                        <option value="{$v['id']}" selected = "selected">{$v['remark']}</option>
+                                    </foreach> 
+                                </select>
+                            </div>
+                        </div>
+                        <span class="tip">*</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="submitline cl">
+            <div class="cell">
+                <input style="margin: 0 0 0 35px;"  onclick="check();" type="button" class="btn" value="添加用户" /> 
+                <INPUT style="margin: 0 0 0 25px;" type="button" ID=btnEmergency VALUE="返回列表"  onclick="window.location.href='/admin/index.html'"></div>
+        </div>
+   </form>
+    <include file='Common/popup'/>
+</body>
+</html>

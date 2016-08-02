@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>会员管理-企业会员详情</title>
+    <link rel="stylesheet" type="text/css" href="/css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="/css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="/css/ht_iframe.css" />
+    <link rel="stylesheet" type="text/css" href="/css/ht_popup.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/ht_global.js"></script>
+    <script type="text/javascript" src="/js/ht_iframeHeight.js"></script>
+    <script type="text/javascript" src="/js/ht_popup.js"></script>
+    
+<script>
+$(function() {
+    iframeSetHeight("#appiframe-news3");
+});
+
+ //点击预览图片
+$(document).on('click','.row-r img',function(){
+    var src = $(this).attr('src'); 
+    $('#pop-bigimg').find('img').attr('src',src); 
+    iframeopenpop('#pop-bigimg');
+});
+ 
+function check(type){
+     $('#tipsTxt').text("您确定要 "+type+" 该用户吗？");
+     $('#yes').attr('onclick',"window.appiframe.submit()");
+     //父级页面载入窗口
+     iframeopenpop('#pop-confirm');
+}
+
+function submit(){
+    window.parent.iframeclosepop('#pop-confirm');
+    $('#checkForm').submit();
+}
+function tagchange(id){
+    var tags = '';
+    $('input[type="checkbox"][id="checktag'+id+'"]:checked').each(
+        function() {
+            if(tags != '')
+                tags = tags + ',' + $(this).val();
+            else
+                tags = tags + $(this).val(); 
+    });
+    $.ajax({
+        type: "POST",
+        url: '/Member/getAjax.html',
+        data: {act:'usersettag',"selectedID": id,'tags':tags},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+        }
+    }); 
+}
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">会员管理</a><em>»</em><a href="javascript:;"><if condition="$data['type'] == 1">企业<else />个人</if>会员详情</a>
+            </div>
+        </div>
+    </div>  
+    <form id="checkForm" action="/member/CheckHandle.html" method='post'>
+        <br />
+        <div class="submitline cl">
+            <div class="cell">
+                <input type="hidden" name='uid' value="{$data['uid']}">
+                <input type="hidden" name='status' value="{$data['status']}">
+                <input type="hidden" name='type' value="{$data['type']}">
+                <if condition="$data['status'] == -1">
+                    <input style="margin: 0 0 0 35px;" type="button" class="btn" value="审核通过" onclick="check('审核通过');"/> 
+                <elseif condition="$data['status'] == 1"/>
+                    <input style="margin: 0 0 0 35px;" type="button" class="btn" value="锁定" onclick="check('锁定');"/> 
+                <else />
+                    <input style="margin: 0 0 0 35px;" type="button" class="btn" value="解锁" onclick="check('解锁');"/> 
+                </if>
+                <INPUT style="margin: 0 0 0 25px;" type="button" ID=btnEmergency VALUE="返回列表"  onclick="window.location.href='/member/index.html'"> 
+            </div>
+        </div>
+        <br />
+        <div class="formconent" >
+            <div class="box_wrap">
+                    <ul class="form_conent">
+                        <li><span class="label_name">邮箱：</span><span>{$data['email']}</span></li>
+                        <li><span class="label_name">QQ：</span><span>{$data['qq']}</span></li>
+                        <li><span class="label_name">状态：</span>
+                            <span>
+                                <if condition="$data['status'] == -1">
+                                        待审
+                                <elseif condition="$data['status'] == 1" />
+                                        活动
+                                <else />
+                                        锁定
+                                </if>
+                            </span>
+                        </li>                             
+                        <li><span class="label_name">客服：</span><span>
+                                <select id="kefu_id{$data['uid']}" onchange="selectkefu({$data['uid']})" name="kefu_id" style="width:150px;font-size:15px">
+                                    <option value="0">选择客服</option>
+                                    <foreach name='business' item='vt'> 
+                                        <if condition="$vt['id'] == $data['kefu_id']">
+                                            <option value="{$vt['id']}" selected = "selected">{$data['kf_name']}</option>
+                                        <else />
+                                            <option value="{$vt['id']}">{$vt['kf_name']}</option>
+                                        </if>
+                                    </foreach> 
+                                </select> 
+                            </span></li>
+                        <li><span class="label_name">企业规模：</span><span>{$data['company_scale']}</span></li>
+                        <li><span class="label_name">公司性质：</span><span>{$data['company_property']}</span></li>                            
+                        <li><span class="label_name">成立时间：</span><span>{$data['company_cltime']}</span></li>
+                        <li><span class="label_name">注册资本：</span><span>{$data['company_zczb']}</span></li>
+                        <li><span class="label_name">企业口号：</span><span>{$data['company_slogan']}</span></li>                            
+                        <li><span class="label_name">税号：</span><span>{$data['suihao']}</span></li>
+                        <li><span class="label_name">公司简介：</span><span>{$data['company_brief']}</span></li>
+                        <li><span class="label_name"></span><span></span></li>                            
+                        <li><span class="label_name">标签：</span><span>
+                                <label><input id="checktag{$data['uid']}" onchange="tagchange({$data['uid']})" type='checkbox' value="x" <if condition="$data.is_x eq 1">checked='checked'</if>/>信&nbsp;</label>
+                                <label><input id="checktag{$data['uid']}" onchange="tagchange({$data['uid']})"  type='checkbox' value="r" <if condition="$data.is_r eq 1">checked='checked'</if>/>任&nbsp;</label>
+                                <label><input id="checktag{$data['uid']}" onchange="tagchange({$data['uid']})"  type='checkbox' value="b"  <if condition="$data.is_b eq 1">checked='checked'</if>/>保&nbsp;</label>
+                                <label><input id="checktag{$data['uid']}" onchange="tagchange({$data['uid']})"  type='checkbox' value="z" <if condition="$data.is_z eq 1">checked='checked'</if>/>重&nbsp;</label>
+                                <label><input id="checktag{$data['uid']}" onchange="tagchange({$data['uid']})"  type='checkbox' value="d"  <if condition="$data.is_d eq 1">checked='checked'</if>/>大&nbsp;&nbsp;</label>
+                            </span></li>
+                            <li><span class="label_name"></span><span></span></li>
+                            <li><span class="label_name"></span><span></span></li>
+                            
+                            <li class="user_pic">
+                              <p>
+                                <span class="label_name">营业执照：</span>
+                                <span class="pic">
+                                    <if condition="$v.company_rz eq 1">
+                                        <span>未上传</span>
+                                    <else />
+                                        <img id="imgid1" src="{$data['yyzz']}" width="208" height="138" alt=""/>
+                                    </if>
+                                </span>
+                              </p>
+                              <p>
+                                <span class="label_name">加盖公章：</span>
+                                <span class="pic">
+                                    <if condition="$data.company_rz lt 3">
+                                        <span>未上传</span>
+                                    <else />
+                                        <img id="imgid1" src="{$data['company_gz']}" width="208" height="138" alt=""/>
+                                    </if>
+                                </span>
+                              </p>
+                              <p>
+                                  <span class="label_name">认证状态：
+                                      <if condition="$data['company_rz'] eq 1">
+                                          <em>未认证（未上传）</em></span>
+                                      <elseif condition="$data['company_rz'] eq 3" />
+                                          <em>待认证</em></span>
+                                          <span class="btns">
+                                            <input type="button" class="btn" value="认证通过" onclick="doAction(5,{$data['uid']},'认证通过',0);"/> 
+                                            <input type="button" class="btn" value="认证不通过" onclick="doAction(6,{$data['uid']},'认证不通过',0);"/> 
+                                          </span>
+                                      <elseif condition="$data['company_rz'] eq 4" />
+                                          <em>认证完成</em></span>
+                                      </if>
+                                  
+                              </p>
+                            </li>
+                            <li class="row1">
+                              <dl>
+                                <dt><span class="label_name">收款信息：</span></dt>
+                                <dd>
+                                  <table cellpadding="0" cellspacing="0" class="table">
+                                      <thead>
+                                          <tr>
+                                              <th width="120">开户银行</th>
+                                              <th width="180">开户支行</th>
+                                              <th width="180">收款卡号</th>
+                                              <th width="80">收款名称</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                      <if condition="$data.banks eq ''">
+                                        <tr>
+                                            <td colspan="4"><span style="color: #f00">未完成收款信息</span></td>
+                                        </tr>
+                                      <else />
+                                        
+                                        <tr>
+                                              <td>{$data.banks.name}</td>
+                                              <td>{$data.banks.openingbank}</td>
+                                              <td>{$data.banks.bankcard}</td>
+                                              <td>{$data.banks.skname}</td>
+                                            </tr>
+                                      </if>
+                                      </tbody>
+                                  </table>
+                                </dd>
+                              </dl>
+                            </li>
+                            <li class="row1">
+                              <dl>
+                                <dt><span class="label_name">用户地址：</span></dt>
+                                <dd>
+                                  <table cellpadding="0" cellspacing="0" class="table">
+                                      <thead>
+                                          <tr>
+                                              <th width="120">收件人</th>
+                                              <th width="180">电话</th>
+                                              <th width="280">地址</th> 
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                      <if condition="$data.address eq ''">
+                                          <tr>
+                                            <td colspan="4"><span style="color: #f00">没有收货信息</span></td>
+                                        </tr>
+                                          
+                                      <else />
+                                        <foreach name='data.address' item='v2'>
+                                            <tr>
+                                              <td>{$v2.truename}</td>
+                                              <td>{$v2.mobile}</td>
+                                              <td>{$v2.address }</td>
+                                            </tr>
+                                            </foreach>
+                                      </if>
+                                      </tbody>
+                                  </table>
+                                </dd>
+                              </dl>
+                            </li> 
+                           <li class="row1">
+                              <dl>
+                                <dt><span class="label_name">开票信息：</span></dt>
+                                <if condition="$data.kpinfo">
+                                <dd>
+                                  <table cellpadding="0" cellspacing="0" class="table">
+                                      <thead>
+                                          <tr>
+                                              <th width="150">公司名称</th>
+                                              <th width="150">电话</th>
+                                              <th width="150">注册地址</th> 
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                            <tr>  
+                                              <td>{$data.company_name}</td>
+                                              <td>{$data.kpinfo.tel}</td>
+                                              <td>{$data.kpinfo.address}</td>
+                                            </tr>
+                                      </tbody>
+                                  </table>
+                                </dd>
+                                </if>
+                                <dd>
+                                  <table cellpadding="0" cellspacing="0" class="table">
+                                      <thead>
+                                          <tr>
+                                              <th width="150">组织结构</th>
+                                              <th width="150">税务登记</th>
+                                              <th width="150">机构信用</th>
+                                              <th width="150">开户许可</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                      <if condition="$data.kpinfo eq ''">
+                                          <tr>
+                                            <td colspan="4"><span style="color: #f00">未完成开票信息</span></td>
+                                        </tr>
+                                      <else /> 
+                                            <tr>  
+                                              <td><img id="imgkpid1" src="/{$data.kpinfo.zzjg}" width="250" height="150" alt=""/></td>
+                                              <td><img id="imgkpid2" src="/{$data.kpinfo.swdj}" width="250" height="150" alt=""/></td>
+                                              <td><img id="imgkpid3" src="/{$data.kpinfo.zgxy}" width="250" height="150" alt=""/></td>
+                                              <td><img id="imgkpid4" src="/{$data.kpinfo.khxk}" width="250" height="150" alt=""/></td>
+                                            </tr>
+                                      </if>
+                                      </tbody>
+                                  </table>
+                                </dd>
+                              </dl>
+                            </li> 
+                             
+                            
+                        </ul>
+                      </div><!-- 
+
+
+            <table class="formtable">
+                <tr>
+                    <td class="tit2">邮箱:</td>
+                    <td class="tit3">{$data['email']}</td>
+                </tr> 
+                <tr>
+                    <td class="tit2">用户名:</td>
+                    <td class="tit3">{$data['username']}</td>
+                </tr> 
+                <tr>
+                    <td class="tit2">申请时间:</td>
+                    <td class="tit3">{$data['regtime']|date='Y-m-d H:m:s',###}</td>
+                </tr> 
+                <tr>
+                    <td class="tit2">状态:</td>
+                    <td class="tit3">
+                        <if condition="$data['status'] == -1">
+                              待审
+                        <elseif condition="$data['status'] == 1" />
+                              活动
+                        <else />
+                              锁定
+                        </if></td>
+                </tr>
+                <tr>
+                    <td class="tit2">联系人:</td>
+                    <td class="tit3">{$data['truename']}</td>
+                </tr> 
+                <tr>
+                    <td class="tit2">QQ:</td>
+                    <td class="tit3">{$data['qq']}</td>
+                </tr> 
+                <tr>
+                    <td class="tit2">客服:</td>
+                    <td class="tit3">{$data['kefu_id']}</td>
+                </tr> 
+                <tr>
+                    <td class="tit2">银行账号:</td>
+                    <td class="tit3">{$data['bankcard']}</td>
+                </tr>
+                <tr>
+                    <td class="tit2">开户银行:</td>
+                    <td class="tit3">{$data['openingbank']}</td>
+                </tr>
+                <if condition="$data['type'] == 1">
+                    <tr>
+                        <td class="tit2">企业名称:</td>
+                        <td class="tit3">{$data['nickname']}</td>
+                    </tr> 
+                    <tr>
+                        <td class="tit2">开户单位:</td>
+                        <td class="tit3">{$data['skname']}</td>
+                    </tr> 
+                    <tr>
+                        <td class="tit2">业执照:</td>
+                        <td><div class="row-r"><img id="imgid1" src="http://www.xiongzhang.dev\Uploads{$data['yyzz']}" width="208" height="138" alt=""/></div></td>
+                    </tr>
+                    <tr><td class="tit2"></td><td class="tit3"></td></tr>
+                    <tr>
+                        <td class="tit2">税务登记证:</td>
+                        <td><div class="row-r"><img id="imgid1" src="http://www.xiongzhang.dev\Uploads{$data['swdj']}" width="208" height="138" alt=""/></div></td>
+                    </tr>
+                    <tr><td class="tit2"></td><td class="tit3"></td></tr>
+                    <tr>
+                        <td class="tit2">组织机构代码:</td>
+                        <td><div class="row-r"><img id="imgid1" src="http://www.xiongzhang.dev\Uploads{$data['zzjg']}" width="208" height="138" alt=""/></div></td>
+                    </tr> 
+                <else />
+                    <tr>
+                        <td class="tit2">用户昵称:</td>
+                        <td class="tit3">{$data['nickname']}</td>
+                    </tr> 
+                    <tr>
+                        <td class="tit2">收款姓名:</td>
+                        <td class="tit3">{$data['skname']}</td>
+                    </tr>
+                    <tr>
+                        <td class="tit2">身份证正面:</td>
+                        <td><div class="row-r"><img id="imgid1" src="http://www.xiongzhang.dev\Uploads{$data['idfm']}" width="208" height="138" alt=""/></div></td>
+                    </tr>
+                    <tr><td class="tit2"></td><td class="tit3"></td></tr>
+                    <tr>
+                        <td class="tit2">身份证反面:</td>
+                        <td><div class="row-r"><img id="imgid2" src="http://www.xiongzhang.dev\Uploads{$data['idzm']}" width="208" height="138" alt=""/></div></td>
+                    </tr> 
+                </if>
+            </table> -->
+        </div>
+   </form>
+
+<include file="Common/popup"/>
+</body>
+</html>

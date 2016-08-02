@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>财务管理</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/plus/layer/layer.js"></script>
+<script>
+    var iframeID = "#appiframe-add-article";
+    $(function() {
+        //iframe 自适应
+        iframeSetHeight("#appiframe-add-article");
+        $('body').resize(function(t) {
+            var main = $(window.parent.document).find("#appiframe-add-article");
+            var thisheight = parseInt($('body').height()) + 18;
+            if (thisheight < 610)
+                thisheight = '610';
+            main.height(thisheight);
+        });
+        $("#subBtn").click(function(){
+            check();
+            var userId=$("#mobile").val();
+            $.ajax({
+                type: "POST",
+                url: '/Money/getAjax.html',
+                data: {act:'getuserinfobymobile',"mobile": userId},
+                dataType: "json",
+                beforeSend: function() {},
+                success: function(rs) { 
+                    if(rs && rs.status == 0){
+                        var userName = rs.tips;
+                        var number=$("#money").val();
+                        layer.confirm('确定为用户：<b>' +userId+'</b><br>公司名称：<b>' +userName+'</b>&nbsp;<br>充值金额：<b>'+number+'</b>元', {
+                            btn: ['确定','取消'], //按钮
+                            offset: ['200px', '200px'],
+                            title:'提示'
+                        }, function(){
+                            //充值操作
+                            $("#formid").submit();
+                            //layer.msg('充值完成', {icon: 1,offset: ['200px', '200px']});
+                        });
+                    }else{
+                        layer.msg(rs.tips, {icon: 1,offset: ['200px', '200px']});
+                    }
+                }
+            });
+    
+           
+        });
+    });
+    function isInt(_this,val)
+    {
+    	 var re = /^([1-9][\d]{0,7})?$/;//8位数以下,无小数
+        if (!re.test(val) || !val) {
+        	$(_this).val('');
+        	return false;
+        }
+    	 return true;
+    }
+    function check(){ 
+        
+        if($('#mobile').val() == '')
+        { 
+            alert('请填写用户手机号码或邮箱！');  
+            return false;
+        } 
+       if($('#bank_id').val() == 0)
+        { 
+            alert('请选择银行！');  
+            return false;
+        } 
+        var money = $('#money').val();
+        if(money == '' || isNaN(money) )
+        { 
+            alert('充值金额不能为空或者格式不对！');  
+            return false;
+        }  
+        //如果是修改的 则无需判断缩略图是否上传  可以不上传
+        if($('#img').val() == '')
+        {  
+            alert('请上传截图！');  
+            return false;
+        } 
+    }
+    
+    function openlink(){ 
+        window.open($('#link').val()); 
+    }
+       
+//图片上传预览    IE是用了滤镜。
+function previewImage(file,fileid,imgid,w,h)
+{
+  var MAXWIDTH  = 600; 
+  var MAXHEIGHT = 400;
+  var div = document.getElementById(fileid);
+  if (file.files && file.files[0])
+  {
+      div.innerHTML ='<img id='+imgid+'>';
+      var img = document.getElementById(imgid);
+      img.onload = function(){
+        var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        img.width  =  w;
+        img.height =  h; 
+        //img.style.marginTop = rect.top+'px';
+      }
+      var reader = new FileReader();
+      reader.onload = function(evt){img.src = evt.target.result;}
+      reader.readAsDataURL(file.files[0]);
+  }
+  else //兼容IE
+  {
+    var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+    file.select();
+    var src = document.selection.createRange().text;
+    div.innerHTML ='<img id='+imgid+'>';
+    var img = document.getElementById(imgid);
+    img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+    var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+    status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+    //div.innerHTML = "<div id="+imgid+" style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+    div.innerHTML = "<div id="+imgid+" style='width:"+w+"px;height:"+h+"px;"+sFilter+src+"\"'></div>";
+  }
+}
+function clacImgZoomParam( maxWidth, maxHeight, width, height )
+{
+    var param = {top:0, left:0, width:width, height:height};
+    if( width>maxWidth || height>maxHeight )
+    {
+        rateWidth = width / maxWidth;
+        rateHeight = height / maxHeight;
+
+        if( rateWidth > rateHeight )
+        {
+            param.width =  maxWidth;
+            param.height = Math.round(height / rateWidth);
+        }else
+        {
+            param.width = Math.round(width / rateHeight);
+            param.height = maxHeight;
+        }
+    }
+
+    param.left = Math.round((maxWidth - param.width) / 2);
+    param.top = Math.round((maxHeight - param.height) / 2);
+    return param;
+}
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">财务管理</a><em>»</em><a href="javascript:;">线下充值</a>
+            </div>
+        </div>
+        
+    </div>
+    <form id="formid" action="/Money/incomeHandle.html"  onsubmit="return check();" method="post" enctype="multipart/form-data">
+        <div class="module" id="moduleList"> 
+            <div class="module-content" id="moduleList-content">
+                <div class="formbox" id="formbox">
+                    <div class="formconent" style="display:block;">
+                        <table class="formtable">
+                            <tbody>
+                                <tr>
+                                    <td class="tit">充值用户:</td>
+                                    <td>
+                                        <div class="cell"><input type="text" class="inputtext" placeholder="请填手机或者邮箱" id="mobile" name="mobile" value="" style="width:400px;" /></div>
+                                        <span class="tip">*（用户绑定的手机号码或邮箱）</span>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td class="tit">选择银行:</td>
+                                    <td>
+                                        <div class="cell">
+                                            <div class="select-box" id="cate-select">
+                                                <ul>
+                                                    <select id="bank_id" name="bank_id" style="width:250px;font-size:18px">
+                                                    <option value="0">请选择分类</option> 
+                                                    <foreach name='banks' item='v'>
+                                                        <option value="{$v['id']}">{$v['name']}</option>
+                                                    </foreach>
+                                                    </select>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <span class="tip">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tit">充值金额:</td>
+                                    <td>
+                                        <div class="cell"><input type="text" class="inputtext" placeholder="请填写充值金额" id="money" name="money" value="" style="width:400px;" onkeyup="isInt(this,this.value);"/></div>
+                                        <span class="tip">元（人民币）*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tit">截图:</td>
+                                    <td>
+                                        <div class="cell">
+                                            <input style="float: left;margin-top: 25px;" type="file" id='img' name="img" onchange="previewImage(this,'previewdiv','imgid',300,300)">
+                                        </div>
+                                        <span class="tip">   </span>
+                                        <div id="previewdiv">
+                                            <img id="imgid" src="" width="300" height="300" alt=""/>
+                                        </div>
+                                    </td>
+                                </tr> 
+                                
+                            </tbody>
+                        </table>  
+                </div> 
+            </div>
+        </div>
+        <div class="submitline cl">
+            <div class="cell"><input type="button" id="subBtn" class="btn" value="充值"/></div>
+            <div class="cell"><input type="reset" class="btn-gray" value="取消" onclick="window.location.href='/money/index.html'"/></div>
+        </div>
+    </form>
+
+</body>
+</html>

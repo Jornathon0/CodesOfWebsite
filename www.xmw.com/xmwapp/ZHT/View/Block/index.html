@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>banner图管理</title>
+    <link rel="stylesheet" type="text/css" href="/css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="/css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="/css/ht_iframe.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/ht_global.js"></script>
+    <script type="text/javascript" src="/js/ht_iframeHeight.js"></script>
+    <script type="text/javascript" src="/js/localpreview.js"></script>
+    
+<script>
+    var iframeID = "#appiframe-add-article";
+    $(function() {
+        //iframe 自适应
+        iframeSetHeight("#appiframe-add-article");
+        $('body').resize(function(t) {
+            var main = $(window.parent.document).find("#appiframe-add-article");
+            var thisheight = parseInt($('body').height()) + 18;
+            if (thisheight < 610)
+                thisheight = '610';
+            main.height(thisheight);
+        });
+
+        //选项卡
+        $('#formbtn a').click(function() {
+            var i = $(this).index();
+            $('#formbtn a').removeClass('on').eq(i).addClass('on');
+            $('#formbox .formconent').css('display', 'none').eq(i).css('display', 'block');
+        })
+        
+        $("#picUpload1").uploadPreview({ Img: "img1", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload2").uploadPreview({ Img: "img2", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload3").uploadPreview({ Img: "img3", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload4").uploadPreview({ Img: "img4", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload5").uploadPreview({ Img: "img5", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload6").uploadPreview({ Img: "img6", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload7").uploadPreview({ Img: "img7", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload8").uploadPreview({ Img: "img8", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload9").uploadPreview({ Img: "img9", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload10").uploadPreview({ Img: "img10", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+        $("#picUpload11").uploadPreview({ Img: "img11", Width: 200, Height: 128, ImgType: ["gif", "jpeg", "jpg", "bmp", "png"], Callback: function () { }});
+
+    });
+    
+    
+</script>
+
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    var ue = UE.getEditor('editor');
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">banner图管理</a><em>»</em><a href="javascript:;">区块设置</a> 
+            </div>
+        </div>
+    </div>
+
+    <form action="/Setting/save.html"  onsubmit="return check();" method="post" enctype="multipart/form-data">
+        <div class="module" id="moduleList"> 
+            <div class="module-content" id="moduleList-content">
+                <div class="formbox" id="formbox">
+                    <div class="formconent" style="display:block;">
+                        <table class="formtable lipin_set">
+                            <tbody>
+                                
+                                <foreach name="setdata" item="v">
+                                   <if condition="$v.br eq 1"><tr></if>
+                                    <td class="tit">首页礼品{$v.num}:</td>
+                                    <td>
+                                        <div class="cell">
+                                            <span class="tip">URL：</span>
+                                            <input type="text" class="inputtext" id="url{$v.num}" name="url[]" value="{$v['url']}" style="width:360px;" />
+                                        </div>
+                                        <input type="hidden" name="picbak[]" value="{$v['pic']}" style="width:360px;" />
+                                        <div class="cell">
+                                            <span class="tip">标题：</span>
+                                            <input type="text" class="inputtext" id="title{$v.num}" name="title[]" value="{$v['title']}" style="width:360px;" />
+                                        </div>
+                                        <div class="cell">
+                                            <span class="tip">预览：</span>
+                                            <img width="200" height="128" id="img{$v.num}" src="{$v['pic']}">
+                                            <input type="file" class="uploadfile" id="picUpload{$v.num}" name="pic{$v.num}" hidefocus="true">
+                                        </div>
+                                    </td>
+                                    <if condition="$v.br eq 0"></tr></if>
+                                </foreach> 
+                                </tr>
+                             
+                            </tbody>
+                        </table>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+        <div class="submitline cl">
+            <div class="cell"><input type="submit" class="btn" value="保存"/></div>
+            <div class="cell"><input type="reset" class="btn-gray" value="取消" onclick="window.location.href='/Business/index.html'"/></div>
+        </div>
+    </form>
+<include file='Common/popup'/>
+</body>
+</html>

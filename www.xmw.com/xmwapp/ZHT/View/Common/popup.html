@@ -1,0 +1,115 @@
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_popup.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_popup.js"></script>
+<!-------------------------------弹出层相关--------------------------------------->
+<div class="popobox" id="pop-confirm">
+    <div class="pop">
+        <div class="pop-header"><span class="pop-title">提示</span><span class="icon icon-close popup-close" onClick="iframeclosepop('#pop-confirm')"></span></div>
+        <div class="pop-mainer" style="height: auto; min-height: 100px;">
+            <div class="tips-content">
+                <span class="icon-tips icon-tips-warning"></span>
+                <div class="tips-box">
+                    <span id="tipsTxt">您确定要删除id=1的这条记录吗？</span>
+                </div>
+            </div>
+        </div>
+        <!--pop-mainer:end-->
+        <div class="pop-button">
+            <!--<div class="check-div"><input id="popup-checkbox" name="popup-checkbox" type="checkbox" class="checkbox"><label for="popup-checkbox" class="checkbox">记住所选条件</label></div>-->
+            <a class="btn pop-btn" id="yes" onclick="window.appiframe.del(1)">确定</a>
+            <a class="btn pop-btn" id="no" onclick="iframeclosepop('#pop-confirm')">取消</a>
+        </div>
+    </div>
+    <div class="popbg"></div>
+</div>
+<div class="popobox" id="pop-shenhe">
+    <div class="pop">
+        <div class="pop-header"><span class="pop-title">验证操作</span><span class="icon icon-close popup-close" onClick="iframeclosepop('#pop-shenhe')"></span></div>
+        <div class="pop-mainer" style="height: auto; min-height: 100px;">
+            <div class="tips-content">
+                <span class="icon-tips icon-tips-warning"></span>
+                <div class="tips-box" id="wrap">
+                <table>
+                <tr>
+                   <td>
+                       <input type="radio" name='shenhe' checked value='1'><em>审核通过</em>
+                   </td>
+                </tr>
+                <tr>
+                   <td>
+                       <input type="radio" name='shenhe' value='2'><em>审核不通过</em>
+                   </td>
+                </tr>
+                <tr>
+                   <td>
+                     <em>理由</em>
+                   </td>
+                </tr>
+                <tr>
+                   <td>
+                   <textarea id="reason" style="width:250px;height:80px;"  value=""></textarea>
+                  <!--  onblur="alert($(this).val());" -->
+                   </td>
+                </tr>
+               </table>
+                </div>
+            </div>
+        </div>
+        <!--pop-mainer:end-->
+        <div class="pop-button">
+            <a class="btn pop-btn" id="yestoall" onclick="">确定</a>
+             <input type="hidden" id="uuid" name="uuid" value="" />
+            
+            <a class="btn pop-btn" id="notoall" onclick="iframeclosepop('#pop-shenhe')">取消</a>
+        </div>
+    </div>
+    <div class="popbg"></div>
+</div>
+
+<div class="popobox" id="pop-sure">
+<div class="pop">
+    <div class="pop-header"><span class="pop-title">提示</span><span class="icon icon-close popup-close" onClick="iframeclosepop('#pop-confirm')"></span></div>
+    <div class="pop-mainer" style="height: auto; min-height: 100px;">
+        <div class="tips-content">
+            <span class="icon-tips icon-tips-warning"></span>
+            <div class="tips-box">
+                <span id="tips2Txt">您确定要删除id=1的这条记录吗？</span>
+            </div>
+        </div>
+    </div>
+    <!--pop-mainer:end-->
+    <div class="pop-button">
+        <!--<div class="check-div"><input id="popup-checkbox" name="popup-checkbox" type="checkbox" class="checkbox"><label for="popup-checkbox" class="checkbox">记住所选条件</label></div>-->
+        <a class="btn pop-btn" id="ok" onclick="iframeclosepop('#pop-sure')">确定</a>
+    </div>
+</div>
+<div class="popbg"></div>
+</div>
+
+<!--------------图片预览框------------------->
+<div class="popobox" id="pop-bigimg">
+    <div class="popbigimg" onClick="iframeclosepop('#pop-bigimg');">
+            <p id="picss"><img src="{:C('SKINURL')}images/nopic.png"/></p>
+    </div>
+    <div class="popbg" onClick="iframeclosepop('#pop-bigimg');"></div>
+</div>
+<!--------------图片预览框------------------->
+<!-------------------------------弹出层相关--------------------------------------->
+<div class="popobox" id="pop-poppop">
+<div class="pop">
+    <div class="pop-header"><span class="pop-title">提示</span><span class="icon icon-close popup-close" onClick="iframeclosepop('#pop-poppop')"></span></div>
+    <div class="pop-mainer" style="height: auto; min-height: 100px;">
+        <div class="tips-content">
+            <div class="tips-box" style="padding-left: 10px;">
+                <span id="lzjscontent">
+				</span>
+            </div>
+        </div>
+    </div>
+    <!--pop-mainer:end-->
+    <div class="pop-button">
+        <!--<div class="check-div"><input id="popup-checkbox" name="popup-checkbox" type="checkbox" class="checkbox"><label for="popup-checkbox" class="checkbox">记住所选条件</label></div>-->
+        <a class="btn pop-btn" id="ok" onclick="iframeclosepop('#pop-poppop')">确定</a>
+    </div>
+</div>
+<div class="popbg"></div>
+</div>

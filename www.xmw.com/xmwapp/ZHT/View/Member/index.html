@@ -1,0 +1,323 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>会员管理-企业会员</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+$(function(){
+  //搜索按钮
+  dohover('#submitbox','submitbox-hover');
+  $('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    }); 
+
+    /*start 会员列表操作区域展开和收缩*/
+    $(".checkbtn").on("click",function(){
+        var vId=$(this).attr("id");
+        $(".check_box").not("#checkBox-"+vId).hide();
+        $("#checkBox-"+vId).toggle();
+    });
+   $(".table tr td").not(".table tr.check_box td").on("click",function(){
+       $(".check_box").not($(this).parent("tr").next(".check_box")).hide();
+       $(this).parent("tr").next(".check_box").toggle();
+       
+       var display = $(this).parent("tr").next(".check_box").css('display');
+       if (!(display == "none")) {
+         var vUid=$(this).parent("tr").find("td").eq(0).html();
+         
+        $.ajax({
+            type: "POST",
+            url: '/member/getAjax.html',
+            data: {act:'getmoreuserinfo',id: vUid},
+            dataType: "json",
+            beforeSend: function() {},
+            success: function(rs) {
+                if(rs){
+                    $('#skinfo'+vUid).html(rs.skinfo);
+                    $('#address'+vUid).html(rs.address);
+                    $('#kpinfo'+vUid).html(rs.kpinfo);
+                    $('#kpinfotel'+vUid).text(rs.kpinfotel);
+                    $('#kpinfoaddress'+vUid).text(rs.kpinfoaddress);
+                } 
+            }
+        });
+         
+         
+       };
+   });
+    $("body").on("click",function(){
+        $(".check_box").hide();
+    });
+    $(".check_box td,.table tr td input,.table tr td,.checkbtn,.table tr td a").on("click",function(e){e.stopPropagation();});
+    /*end 会员列表操作区域展开和收缩*/
+
+    turnToIndex(301); 
+});
+/*
+ * 记录处理
+ * 操作类型type 1：激活   2：锁定  3：解锁 4:删除   5：认证通过  6：认证不通过
+ * 记录id：id
+ * 调用方式  step：0  按钮调用   1：本身调用
+ */
+function doAction(type,id,name,step){
+    var action = '';
+    var act = '';
+    //编辑
+    if(type == 1){
+        action = '解绑';
+        act ='unbindbyID';
+        tips='';
+    }else if(type == 2){
+        action = '锁定';
+        act = 'lockbyID';
+        tips='锁定后，该用户将无法登陆';
+    }
+    else if(type == 3){
+        action = '解锁';
+        act = 'unlockbyID';
+        tips='解锁后，用户可恢复正常登陆';
+    }
+    if(step == 0){
+        //处理弹窗相应参数
+        $('#tipsTxt').text("您确定要 "+action+" 用户 '"+name+"'吗？"+tips);
+        $('#yes').attr('onclick',"window.appiframe.doAction("+type+","+id+",'"+name+"',1)");
+        //父级页面载入窗口
+        iframeopenpop('#pop-confirm');
+    }
+    else if(step == 2){
+      $('#yesall').attr('onclick',"window.appiframe.doAction(1,"+id+",'"+name+"',1)");
+       iframeopenpop('#pop-unbinded');
+    }
+    else{
+        window.parent.iframeclosepop('#pop-confirm');
+        //window.parent.iframeclosepop('#pop-unbinded');
+        var unbindedtype='';
+        unbindedtype=$('input[name=unbind]:checked',window.parent.document).val();
+        //异步处理
+        $.ajax({
+            type: "POST",
+            url: '/member/getAjax.html',
+            data: {act:act,id: id,unbindedtype:unbindedtype},
+            dataType: "json",
+            beforeSend: function() {},
+            success: function(rs) {
+                if(rs == 'ok'){
+                    $('#tips2Txt').text(action+'成功！'); 
+                    iframeopenpop('#pop-sure');
+                    location.reload();
+                }else{
+                    $('#tips2Txt').text(action+'失败！'); 
+                    iframeopenpop('#pop-sure');
+                }
+            }
+        });
+    }
+} 
+ 
+
+//搜索不同状态
+function changeService(type){
+    $("#p").val(1);
+    var nowStatus = $('#service').val();
+    if(nowStatus == type){
+       $("#service").attr("value",type); 
+    }
+    else{
+        $("#service").attr("value",type); 
+        $("#formsearch").submit();
+    }
+}
+
+//排序  type：  1：按更新时间排序 （默认）
+function ordertype(type){
+    if($("#ordervalue").val() == '1'){
+        $("#ordervalue").val('0');
+    }else{
+        $("#ordervalue").val('1');
+    }
+    $("#ordertype").val(type);
+    $("#formsearch").submit();
+}
+ 
+
+//翻页
+function setpage(p){
+    $("#p").val(p);
+    $("#formsearch").submit();
+}
+
+
+function tagchange(id){
+    var tags = '';
+    $('input[type="checkbox"][id="checktag'+id+'"]:checked').each(
+        function() {
+            if(tags != '')
+                tags = tags + ',' + $(this).val();
+            else
+                tags = tags + $(this).val(); 
+    });
+    $.ajax({
+        type: "POST",
+        url: '/Member/getAjax.html',
+        data: {act:'usersettag',"selectedID": id,'tags':tags},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+        }
+    }); 
+}
+
+//设置&取消明日之星
+function setstar(id){
+    var status = 2;
+    if($("#starid"+id).prop('checked') == true)
+        status = 1; 
+    $.ajax({
+        type: "POST",
+        url: '/Member/getAjax.html',
+        data: {act:'usersetstar',"selectedID": id,'status':status},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+        }
+    }); 
+}
+
+//设置客服
+function selectkefu(id){
+    $.ajax({
+        type: "POST",
+        url: '/Member/getAjax.html',
+        data: {act:'usersetkefu',"selectedID": id,'kefu_id':$("#kefu_id"+id).val()},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+        }
+    }); 
+}
+</script>
+
+</head>
+<body data-height="1140">
+<div class="page-topline">
+<div class="page-topline-content cl">
+	<div class="crumbs">
+    <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">会员管理</a><em>»</em><a href="javascript:;">会员列表</a>
+    </div>       
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    <div class="module-content" id="moduleList-content">
+        <div class="h86 topline clearfix">
+          
+            <div class="xuanxiang">
+            	<span class="xuan_x">
+                    开通服务：
+                    <input type="radio" name='clickService' onclick="changeService(0)" <if condition="$service eq 0">checked</if> value='全部'><em>全 部</em>&nbsp;&nbsp;
+                    <input type="radio" name='clickService' onclick="changeService(1)" <if condition="$service eq 1">checked</if>  value='议价'><em>议价</em>&nbsp;&nbsp;
+                    <input type="radio" name='clickService' onclick="changeService(2)" <if condition="$service eq 2">checked</if> value='一口价'><em>一口价</em>&nbsp;&nbsp;
+                    <input type="radio" name='clickService' onclick="changeService(3)" <if condition="$service eq 3">checked</if>  value='优质'><em>优质</em>
+                </span> 
+
+                <div class="rightbtn"  style='margin-bottom: 10px;'>
+                <form id="formsearch" action="/member/index.html" method="post">
+               <!--  <span class="searchtip">搜索</span> -->
+                    <input type="text" name="keywords" class="searchword" placeholder="请输入关键词..." value="{$keywords}"/>
+                    <div class="submitbox" id="submitbox">
+                        <input type="submit" value="搜索" class="searchbtn" />
+                        <input type="hidden" id="service" name="service" value="{$service}" />
+                        <input type="hidden" id="ordervalue" name="ordervalue" value="{$ordervalue}" />
+                        <input type="hidden" id="ordertype" name="ordertype" value="{$ordertype}" />
+                        <input type="hidden" id="p" name="p" value="{$p}" />
+                    </div>
+                </form>
+            </div> 
+            </div>
+            
+
+        <div class="tj-data">
+                        <span class="tj">今日新增会员数：<em>{$todayCount}</em>&nbsp;</span>
+                        <span class="tj">昨日新增会员数：<em>{$yestodayCount}</em>&nbsp;</span>
+        </div>
+        
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th width="5%" onclick="ordertype(6)"><span class="order_btn">UID<em class="icon icon-arrow"></em></span></th>
+              <th width="10%"><span>手机号</span></th>
+              <th width="15%" onclick="ordertype(5)"><span class="order_btn">邮箱<em class="icon icon-arrow"></em></span></th>
+              <th width="6%" onclick="ordertype(4)"><span class="order_btn">真实姓名<em class="icon icon-arrow"></em></span></th>
+              <th width="5%" onclick="ordertype(3)"><span class="order_btn">经纪人<em class="icon icon-arrow"></em></span></th>
+              <th width="2%" onclick="ordertype(2)"><span class="order_btn">会员积分<em class="icon icon-arrow"></em></span></th>
+              <th width="5%" onclick="ordertype(1)"><span class="order_btn">会员等级<em class="icon icon-arrow"></em></span></th>
+              <th width="7%"><span>QQ</span></th>
+              <th width="10%"><span>开通服务</span></th>
+              <th width="10%"><span>账户余额</span></th>
+              <th width="10%"><span>冻结资金</span></th>
+              <th width="25%"><span>操作</span></th>
+            </tr>
+          </thead>
+          <tbody>
+          <foreach name="data" item="v">
+                <tr>
+                  <td>{$v['uid']}</td>
+                  <td>{$v['mobile']}</td>
+                  <td>{$v['email']}</td>
+                  <td>{$v['uname']}</td>
+                  <td>{$v['agentname']}</td>
+                  <td>{$v['credit']}</td>
+                  <td>VIP{$v['vip']}</td>
+                  <td>{$v['qq']}</td>
+                  <td 
+                        <if condition="$v['service'] == 1">
+                              class="orange">议价
+                        <elseif condition="$v['service'] == 2" />
+                              class="green">一口价
+                        <else />
+                              class="orange">优质
+                        </if>
+                  </td>
+                  <td>{$v['money']}</td>
+                  <td>{$v['freeze']}</td>
+                  <td>
+                     <!--  <a class="o-pen" href="/member/edit.html?uid={$v['uid']}" title="修改"> [修改]</a> -->
+                      <if condition="$v['status'] == 2">
+                      <a class="o-unlock" href="javascript:;" onclick="doAction(3,{$v['uid']},'解锁',0)" title="解锁">解锁</a>
+                      <else />
+                      <a class="o-lock" href="javascript:;" onclick="doAction(2,{$v['uid']},'{$v['uname']}',0)" title="锁定">锁定</a>
+                      </if>
+                      <if condition="$v['emailbind'] == 1 and $v['mobilebind'] == 1">
+                      <a class="" href="javascript:;" onclick="doAction(1,{$v['uid']},'{$v['uname']}',2)" title="解绑">解绑</a>
+                      <else />
+                      </if>
+                  </td>
+                </tr>
+            </foreach>
+          </tbody>
+        </table>
+        </div>
+        <div class="pageline">
+            {$page}
+        </div>
+    </div> </div>
+</div>
+<!--显示大图相关-->
+<script>
+//打开大图展示
+function openbigpic($this){
+	parent.openbigpic($this);
+};
+</script>
+<include file='Common/userpopup'/>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>红包管理-红包设置</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script>
+            function check(){ 
+                if($('#total').val() == '')
+                { 
+                    alert('红包发放总额不能为空！');  
+                    return false;
+                } 
+               if($('#permin').val() == ''||$('#permin').val() == 0)
+                { 
+                    alert('单个红包最小金额不能设置为空或者0');  
+                    return false;
+                } 
+                if($('#num').val() == ''||$('#num').val() == 0)
+                { 
+                    alert('每日发放红包个数不能设置为空或者0');  
+                    return false;
+                } 
+                return true;
+            }
+    </script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">红包管理</a><em>»</em><a href="javascript:;">红包设置</a>
+            </div>
+        </div>
+    </div>
+
+    <form action="/Packets/addHandle.html"  onsubmit="return check();" method="post" enctype="multipart/form-data">
+        <div class="module" id="moduleList"> 
+            <div class="module-content" id="moduleList-content">
+                <div class="formbox" id="formbox">
+                    <div class="formconent" style="display:block;">
+                        <table class="formtable">
+                            <tbody>
+                                <tr>
+                                    <td class="tit2">每日发放金额:</td>
+                                    <td>
+                                        <if condition="$data['type'] !='' ">
+                                            <div class="cell"><input type="text" class="inputtext" placeholder="请填写每日发放金额" id="total" name="total" value="" style="width:400px;" /></div>
+                                        <else />
+                                            <div class="cell"><input type="text" class="inputtext" id="total" name="total" value="{$arr['total']}" style="width:400px;" /></div>
+                                        </if>
+                                        <span class="tip">元 *</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tit2">单个红包最小金额:</td>
+                                    <td>
+                                            <div class="cell"><input type="text" class="inputtext" id="permin" name="permin" value="{$arr['permin']}" style="width:400px;" /></div>
+                                        <span class="tip">元 *</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tit2">每日发放红包个数:</td>
+                                    <td>
+                                            <div class="cell"><input type="text" class="inputtext" id="num" name="num" value="{$arr['num']}" style="width:400px;" /></div>
+                                        <span class="tip">个 *</span>
+                                    </td>
+                                </tr>
+                      
+                            </tbody>
+                        </table>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+        <div class="submitline cl">
+            <if condition="$type == 2">
+                <div class="cell"><input type="submit" class="btn" value="提交"/></div>
+            <else />
+                <div class="cell"><input type="submit" class="btn" value="修改"/></div>
+            </if>
+            <div class="cell">
+                <input type="reset" class="btn-gray" value="取消" onclick="window.location.href='/News/settings.html'"/>
+            </div>
+        </div>
+    </form>
+<include file='Common/popup'/>
+</body>
+</html>

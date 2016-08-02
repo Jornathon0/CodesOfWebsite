@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>权限管理-权限设置</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/zytj_iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+
+<script>
+$(function(){
+	//搜索按钮
+	dohover('#submitbox','submitbox-hover');
+	$('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    }); 
+}); 
+$(function(){
+   $('input[level=2]').click(function(){
+        var inputs = $(this).parents('dl').find('input');
+        $(this).prop('checked') ? inputs.prop('checked','checked'):inputs.removeAttr('checked');
+    });  	
+})
+</script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+	<div class="crumbs">
+    <a href="javascript:;">首页</a><em>»</em><a href="/admin/role.html">角色列表</a><em>»</em><a href="javascript:;">设置 "{$roleName}" 权限</a>
+    </div>    
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    <div class="module-content" id="moduleList-content">
+        <form action="/admin/accessHandle.html" method="post"> 
+        <foreach name="data" item="app">
+            <div class="h45 topline clearfix">
+                <div class="leftbtn"> 
+                    <span style="font-size:16px"><input style="display: none" type='checkbox' checked='checked' name='access[]' value="{$app.id}_1" level='1'>{$app.title}</span>
+                </div>
+            </div>
+            <foreach name="app.child" item="action">
+                <div class="listbox">
+                <dl>
+                    <div class="biaoti">
+                        <div style=" float:left; width:32.5%; padding-right:10px;">
+                        <span> 
+                            <input type='checkbox' <if condition="$action['access']">checked='checked'</if> name='access[]' value="{$action.id}_2" level='2'>{$action.title}
+                        </span></div>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" width="100%" class="table">         
+                      <tbody> 
+                        <td align="center" style=" padding-left:10px;">
+                            <foreach name="action.child" item="method"> 
+                                <span><input type='checkbox' <if condition="$method['access']">checked='checked'</if>  name='access[]' value="{$method.id}_3" level='3'>{$method.title}</span>
+                            </foreach>  
+                        </td> 
+                      </tbody>
+                    </table>
+                </dl>
+                </div>        
+                <div class="clear20"></div>
+            </foreach> 
+            <input type="hidden" name="rid" value="{$rid}">
+            <input type="submit" class="btn" value=" 保 存 "> 
+        </foreach>
+        </form>
+    </div>
+    
+</div>
+<include file="Common/popup"/>
+</body>
+</html>

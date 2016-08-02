@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>文章管理-管理中心</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+    var iframeID = "#appiframe-add-article";
+    $(function() {
+        //iframe 自适应
+        iframeSetHeight("#appiframe-add-article");
+        $('body').resize(function(t) {
+            var main = $(window.parent.document).find("#appiframe-add-article");
+            var thisheight = parseInt($('body').height()) + 18;
+            if (thisheight < 610)
+                thisheight = '610';
+            main.height(thisheight);
+        });
+
+        //选项卡
+        $('#formbtn a').click(function() {
+            var i = $(this).index();
+            $('#formbtn a').removeClass('on').eq(i).addClass('on');
+            $('#formbox .formconent').css('display', 'none').eq(i).css('display', 'block');
+        })
+
+    });
+    function check(){  
+        if($('#title').val() == '')
+        { 
+            alert('标题不能为空！');  
+            return false;
+        } 
+       if($('#nidtypes').val() == 0)
+        { 
+            alert('请选择文章类型！');  
+            return false;
+        } 
+         
+        if(ue.getContent() == '')
+        {
+            alert('内容不能为空！');  
+            return false;
+        } 
+        
+        if($('#auth').val() == 0)
+        {
+            alert('作者不能为空');  
+            return false;
+        } 
+        
+        //如果是修改的 则无需判断缩略图是否上传  可以不上传
+        if(($('#thumbnail').val() == '')&&($('#fromtype').val() == '1'))
+        {  
+            
+            alert('请上传列表图片！');  
+            return false;
+        }
+        
+        //如果是修改的 则无需判断缩略图是否上传  可以不上传
+        if(($('#slide_pic').val() == '')&&($('#fromtype').val() == '1'))
+        {  
+            
+            alert('请上传幻灯片图片！');  
+            return false;
+        }
+        return true;
+    }
+    
+    
+//图片上传预览    IE是用了滤镜。
+function previewImage(file,fileid,imgid,w,h)
+{
+  var MAXWIDTH  = 600; 
+  var MAXHEIGHT = 400;
+  var div = document.getElementById(fileid);
+  if (file.files && file.files[0])
+  {
+      div.innerHTML ='<img id='+imgid+'>';
+      var img = document.getElementById(imgid);
+      img.onload = function(){
+        var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        img.width  =  w;
+        img.height =  h; 
+        //img.style.marginTop = rect.top+'px';
+      }
+      var reader = new FileReader();
+      reader.onload = function(evt){img.src = evt.target.result;}
+      reader.readAsDataURL(file.files[0]);
+  }
+  else //兼容IE
+  {
+    var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+    file.select();
+    var src = document.selection.createRange().text;
+    div.innerHTML ='<img id='+imgid+'>';
+    var img = document.getElementById(imgid);
+    img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+    var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+    status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+    //div.innerHTML = "<div id="+imgid+" style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+    div.innerHTML = "<div id="+imgid+" style='width:"+w+"px;height:"+h+"px;"+sFilter+src+"\"'></div>";
+  }
+}
+function clacImgZoomParam( maxWidth, maxHeight, width, height )
+{
+    var param = {top:0, left:0, width:width, height:height};
+    if( width>maxWidth || height>maxHeight )
+    {
+        rateWidth = width / maxWidth;
+        rateHeight = height / maxHeight;
+
+        if( rateWidth > rateHeight )
+        {
+            param.width =  maxWidth;
+            param.height = Math.round(height / rateWidth);
+        }else
+        {
+            param.width = Math.round(width / rateHeight);
+            param.height = maxHeight;
+        }
+    }
+
+    param.left = Math.round((maxWidth - param.width) / 2);
+    param.top = Math.round((maxHeight - param.height) / 2);
+    return param;
+}
+</script>
+
+<script type="text/javascript" charset="utf-8" src="{:C('SKINURL')}ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="{:C('SKINURL')}ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{:C('SKINURL')}ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    var ue = UE.getEditor('editor');
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="/news/index.html">资讯管理</a><em>»</em><a href="javascript:;">添加资讯</a>
+            </div>
+        </div>
+    </div>
+
+    <form action="/news/addHandle.html"  onsubmit="return check();" method="post" enctype="multipart/form-data">
+        <div class="module" id="moduleList"> 
+            <div class="module-content" id="moduleList-content">
+                <div class="formbox" id="formbox">
+                    <div class="formconent" style="display:block;">
+                        <table class="formtable">
+                            <tbody>
+                                <tr>
+                                    <td class="tit">文章标题:</td>
+                                    <td>
+                                        <input  type="text" id="fromtype" name="fromtype" value="{$data['type']}" style="display:none;" />
+                                        <input  type="text"  name="fromid" value="{$data['nid']}" style="display:none;" />
+                                        <if condition="$data['type'] == 1">
+                                            <div class="cell"><input type="text" class="inputtext" placeholder="请填写文章标题" id="title" name="title" value="" style="width:400px;" /></div>
+                                        <else />
+                                            <div class="cell"><input type="text" class="inputtext" id="title" name="title" value="{$data['title']}" style="width:400px;" /></div>
+                                        </if>
+                                        <span class="tip">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tit">文章摘要:</td>
+                                    <td>
+                                        <div class="cell">
+                                            <if condition="$data['type'] == 1">
+                                                <div class="cell"><textarea style="width: 390px;" class="textarea" name="intro" placeholder="请填写文章标题"></textarea></div>
+                                            <else />
+                                                <div class="cell"><textarea style="width: 390px;" class="textarea" name="intro">{$data['intro']}</textarea></div>
+                                            </if>
+                                        </div>
+                                        <span class="tip">*</span>
+                                    </td>
+                                </tr>
+                                 
+                                <tr>
+                                    <td class="tit">列表图片:</td>
+                                    <td>
+                                        <div class="cell">
+                                            <input style="float: left;margin-top: 20px;" type="file" id='thumbnail' name="thumbnail" onchange="previewImage(this,'previewdiv1','imgid1',50,50)">
+                                        </div>
+                                        <span class="tip">   </span>
+                                        <div id="previewdiv1">
+                                            <if condition="$data['type'] == 1">
+                                                <img id="imgid1" src="" width="50" height="50" alt=""/>
+                                            <else />
+                                                <img id="imgid1" src="/Uploads{$data['thumbnail']}" width="50" height="50" alt=""/>
+                                            </if>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tit">幻灯片图:</td>
+                                    <td>
+                                        <div class="cell">
+                                            <input style="float: left;margin-top: 60px;" type="file" id='slide_pic' name="slide_pic" onchange="previewImage(this,'previewdiv2','imgid2',300,150)">
+                                        </div>
+                                        <span class="tip">   </span>
+                                        <div id="previewdiv2">
+                                            <if condition="$data['type'] == 1">
+                                                <img id="imgid2" src="" width="300" height="150" alt=""/>
+                                            <else />
+                                                <img id="imgid2" src="/Uploads{$data['slide_pic']}" width="300" height="150" alt=""/>
+                                            </if>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="tit">分类:</td>
+                                    <td>
+                                        <div class="cell">
+                                            <div class="select-box" id="cate-select">
+                                                <ul>
+                                                    <select id="nidtypes" name="nidtypes" style="width:250px;font-size:18px">
+                                                        <option value="0">请选择分类</option> 
+                                                        <foreach name='dataList' item='v'>
+                                                            <if condition="$v['ncid'] == $data['ncid']">
+                                                                <option value="{$v['ncid']}" selected = "selected">{$v['html']}{$v['typename']}</option>
+                                                            <else />  
+                                                                <option value="{$v['ncid']}">{$v['html']}{$v['typename']}</option>
+                                                            </if>
+                                                        </foreach>
+                                                    </select>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <span class="tip">*请选择栏目</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tit">内容:</td>
+                                    <td><script id="editor" type="text/plain"  style="width:100%;height:300px;">
+                                        <if condition="$data['type'] == 2"> 
+                                            {$data['content']}
+                                        </if>
+                                        </script></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+        <div class="submitline cl">
+            <if condition="$data['type'] == 1">
+                <div class="cell"><input type="submit" class="btn" value="提交"/></div>
+            <else />
+                <div class="cell"><input type="submit" class="btn" value="修改"/></div>
+            </if>
+            <div class="cell"><input type="reset" class="btn-gray" value="取消" onclick="window.location.href='/News/index.html'"/></div>
+        </div>
+    </form>
+<include file='Common/popup'/>
+</body>
+</html>

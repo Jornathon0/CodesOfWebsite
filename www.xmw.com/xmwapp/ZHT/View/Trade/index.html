@@ -1,0 +1,476 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>域名管理-域名列表</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<!-- <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+ --><!-- <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script> -->
+<script type="text/javascript" src="{:C('SKINURL')}js/plus/laydate/laydate.js"></script>
+<script>
+$(function(){
+  //搜索按钮
+  dohover('#submitbox','submitbox-hover');
+  $('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    }); 
+
+    /*start 会员列表操作区域展开和收缩*/
+    $(".checkbtn").on("click",function(){
+        var vId=$(this).attr("id");
+        $(".check_box").not("#checkBox-"+vId).hide();
+        $("#checkBox-"+vId).toggle();
+    });
+   $(".table tr td").not(".table tr.check_box td").on("click",function(){
+       $(".check_box").not($(this).parent("tr").next(".check_box")).hide();
+       $(this).parent("tr").next(".check_box").toggle();
+       
+       var display = $(this).parent("tr").next(".check_box").css('display');
+       if (!(display == "none")) {
+         var vUid=$(this).parent("tr").find("td").eq(0).html();
+         
+        $.ajax({
+            type: "POST",
+            url: '/member/getAjax.html',
+            data: {act:'getmoreuserinfo',id: vUid},
+            dataType: "json",
+            beforeSend: function() {},
+            success: function(rs) {
+                if(rs){
+                    $('#skinfo'+vUid).html(rs.skinfo);
+                    $('#address'+vUid).html(rs.address);
+                    $('#kpinfo'+vUid).html(rs.kpinfo);
+                    $('#kpinfotel'+vUid).text(rs.kpinfotel);
+                    $('#kpinfoaddress'+vUid).text(rs.kpinfoaddress);
+                } 
+            }
+        });
+         
+         
+       };
+   });
+    $("body").on("click",function(){
+        $(".check_box").hide();
+    });
+    $(".check_box td,.table tr td input,.table tr td,.checkbtn,.table tr td a").on("click",function(e){e.stopPropagation();});
+    /*end 会员列表操作区域展开和收缩*/
+
+    turnToIndex(301); 
+});
+
+/*
+ * 记录处理
+ * 操作类型type 1：人工验证   2：  3： 4:   5：  6：
+ * 记录did：did
+ * 域名名称：title
+ * 调用方式  step：0  按钮调用   1：本身调用
+ */
+function doAction(type,did,title,step){
+    var action = '';
+    var act = '';
+    //激活处理
+    if(type == 1){
+        action = '验证通过';
+        act = 'verifydomain';
+    }
+    else if(type == 2){
+        action = '删除';
+        act = 'deletedomain';
+    }
+//else if(type == 4){
+    //     action = '删除';
+    //     act = 'deletebyID';
+    // }else if(type == 5){
+    //     action = '认证通过';
+    //     act = 'checkbyID';
+    // }else if(type == 6){
+    //     action = '认证不通过';
+    //     act = 'uncheckbyID';
+    // }
+    if(step == 0){
+        //处理弹窗相应参数
+        $('#tipsTxt').text("您确定要 "+action+" 域名 '"+title+"'吗？");
+        $('#yes').attr('onclick',"window.appiframe.doAction("+type+","+did+",'"+title+"',1)");
+        //父级页面载入窗口
+        iframeopenpop('#pop-confirm');
+    }else{
+        window.parent.iframeclosepop('#pop-confirm');
+        //异步处理
+        $.ajax({
+            type: "POST",
+            url: '/domain/getAjax.html',
+            data: {act:act,did: did},
+            dataType: "json",
+            beforeSend: function() {},
+            success: function(rs) {
+                if(rs == 'ok'){
+                    $('#tips2Txt').text(action+'成功！'); 
+                    iframeopenpop('#pop-sure');
+                    location.reload();
+                }else{
+                    $('#tips2Txt').text(action+'失败！'); 
+                    iframeopenpop('#pop-sure');
+                }
+            }
+        });
+    }
+} 
+ 
+
+//搜索不同状态
+function changeType(type){
+    $("#p").val(1);
+    var nowStatus = $('#type').val();
+    if(nowStatus == type){
+       $("#type").attr("value",type); 
+    }
+    else{
+        $("#type").attr("value",type); 
+        $("#formsearch").submit();
+    }
+}
+
+//排序  type：  1：按更新时间排序 （默认）
+function ordertype(type){
+    if($("#ordervalue").val() == '1'){
+        $("#ordervalue").val('0');
+    }else{
+        $("#ordervalue").val('1');
+    }
+    $("#ordertype").val(type);
+    $("#formsearch").submit();
+}
+ 
+
+//翻页
+function setpage(p){
+    $("#p").val(p);
+    $("#formsearch").submit();
+}
+
+
+// function tagchange(id){
+//     var tags = '';
+//     $('input[type="checkbox"][id="checktag'+id+'"]:checked').each(
+//         function() {
+//             if(tags != '')
+//                 tags = tags + ',' + $(this).val();
+//             else
+//                 tags = tags + $(this).val(); 
+//     });
+//     $.ajax({
+//         type: "POST",
+//         url: '/Member/getAjax.html',
+//         data: {act:'usersettag',"selectedID": id,'tags':tags},
+//         dataType: "json",
+//         beforeSend: function() {},
+//         success: function(rs) { 
+//         }
+//     }); 
+// }
+
+
+
+
+$(function(){
+  var start = {
+      elem: '#start',
+      format: 'YYYY/MM/DD',
+      max: laydate.now(), //最大日期
+      istime: true,
+      istoday: false,
+      choose: function(datas){
+           end.min = datas; //开始日选好后，重置结束日的最小日期
+           end.start = datas //将结束日的初始值设定为开始日
+      }
+  };
+  var end = {
+      elem: '#end',
+      format: 'YYYY/MM/DD',
+      max: laydate.now(),
+      istime: true,
+      istoday: false,
+      choose: function(datas){
+          start.max = datas; //结束日选好后，重置开始日的最大日期
+      }
+  };
+  laydate(start);
+  laydate(end);
+
+}); 
+//设置&取消域名推荐展示
+function setrec(id){
+    var recommend = 0;
+    if($("#recid"+id).prop('checked') == true)
+        recommend = 1; 
+    $.ajax({
+        type: "POST",
+        url: '/Domain/getAjax.html',
+        data: {act:'setrec',"did": id,'recommend':recommend},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+        }
+    }); 
+}
+//设置&取消域名推荐展示
+function sethot(id){
+    var hot = 0;
+    if($("#hotid"+id).prop('checked') == true)
+        hot = 1; 
+    $.ajax({
+        type: "POST",
+        url: '/Domain/getAjax.html',
+        data: {act:'sethot',"did": id,'hot':hot},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+        }
+    }); 
+}
+//修改推荐状态
+function set_rec(did,value){
+    $.ajax({
+        type: "POST",
+        url: '/Domain/getAjax.html',
+        data: {act:'set_rec',"did": did,'value':value},
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+        }
+    }); 
+}
+</script>
+
+</head>
+<body data-height="1140">
+<div class="page-topline">
+<div class="page-topline-content cl">
+  <div class="crumbs">
+    <a href="javascript:;">首页</a>
+    <em>»</em>
+    <a href="javascript:;">域名管理</a>
+    <em>»</em>
+    <a href="javascript:;">域名列表</a>
+  </div>       
+</div>
+</div>
+
+<div class="module" id="moduleList">  
+  <div class="module-content" id="moduleList-content">
+    <div class="h86 topline clearfix">
+      <div class="xuanxiang">
+        <span class="xuan_x">
+          <a href="javascript:;" onclick="changeType(0)" class="quanbu<if condition='$type == ""'>on</if>" title="全部">
+            全部
+          </a>
+          <a href="javascript:;" onclick="changeType(4)" class="yijia<if condition='$type == 4'>on</if>" title="议价">
+            议价
+          </a>
+          <a href="javascript:;" onclick="changeType(6)" class="xianshi<if condition='$type == 6'>on</if>" title="限时一口价">
+            限时一口价
+          </a>
+          <a href="javascript:;" onclick="changeType(5)"  class="zhongduan<if condition='$type == 5'>on</if>" title="终端">
+            终端
+          </a>
+          <a href="javascript:;" onclick="changeType(2)"  class="yikoujia<if condition='$type == 2'>on</if>" title="一口价">
+            一口价
+          </a>
+          <a href="javascript:;" onclick="changeType(3)"  class="youzhi<if condition='$type == 3'>on</if>" title="优质">
+            优质
+          </a>
+        </span> 
+      </div>
+      <div class="rightbtn"  style='margin-bottom: 10px;'>
+        <form id="formsearch" action="/domain/index.html" method="post">
+            <span style="float:left;">&nbsp;开始日期：</span>
+                  <span style="float:left;">
+                     <input type="text" class="" name="start" id="start" value="{$starttime}">
+                  </span>
+            <span style="float:left;">&nbsp;结束日期：</span>
+                  <span style="float:left;">
+                    <input type="text" class="" name="end" id="end" value="{$endtime}">
+                  </span>
+            <span style="float:left;">&nbsp;域名后缀：</span>
+            <div class="select-box" id="searchcate2-select">
+                <input type="hidden" id="searchcate2-select-val" name="extend" value="{$extend}" />
+                  <span class="select">
+                    <a class="select-button">
+                      <span class="selectmenu-status" style="width:56px;">
+                      {$extendname}
+                      </span>
+                      <span class="select-icon select-icon-dropdown">
+                      </span>
+                    </a>
+                  </span>
+                <div class="selectmenu selectmenu-list">
+                  <ul>
+                    <li><a data-val="0">全部</a></li>
+                      <foreach name='suffix' item='v'>
+                        <li>
+                          <a data-val="{$v}">{$v}</a>
+                        </li>
+                      </foreach>
+                  </ul>
+                </div>
+            </div>
+            <span style="float:left;">&nbsp;标签：</span>
+            <div class="select-box" id="searchcate2-select">
+                <input type="hidden" id="searchcate2-select-val" name="tagtype" value="{$tagtype}" />
+               <!--  <input type="hidden" id="tagname" name="tagname" value="{$tagname}" /> -->
+                  <span class="select">
+                    <a class="select-button">
+                      <span class="selectmenu-status" style="width:56px;">
+                      {$tagname}
+                      </span>
+                      <span class="select-icon select-icon-dropdown">
+                      </span>
+                    </a>
+                  </span>
+                <div class="selectmenu selectmenu-list">
+                  <ul>
+                      <li><a data-val="0">全部</a></li>
+                      <foreach name='taglist' item='v'>
+                        <li>
+                          <a data-val="{$v['id']}">{$v['title']}</a>
+                        </li>
+                      </foreach>                 
+                  </ul>
+                </div>
+            </div>
+        <input type="text" name="keywords" class="searchword" placeholder="请输入搜索词..." value="{$keywords}"/>
+          <div class="submitbox" id="submitbox">
+              <input type="submit" value="搜索" class="searchbtn" />
+              <input type="hidden" id="type" name="type" value="{$type}" />
+              <input type="hidden" id="ordervalue" name="ordervalue" value="{$ordervalue}" />
+              <input type="hidden" id="ordertype" name="ordertype" value="{$ordertype}" />
+              <input type="hidden" id="p" name="p" value="{$p}" />
+              <input type="hidden" id="p" name="extendname" value="{$extendname}" />
+          </div>
+        </form>  
+      </div>
+    </div>
+       
+       
+        
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th width="2%" onclick="ordertype(6)"><span class="order_btn">ID<em class="icon icon-arrow"></em></span></th>
+              <th width="10%"><span>域名</span></th>
+              <th width="7%" onclick="ordertype(5)"><span class="order_btn">类型<em class="icon icon-arrow"></em></span></th>
+              <th width="5%" onclick="ordertype(4)"><span class="order_btn">价格<em class="icon icon-arrow"></em></span></th>
+              <th width="5%" onclick="ordertype(3)"><span class="order_btn">最低价格<em class="icon icon-arrow"></em></span></th>
+              <th width="5%" onclick="ordertype(2)"><span class="order_btn">验证状态<em class="icon icon-arrow"></em></span></th>
+             <!--  <th width="5%" onclick="ordertype(1)"><span class="order_btn">审核状态<em class="icon icon-arrow"></em></span></th> -->
+              <th width="5%"><span>推荐状态</span></th>
+              <th width="5%"><span>出售状态</span></th>
+              <th width="10%"><span>所属会员</span></th>
+              <th width="5%"><span>所属经纪人</span></th>
+              <th width="5%"><span>标签</span></th>
+              <th width="5%"><span>添加时间</span></th>
+              <th width="9%"><span>操作</span></th>
+            </tr>
+          </thead>
+          <tbody>
+          <foreach name="data" item="v">
+                <tr>
+                  <td>{$v['did']}</td>
+                  <td>{$v['title']}</td>
+                  <td 
+                        <if condition="$v['type'] == 1">
+                              class="green">极速竞价
+                        <elseif condition="$v['type'] == 2" />
+                              class="red">一口价
+                        <elseif condition="$v['type'] == 3" />
+                              class="purple">优质
+                        <elseif condition="$v['type'] == 4" />
+                              class="orange">议价
+                        <elseif condition="$v['type'] == 5" />
+                              class="blue">终端
+                        <else />
+                              class="red">限时一口价
+                        </if>
+                  </td>
+                  <td>
+                    <if condition="$v['price'] == 0 ">
+                    议价
+                    <else/>
+                    {$v['price']}
+                    </if>
+                  </td>
+                  <td>
+                    <if condition="$v['lowestprice'] == '' ">
+                    --
+                    <else/>
+                    {$v['lowestprice']}
+                    </if>
+                  </td>
+                  <td>
+                    <if condition="$v['checked'] == 1">
+                    已验证
+                    <else/>
+                    未验证
+                    </if>
+                  </td>
+ <!--                  <td>
+                    <if condition="$v['verstatus'] == 1 and $v['type'] == 5 ">
+                    已审核
+                    <elseif condition="$v['verstatus'] == 0 and $v['type'] == 5 " />
+                    未审核
+                    <elseif condition="$v['verstatus'] == '' and $v['type'] == 5 " />
+                    未审核
+                    <else/>
+                    
+                    </if>
+                  </td> -->
+                  <td>
+                  <if condition="$v['type'] == 5">
+                    <input type="radio" name='rec{$v['did']}' onclick="set_rec({$v['did']},1)" <if condition="$v.recstatus eq 1">checked</if> value='已推荐'>已推荐
+                    <input type="radio" name='rec{$v['did']}' onclick="set_rec({$v['did']},0)" <if condition="$v.recstatus eq 0">checked</if> value='未推荐'>未推荐
+                  <else />
+                  --
+                  </if>
+                  </td>
+                  <td>待出售</td>
+                  <td>{$v['uname']}</td>
+                  <td>经纪人</td>
+                  <td>
+                      <input id="hotid{$v['did']}" onchange="sethot({$v['did']})"  type='checkbox' <if condition="$v.hot eq 1">checked='checked'</if>/>火热
+                      <input id="recid{$v['did']}" onchange="setrec({$v['did']})"  type='checkbox' <if condition="$v.recommend eq 1">checked='checked'</if>/>推荐
+                  </td>
+                  <td>{$v['intime']|date='Y-m-d h:m:s',###}</td>
+                  <td>
+                       <a class="o-detail" href="/domain/edit.html?did={$v['did']}" title="域名详情"> [域名详情]</a>
+                      <if condition="$v['checked'] == 0">
+                      <a class="o-del" href="javascript:;" onclick="doAction(2,{$v['did']},'{$v['title']}',0)" title="删除">删除</a>
+                      <a class="" href="javascript:;" onclick="doAction(1,{$v['did']},'{$v['title']}',0)" title="人工验证">人工验证</a>
+                      </if>
+                  </td>
+                </tr>
+            </foreach>
+          </tbody>
+        </table>
+        </div>
+        <div class="pageline">
+            {$page}
+        </div>
+    </div> </div>
+</div>
+<!--显示大图相关-->
+<script>
+//打开大图展示
+function openbigpic($this){
+  parent.openbigpic($this);
+};
+</script>
+<include file='Common/popup'/>
+</body>
+</html>

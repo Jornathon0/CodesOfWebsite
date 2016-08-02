@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>权限管理-增加修改角色</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+    $(function() {
+        iframeSetHeight("#appiframe-news3");
+    });
+function check(){
+    if($("#name").val() == ''){
+        alert("角色名称不能为空");
+        return false;
+    }
+    //返回值  -1: 未知错误  0：有效名称 1：角色名称重复
+    $.ajax({
+        type: "POST",
+        url: '/admin/getAjax.html',
+        data: 'act=checkRoleName&id='+$('#rid').val()+'&name='+$('#name').val(), 
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+            if(rs == '0'){
+                $("#formid").submit();
+            }else if(rs == '1'){
+                $('#tips2Txt').text('该角色名称已使用，请换个名称！'); 
+                iframeopenpop('#pop-sure');
+            }else{
+                $('#tips2Txt').text('未知错误！'); 
+                iframeopenpop('#pop-sure');
+            }
+        }
+    }); 
+}
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="/admin/role.html">权限管理</a><em>»</em><a href="javascript:;">增加修改角色</a>
+            </div>
+        </div>
+    </div>
+    <form id='formid' action="/Admin/addRoleHandle" method='post'>
+        <div class="formconent" >
+            <table class="formtable">
+                <tr>
+                    <td class="tit">角色名称:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 1">
+                                <input type="text" class="inputtext" placeholder="" id="name" name="name" value="" />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" id="name" name="name" value="{$roleData['name']}" />
+                            </if>
+                        </div>
+                        <span class="tip">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">角色描述:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 1">
+                                <input type="text" class="inputtext" placeholder="" id='remark' name="remark" value="" />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" id='remark' name="remark" value="{$roleData['remark']}" />
+                            </if>
+                        </div> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">所属:</td>
+                    <td>
+                        <div class="cell">
+                            <div class="select-box" id="cate-select">
+                                <select name="id" style="height:40px;width:210px;font-size:16px;">
+                                    <option value="0">无父级-最高级</option>
+                                    <foreach name='dataList' item='v'> 
+                                        <if condition="($type == 2) and ($v['id'] == $roleData['pid'])">
+                                            <option value="{$v['id']}" selected="selected">{$v['remark']}</option>
+                                        <else />
+                                            <option value="{$v['id']}">{$v['remark']}</option>
+                                        </if>
+                                    </foreach> 
+                                </select>
+                            </div>
+                        </div>
+                        <span class="tip">*请选择父级角色</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">是否开启:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="($type == 1) or ($roleData['status'] == 1)">
+                                <INPUT type=radio name="radio" value="1" CHECKED>是
+                                <INPUT style="margin: 0 0 0 20px;" type=radio name="radio" value="-1" >否
+                            <else />
+                                <INPUT type=radio name="radio" value="1" >是
+                                <INPUT style="margin: 0 0 0 20px;" type=radio name="radio" value="-1" CHECKED>否
+                            </if>
+                        </div> 
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="submitline cl">
+            <div class="cell">
+                <input type="hidden" id='rid' name="rid" value="{$rid}" /> 
+                <input type="hidden" name="type" value="{$type}" /> 
+                <if condition="$type == 1">
+                    <input <input style="margin: 0 0 0 35px;" onclick='check();' type="button" class="btn" value="添加" /> 
+                <else />
+                    <input <input style="margin: 0 0 0 35px;" onclick='check();' type="button" class="btn" value="修改" /> 
+                </if>
+                <INPUT <input style="margin: 0 0 0 25px;" type="button" ID=btnEmergency VALUE="返回列表"  onclick="window.location.href='/admin/role.html'"></div>
+        </div>
+   </form>
+    <include file="Common/popup"/>
+</body>
+</html>

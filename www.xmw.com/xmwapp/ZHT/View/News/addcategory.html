@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>资讯列表-增加栏目</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+    $(function() {
+        iframeSetHeight("#appiframe-news3");
+    });
+    
+ function check(){  
+    if($('#title').val() == '')
+    { 
+        alert('栏目标题不能为空！'); 
+        return false;
+    } 
+
+    if($('#weight').val() <= 0)
+    { 
+        alert('请填写权重！'); 
+        return false;
+    } 
+    //返回值0：有效名称   1：栏目名称重复   2： 模型名下重复
+    $.ajax({
+        type: "POST",
+        url: '/News/getAjax.html',
+        data: 'act=checkNewsCagetoryName&id='+$('#fromid').val()+'&title='+$('#title').val()+'&pid='+$('#ncid').val(), 
+        dataType: "json",
+        beforeSend: function() {},
+        success: function(rs) { 
+            if(rs == '0'){
+                $("#formid").submit();
+            }else if(rs == '1'){
+                $('#tips2Txt').text('该栏目名称已使用，请换个名称！'); 
+                iframeopenpop('#pop-sure');
+            }else{
+                $('#tips2Txt').text('未知错误！'); 
+                iframeopenpop('#pop-sure');
+            }
+        }
+    }); 
+}
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="/news/index.html">资讯管理</a><em>»</em><a href="javascript:;">添加栏目</a>
+            </div>
+        </div>
+    </div>
+    <form id="formid" action="/News/AddCategoryHandle.html" method='post'>
+        <div class="formconent" >
+            <table class="formtable">
+                <tr>
+                    <td class="tit">分类:</td>
+                    <td>
+                        <div class="cell">
+                            <div class="select-box" id="cate-select">
+                                <input  type="text"  name="fromtype" value="{$data['type']}" style="display:none;" />
+                                <input  type="text" id='fromid'  name="fromid" value="{$data['ncid']}" style="display:none;" />
+                                <input type="hidden" id="cate-select-val" name="cate" value="0" />
+
+                                <select id='ncid' name="ncid" style="width:210px;font-size:18px">
+                                    <option value="0">顶级栏目</option>
+                                    <foreach name='dataList' item='v'> 
+                                        <if condition="$v['ncid'] == $data['parentid']">
+                                            <option value="{$v['ncid']}" selected = "selected">{$v['html']}{$v['typename']}</option>
+                                        <else />
+                                            <option value="{$v['ncid']}">{$v['html']}{$v['typename']}</option>
+                                        </if>
+                                    </foreach> 
+                                </select>
+                            </div>
+                        </div>
+                        <span class="tip">*请选择栏目</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">分类标题:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$data['type'] == 1">
+                                <input type="text" class="inputtext" placeholder="" id="title" name="title" value="" />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" id="title" name="title" value="{$data['typename']}" />
+                            </if>
+                        </div>
+                        <span class="tip">*多个类别用逗号分开</span>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="tit">是否显示:</td>
+                    <td>
+                        <if condition="($data['type'] == 1) OR ($data['show'] == 1) ">
+                            <INPUT type=radio name="radio" value="1" CHECKED>是
+                            <INPUT style="margin: 0 0 0 20px;" type=radio name="radio" value="-1" >否
+                        <else />
+                            <INPUT type=radio name="radio" value="1" >是
+                            <INPUT style="margin: 0 0 0 20px;" type=radio name="radio" value="-1" CHECKED >否
+                        </if>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">权重:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$data['type'] == 1">
+                                <input type="text" class="inputtext" placeholder="" id="weight" name="weight" value="" />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" id="weight" name="weight" value="{$data['weight']}" />
+                            </if>
+                        </div>
+                        <span class="tip">*数值越大，显示越靠前</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="submitline cl">
+            <div class="cell">
+                <if condition="$data['type'] == 1">
+                    <input  style="margin: 0 0 0 35px;" onclick="check();"  type="button" class="btn" value="添加" />
+                <else />
+                    <input style="margin: 0 0 0 35px;" onclick="check();"  type="button" class="btn" value="修改" />
+                </if>
+                <INPUT  style="margin: 0 0 0 25px;"  type="button" ID=btnEmergency VALUE="返回列表"  onclick="window.location.href='/News/CategoryList.html'"></div>
+        </div>
+   </form>
+    
+    <include file='Common/popup'/>
+</body>
+</html>

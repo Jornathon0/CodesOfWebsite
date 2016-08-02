@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>权限管理-角色列表</title>
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/reset.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/icons.css" />
+<link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+<script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+<script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+<script>
+$(function(){
+	//搜索按钮
+	dohover('#submitbox','submitbox-hover');
+	$('#submitbox').mousedown(function() {
+        $(this).addClass('submitbox-down');
+    }).mouseup(function() {
+        $(this).removeClass('submitbox-down');
+    });
+	
+	$("#checkAll").click(function() {
+		$('input[name="id"]').prop("checked",this.checked); 
+	});
+});
+
+function confirmDel(id,type,name){
+    if(type == 0)
+    {
+	//处理弹窗相应参数
+	$('#tipsTxt').text('您确定要删除 '+name+' 这个角色吗？');
+	$('#yes').attr('onclick',"window.appiframe.confirmDel("+id+",1,name)");
+	//父级页面载入窗口
+	iframeopenpop('#pop-confirm');
+    }else{
+        window.parent.iframeclosepop('#pop-confirm');
+        $.ajax({
+                type: "POST",
+                url: '/admin/getAjax.html',
+                data: {act:'deleteRolebyID',"selectedID": id},
+                dataType: "json",
+                beforeSend: function() {},
+                success: function(rs) { 
+                    if(rs == 0){
+                       $('#tips2Txt').text('删除成功！');
+                       iframeopenpop('#pop-sure');
+                       location.reload();}
+                    else if(rs == 1){
+                       $('#tips2Txt').text('删除失败');
+                       iframeopenpop('#pop-sure');
+                       location.reload();}
+                    else if(rs == 2){
+                       $('#tips2Txt').text('该角色存在子角色或者有用户名，无法删除！');
+                       iframeopenpop('#pop-sure');
+                       location.reload();
+                    } 
+                }
+        });
+    }
+}
+ 
+</script>
+</head>
+<body>
+<div class="page-topline">
+<div class="page-topline-content cl">
+    <div class="crumbs">
+        <a href="javascript:;">首页</a><em>»</em><a href="javascript:;">权限管理</a><em>»</em><a href="javascript:;">角色列表</a>
+    </div>      
+</div>
+</div>
+
+<div class="module" id="moduleList">	
+    
+    <div class="module-content" id="moduleList-content">
+ 
+        <div class="listbox">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+          <thead>
+            <tr>
+              <th><span>ID</span></th>
+              <th><span>角色名</span></th>  
+              <th><span>父角色</span></th>
+              <th><span>操作</span></th>
+            </tr>
+          </thead>
+          <tbody>
+          <foreach name="data" item="v">
+                <tr>
+                  <td>{$v['id']}</td> 
+                  <td>{$v['name']}</td>
+                  <td><if condition="$v['parentname'] == ''">-无父级-<else />{$v['parentname']}</if></td>
+                  <td>
+                      <a class="setaccess" href="/admin/access.html?rid={$v['id']}" title="配置权限">[配置权限]</a>
+                      <a class="o-pen" href="/admin/addrole.html?rid={$v['id']}" title="修改" > [修改]</a>
+                      <a class="o-del" href="javascript:;" title="删除" onclick="confirmDel({$v['id']},0,'{$v['remark']}')"> [删除]</a>
+                  </td>
+                </tr>
+            </foreach>
+             
+          </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+<include file="Common/popup"/>
+</body>
+</html>

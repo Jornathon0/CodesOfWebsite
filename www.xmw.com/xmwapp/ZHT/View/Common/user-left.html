@@ -1,0 +1,77 @@
+<div class="mainleft">
+    <div class="userinfo">
+        <div class="touxiang">
+            <a href="#" title="#" class="tx"><img src="/images/touxiang.jpg" width="80" height="80" alt=""/></a>
+            <p><a href="#" title="#">{$Think.session.XZUserInfo.truename}</a></p>
+            <p><img src="/images/dengji3.png" height="26" alt=""/></p>
+        </div>
+        <ul>
+            <li><a href="#" class="icon-bg icon-list"></a>收入：<b>¥{$Think.session.XZUserInfo.income}</b></li>
+            <li><a href="#" class="icon-bg icon-list"></a>支出：<b>¥{$Think.session.XZUserInfo.expense}</b></li>
+            <li><span><a href="/pay.html" class="cz">充值</a><a href="#" class="tx">提现</a></span>余额：<b>¥{$Think.session.XZUserInfo.balance}</b></li>
+        </ul>
+        <div class="details">
+            <p><strong>查看收支明细</strong></p>
+            <p>素材提供企业交易担保服务，需要开通请联系客服</p>
+            <p class="xq"><a href="#">详情</a></p>
+        </div>
+    </div>
+    <div class="sidenav">
+        <if condition="$Think.session.XZUserInfo.type eq 1">
+            <dl class="on">
+                <dt class="on"><a href="javascript:;"><i class="icon-bg icon-onopen"></i><span>产品管理</span></a></dt>
+                <dd>
+                    <div class="ddbox <if condition='$custom eq prolist'>on</if>"><a href="/product/mylist.html">我的产品</a></div>
+                    <div class="ddbox <if condition='$custom eq pubpro'>on</if>"><a href="/product/release-step1.html">发布产品</a></div>
+                    <div class="ddbox <if condition='$custom eq proreport'>on</if>"><a href="/product/report.html">产品报表</a></div>
+                    <div class="ddbox <if condition='$custom eq settlement'>on</if>"><a href="/product/settlement.html">产品结算</a></div>
+                    <div class="ddbox <if condition='$custom eq productapply'>on</if>"><a href="/product/productapply.html">产品申请</a></div>
+                </dd>
+            </dl>
+        </if>
+        <dl>
+            <dt><a href="javascript:;"><i class="icon-bg icon-onopen"></i><span>资源管理</span></a></dt>
+            <dd>
+                <div class="ddbox <if condition='$custom eq reslist'>on</if>"><a href="/resource/mylist.html">我的资源</a></div>
+                <div class="ddbox <if condition='$custom eq pubres'>on</if>"><a href="/resource/release-step1.html">发布资源</a></div>
+                <div class="ddbox <if condition='$custom eq resreport'>on</if>"><a href="/resource/report.html">资源报表</a></div>
+            </dd>
+        </dl>
+        <dl>
+            <dt><a href="javascript:;"><i class="icon-bg icon-onopen"></i><span>我的账本</span></a></dt>
+            <dd>
+            <if condition="$Think.session.XZUserInfo.type eq 1">
+                <div class="ddbox <if condition='$custom eq account'>on</if>"><a href="/account/index.html">收支明细</a></div>
+                <div class="ddbox <if condition='$custom eq expend'>on</if>"><a href="/account/expend.html">产品支出</a></div>
+            </if>
+            <div class="ddbox <if condition='$custom eq income'>on</if>"><a href="/account/income.html">资源收入</a></div>
+            </dd>
+        </dl>
+        <if condition="$Think.session.XZUserInfo.type eq 1">
+            <dl>
+                <dt><a href="javascript:;"><i class="icon-bg icon-onopen"></i><span>发票管理</span></a></dt>
+                <dd>
+                    <div class="ddbox <if condition='$custom eq invoice'>on</if>"><a href="/invoice/my.html">我的发票</a></div>
+                </dd>
+            </dl>
+        </if>
+        <!--
+        <dl>
+            <dt><a href="javascript:;"><i class="icon-bg icon-onopen"></i><span>评价管理</span></a></dt>
+            <dd>
+            <if condition="$Think.session.XZUserInfo.type eq 1">
+                <div class="ddbox <if condition='$custom eq receive'>on</if>"><a href="/review/receive.html">我收到的评价</a></div>
+            </if>
+            <div class="ddbox <if condition='$custom eq send'>on</if>"><a href="/review/send.html">我发出的评价</a></div>
+            </dd>
+        </dl>
+        -->
+        <dl>
+            <dt><a href="javascript:;"><i class="icon-bg icon-onopen"></i><span>金豆管理</span></a></dt>
+            <dd>
+                <div class="ddbox <if condition='$custom eq exchange'>on</if>"><a href="/jindou/exchange.html">金豆竞换</a></div>
+                <div class="ddbox <if condition='$custom eq record'>on</if>"><a href="/jindou/record.html">金豆记录</a></div>
+            </dd>
+        </dl>
+    </div>
+</div>

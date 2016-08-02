@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>基础设置管理-添加等级</title>
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_icons.css" />
+    <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_iframe.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_global.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+    <script>
+        $(function() {
+            iframeSetHeight("#appiframe-news3");
+        });
+    </script>
+    <script language="javascript">
+    function checknum(obj,type)
+    {  
+        obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+        if(type==1){
+            obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+        }
+    }
+
+
+</script>
+</head>
+<body>
+    <div class="page-topline">
+        <div class="page-topline-content cl">
+            <div class="crumbs">
+                <a href="javascript:;">首页</a><em>»</em><a href="/admin/node.html">基础设置管理</a><em>»</em><a href="javascript:;">添加管理</a>
+            </div>
+        </div>
+    </div>
+    <form action="/Basesetting/addBaseHandle" method='post'>
+        <div class="formconent" >
+            <table class="formtable">
+                <tr>
+                    <td class="tit1">等级名称:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 2">
+                                <input type="text" class="inputtext" placeholder="" name="titles" value="{$list['titles']}" />
+                                <input type="hidden" name="id" value="{$list['id']}"/>
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="titles" value="{$titles}" />
+                            </if>
+                        </div>
+                        <span class="tip">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit1">{$title}积分下限:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 2">
+                                <input type="text" class="inputtext" placeholder="" name="integral_min" value="{$list['integral_min']}" onkeyup="checknum(this,2);"/>
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="integral_min" value="" onkeyup="checknum(this,2);" />
+                            </if>
+                        </div>
+                        <span class="tip">*如大于"0"</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit1">积分上限:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 2">
+                                <input type="text" class="inputtext" placeholder="" name="integral_max" value="{$list['integral_max']}"  onkeyup="checknum(this,2);"/>
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="integral_max" value="" onkeyup="checknum(this,2);" />
+                            </if>
+                        </div>
+                        <span class="tip">*如小于"50000"</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit1">手续费率:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 2">
+                                <input type="text" class="inputtext" placeholder="" name="rates" value="{$list['rates']}" onkeyup="checknum(this,1);" />%
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="rates" value="" onkeyup="checknum(this,1);"/>%
+                            </if>
+                        </div>
+                        <span class="tip">*精确小数点两位</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit1">一口价提交数量:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 2">
+                                <input type="text" class="inputtext" placeholder="" name="fixed_num" value="{$list['fixed_num']}" onkeyup="checknum(this,2);" />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="fixed_num" value="" onkeyup="checknum(this,2);"  />
+                            </if>
+                        </div>
+                      <!--   <span class="tip">*数值越小排在越前</span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit1">优质提交数量:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 2">
+                                <input type="text" class="inputtext" placeholder="" name="quality_num" value="{$list['quality_num']}" onkeyup="checknum(this,2);"  />
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="quality_num" value="" onkeyup="checknum(this,2);"  />
+                            </if>
+                        </div>
+                      <!--   <span class="tip">*数值越小排在越前</span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit1">限时抢购提交数量:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$type == 2">
+                                <input type="text" class="inputtext" placeholder="" name="flashsale_num" value="{$list['flashsale_num']}" onkeyup="checknum(this,2);"/>
+                            <else />
+                                <input type="text" class="inputtext" placeholder="" name="flashsale_num" value="" onkeyup="checknum(this,2);"/>
+                            </if>
+                        </div>
+                       <!--  <span class="tip">*数值越小排在越前</span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tit">是否开启:</td>
+                    <td>
+                        <div class="cell">
+                            <if condition="$list['status'] == 1 or $type==''">
+                                <INPUT type=radio name="radio" value="1" CHECKED>是
+                                <INPUT type=radio name="radio" value="-1" >否
+                            <else />
+                                <INPUT type=radio name="radio" value="1" >是
+                                <INPUT type=radio name="radio" value="-1" CHECKED>否
+                            </if>
+                            
+                        </div> 
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="submitline cl">
+            <div class="cell">
+                <if condition="$type == 1">
+                    <input type="submit" class="btn" value="添加" /> 
+                <else />
+                    <input type="submit" class="btn" value="修改" /> 
+                </if>
+            </div>
+            <div class="cell"><INPUT type="button" ID=btnEmergency VALUE="返回列表"  onclick="window.location.href='/basesetting/setvip.html'"></div>
+        </div>
+   </form>
+</body>
+</html>

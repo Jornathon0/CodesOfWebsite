@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>后台管理中心</title>
+            <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_reset.css" />
+    <script type="text/javascript" src="{:C('SKINURL')}js/jquery.min.js"></script>
+    <script type="text/javascript" src="{:C('SKINURL')}js/ht_iframeHeight.js"></script>
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" type="text/css" href="{:C('SKINURL')}css/ht_ie.css" />
+        <script type="text/javascript" src="{:C('SKINURL')}js/ht_ie.js"></script>
+        <![endif]-->
+        <style>
+            .flipInY{ -webkit-backface-visibility:visible !important;-ms-backface-visibility:visible !important;backface-visibility:visible !important;-webkit-animation-name:flipInY;animation-name:flipInY            }
+            @-webkit-keyframes flipInY{0%{ -webkit-transform:perspective(400px) rotateY(90deg);transform:perspective(400px) rotateY(90deg);opacity:0}
+                                       40%{ -webkit-transform:perspective(400px) rotateY(-10deg);transform:perspective(400px) rotateY(-10deg)}
+                                       70%{ -webkit-transform:perspective(400px) rotateY(10deg);transform:perspective(400px) rotateY(10deg)}
+                                       100%{ -webkit-transform:perspective(400px) rotateY(0deg);transform:perspective(400px) rotateY(0deg);opacity:1}
+            }@keyframes flipInY{0%{ -webkit-transform:perspective(400px) rotateY(90deg);-ms-transform:perspective(400px) rotateY(90deg);transform:perspective(400px) rotateY(90deg);opacity:0}
+                                40%{ -webkit-transform:perspective(400px) rotateY(-10deg);-ms-transform:perspective(400px) rotateY(-10deg);transform:perspective(400px) rotateY(-10deg)}
+                                70%{ -webkit-transform:perspective(400px) rotateY(10deg);-ms-transform:perspective(400px) rotateY(10deg);transform:perspective(400px) rotateY(10deg)}
+                                100%{ -webkit-transform:perspective(400px) rotateY(0deg);-ms-transform:perspective(400px) rotateY(0deg);transform:perspective(400px) rotateY(0deg);opacity:1}
+            }.animated{ -webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both}
+            body{background:#eceded;font-size:13px;color:#333}
+            .loginform{display:block;width:500px;height:250px;margin:0 auto;position:absolute;top:50%;left:50%;margin-left:-250px;margin-top:-200px;}
+            h1{padding:15px 0px;font-size:24px}
+            .loginbox{background:#FFF;box-shadow:-31px 32px 53px rgba(0,0,0,0.20);overflow:hidden;padding:13px;position:relative}
+            .loginbox img.adminimg{display:block;float:left}
+            .login{float:left;margin-left:10px}
+            .login h3{letter-spacing:-1px;font-size:24px;margin-bottom:10px;height:26px;line-height:26px;font-weight:normal}
+            .row{margin-bottom:15px}
+            .row input{float:left}
+            .row input.inputtext{width:226px;height:18px;line-height:18px;padding:6px 12px;border:1px solid #ccc}
+            .row input.inputsubmit{height:32px;line-height:32px;width:70px;text-align:center;color:#fff;background-color:#3276b1;border:1px solid #2c699d;cursor:pointer}
+            .message-div{color:#f33;display:none}
+        </style>
+        <script>
+            function checkForm() {
+                
+                var username = $('input[name="username"]').val();
+                var passwd = $('input[name="passwd"]').val();
+                //alert(passwd);
+                if (username == '') {
+                    $('.message-div').text('请填写用户名').show();
+                    return false;
+                } else if (passwd == '') {
+                    $('.message-div').text('请填写密码').show();
+                    return false;
+                } else { 
+					$('.message-div').text('').hide();
+                    $.ajax({
+                        type: "POST",
+                        url: '/login/doact.html',
+                        data: 'username=' + username + "&passwd=" + passwd,
+                        dataType: "json",
+                        success: function(msg) {
+                            if (msg.error != '') {
+                                $('.message-div').text(msg.error).show();
+                            } else {
+                                window.location.href = msg.url;
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+    </head>
+    <!--[if IE]>
+        <body class="ie" style="height: 800px">
+    <![endif]-->
+    <!--[if !IE]>
+        <body style="height: 800px">
+    <![endif]    onSubmit="return checkForm();"     -->
+    <!--[if lt IE 9]><div class="ietopbar"><a href="javascript:;">关闭</a>尊敬的用户，建议您在电脑上使用如下浏览器访问：Chrome、Firefox、Safari、IE8以上（不包含IE8），以保证您的使用体验</div><![endif]-->
+    <form action="/login/doact.html" method="post" class="loginform animated flipInY"  onSubmit="return checkForm();">
+        <h1>后台管理平台</h1>
+        <div class="loginbox">
+            <img src="{:C('SKINURL')}images/nopic.jpg" alt="" width="120" height="120" class="adminimg">
+            <div class="login">
+                <h3>管理登录</h3>
+                <div class="row cl">
+                    <input type="text" class="inputtext" name="username" placeholder="用户名" value="">
+                </div>
+                <div class="row cl">
+                    <input type="password" class="inputtext" name="passwd" placeholder="密码" value="">
+                    <input type="submit" class="inputsubmit"  value="登录">
+                </div>
+                <div class="message-div"></div>
+            </div>
+        </div>
+        <p class="copyright">copyright © www.juwang.com 2016</p>
+    </form>
+</body>
+</html>
